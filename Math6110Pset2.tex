@@ -1,0 +1,172 @@
+\documentclass{article}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,fancyhdr,parskip,graphicx}
+
+\pagestyle{fancy}
+\lhead{Ben Carriel}
+\chead{Math 6110 Problem Set 2}
+\rhead{\today}
+
+\parskip 7.2pt
+\parindent 8pt
+
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+
+\DeclareMathOperator{\divides}{\mathrel{|}}
+\DeclareMathOperator{\suchthat}{\mathrel{|}}
+
+\DeclareMathOperator{\lra}{\longrightarrow}
+\DeclareMathOperator{\into}{\hookrightarrow}
+\DeclareMathOperator{\onto}{\twoheadrightarrow}
+\DeclareMathOperator{\bijection}{\leftrightarrow}
+
+\newcommand{\problem}[1]{\noindent{\textbf{Problem #1}}\\}
+\newcommand{\problempart}[1]{\noindent{\textbf{(#1)}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+
+\newtheorem*{thm}{Theorem}
+\newtheorem*{lem}{Lemma}
+\newtheorem*{claim}{Claim}
+\newtheorem*{defn}{Definition}
+\newtheorem*{prop}{Proposition}
+
+\begin{document}
+
+\problem{1.6.19}
+\problempart{a} Without loss of generality suppose that $A$ is open and choose $x \in A+B$. This means that there is an $a \in A$ and a $b\in B$ such that $a+b = x$. Because $A$ is open we can choose a $\delta > 0$ such that $B_\delta(a) \subset A$. I claim that $B_\delta(x) \subset A+B$. We can see this because any $y \in B_\delta(x)$ satisfies $y = x + \vec{\epsilon}$, where $|\vec{\epsilon}| < \delta$. Then $y = a + b + \vec{\epsilon} = (a+\vec{\epsilon}) + b$. We note that $(a + \vec{\epsilon}) \in A$ so $y \in A+B$. Hence, $B_\delta(x) \subset A+B$ and so $A+B$ is open because $x$ was arbitrary.  
+
+% HINT: show that A+B is an F_\sigma
+\problempart{b} Suppose that $A,B \subset \R^d$ are closed. We want to show that $A+B$ is measurable. To do this, note that it will suffice to prove the special case of $A,B$ compact because we can write 
+\[
+A_k = \bigcup_{k=1}^\infty A \cap B_k(\vec{0}) \text{ and } B_k = \bigcup_{j=1}^\infty B \cap B_j(\vec{0})
+\]
+Where $B_i(\vec{0})$ is the ball of radius $i$ centered at the origin. Then $A_k,B_j$ are compact for every $k,j$ and therefore can then write
+\[
+A+B = \bigcup_{j=1}^\infty\bigcup_{k=1}^\infty A_k + B_j
+\]
+Hence, if each of the $A_k + B_j$ are measurable, then $A+B$ will. So we have reduced the problem to the following\\
+\begin{claim}
+If $X$ and $Y$ are compact subsets of $\R^d$, then the set $A+B$ is compact. 
+\end{claim}
+\begin{proof}
+Recall that a set in $\R^d$ is compact if and only if every sequence has a convergent subsequence. Consider any sequence $\{z_n\}_{n=1}^\infty$ in $X+Y$. Then by the definition of $X+Y$ we have that each of the $z_n$ can be written $z_n = x_n + y_n$ where $x_n \in X$ and $y_n \in Y$. Because $X,Y$ are compact we can find convergent subsequences $x_{n_k} \to x$ in $X$ and $y_{n_k} \to y$ in $Y$. Because $X$ and $Y$ are closed we know that $x \in X$ and $y \in Y$ so we can see that for any $\epsilon > 0$ and sufficiently large $n,k$
+\[
+|(x+y) - (x_{n_k} + y_{n_k})| = |(x- x_{n_k}) + (y - y_{n_k})| < |x - x_{n_k}| + |y - y_{n_k}| < \epsilon
+\]
+Hence, $z_n = x_n + y_n$ has a convergent subsequence in $X+Y$ which shows that $X+Y$ is compact. 
+\end{proof}
+Going back to the original problem, we have that $A+B$ can be written as a countable union of compact, and hence closed, sets. This means that $A+B$ is not only measurable, but actually $\mathcal{F}_\sigma$.\\
+\problempart{c} To find an example of two closed sets whose sum is not closed, we look to $\R^2$. Define 
+\[
+A = \{(x,y) \in \R^2 \suchthat y \geq b - mx, b > 0,m > 0\}
+\]
+and
+\[
+B = \{(x,y) \in \R^2 \suchthat y\geq -b - mx, b > 0,m > 0 \}
+\]
+Then we have that $A^c$ and $B^c$ are open, so $A$ and $B$ are closed. But 
+\[
+A+B = \{(x,y) \in \R^2 \suchthat y > 0\}
+\]
+which is open. 
+
+\problem{1.6.20}
+\problempart{a} Let $A$ denote the standard Cantor set, $\mathcal{C}$ and let $B = \mathcal{C}/2$. Recall that $A$ consists of precisely those real numbers whose ternary expansions contain only the digits $0,2$, and as a result the elements of $B$ consist of the numbers whose ternary expansions contain only 0 and 1. Now take any $x \in [0,1]$ and let its ternary decimal expansion be of the form 
+\[
+x = 0.d_1d_2d_3\ldots
+\]
+We then construct two numbers $c_1 \in A$ and $c_2 \in B$ such that if $c_1 = 0.\alpha_1\alpha_2\ldots$ then 
+\[
+\alpha_k = 
+\begin{cases}
+2 & d_k = 2\\
+0 & \text{otherwise}
+\end{cases}
+\]
+Similarly, if $c_2 = \beta_1\beta_2\ldots$ then 
+\[
+\beta_k = 
+\begin{cases}
+1 & d_k = 1\\
+0 & \text{otherwise}
+\end{cases}
+\]
+Then we have that $d_k = \alpha_k + \beta_k$ for every $k$, and therefore $x = c_1 + c_2$. Then $[0,1] \subset A+B$ and $A+B$ is measurable because $A,B$ are closed. So monotonicity implies that $m(A+B) > 0$. 
+
+\problempart{b} We begin by showing that the set $A = I \times \{0\}$ and $B = \{0\} \times I$ have measure $0$. Choose any $\epsilon > 0$ and cover $A$ by cubes of dimension $1/n \times h$. Then the total volume of the cubes is $h$ and so we can just choose any $h < \epsilon$. Letting $\epsilon \to 0$ gives the desired result. The proof that $B$ has measure 0 is analogous. Now choose any $(x,y) \in I \times I$ and observe that 
+\[
+(x,y) = (x,0) + (0,y)
+\]
+And $(x,0) \in A$ and $(0,y) \in B$. So $I\times I \subseteq A+B$. We then use monotonicity of the measure to see that $m(A+B) > 0$. 
+ 
+\problem{1.6.23} Let $f: \R^2 \to \R$ be separately continuous. We will modify the construction in Theorem 4.1 to construct a sequence of functions that converges pointwise to $f$. Fix $y$ and partition $\R$ into dyadic intervals of length $2^{-n}$. Then for each $x\in \R, n\in \Z^+$ we define $\alpha_{x,n} = \max_k \{k/2^n < x\}$. We then define 
+\[
+f_n(x,y) = f(\alpha_{x,n}, y)
+\]  
+We begin by showing that $f_n \to f$ pointwise. Pick an $\epsilon > 0$. Then for any $x,y \in \R$ we know that $f$ is continuous in $x$. So we can find a neighborhood $[(x - \delta, y), (x+\delta, y)]$ such that for any $z \in (x-\delta, x+\delta)$ 
+\[
+|f(x,y) - f(z, y)| < \epsilon
+\]
+For large $n$, the approximation of $x$ by dyadic rationals becomes arbitrarily good, that is $|x - \alpha_{x,n}| < \delta$ and so 
+\[
+|f(x,y) - f_n(x,y)| = |f(x,y) - f(\alpha_{n,k}, y)| < \epsilon
+\]
+Which means that $f_n\to f$ pointwise. \\
+\indent To show that $f$ is measurable, it suffices to show that for each $n$, $f_n$ is measurable because $f$ is the pointwise limit of the $f_n$. Fix $n$, and consider the set $M_a = \{(x,y) \in \R_2 \suchthat f_n(x,y) > a\}$. If we can show that $M_a$ is measurable for each $a$, then we will have that $f_n$ is measurable. Then notice that 
+\begin{align*}
+M_a &= \bigcup_{k\in \Z} \{(x,y) \suchthat k/2^n \leq x < (k+1)/2^n, f(k/2^n, y) > a\} \\
+&= \bigcup_{k\in \Z} [k/2^n, (k+1)/2^n) \times \{f(k/2^n,y) > a\}
+\end{align*}
+It is clear that $[k/2^n, (k+1)/2^n)$ is measurable. We know that because $f$ is continuous in $y$ that $\{y \suchthat f(k/2^n, y) > a\}$ is open. Then each term in the union is measurable, and so $M_a$ is the countable union of measurable sets, and hence measurable. So $f_n$ is a measurable function for each $n$ and we are done. 
+ 
+\problem{1.6.26} Suppose that $A,B$ are measurable sets, and that $A \subset E \subset B$. We want to prove that $E$ is measurable. First we note that because $A\subset E$ that we can write
+\[
+E = A \cup (E - A)
+\]
+Because $A$ is measurable, it will suffice to show that $E-A$ is measurable, because then $E$ will be a union of two measurable sets and, therefore, measurable. Observe that because $A \subset E \subset B$ that $(E-A) \subset (B-A)$. We use monotonicity of the measure to get
+\[
+m_*(E-A) \leq m_*(B-A) = m(B-A) = m(B) - m(A) = 0
+\]
+So $E-A$ is a subset of a set with measure $0$, and is measurable as a result. This immediately gives that $E$ is measurable. 
+
+\problem{1.6.28} Let $E$ be a subset of $\R$ with positive outer measure and fix an $\alpha \in (0,1)$. Because $E$ has positive outer measure, we can find a covering of $E$ by closed, almost disjoint interval $I_j$ such that 
+\[
+\sum_j |I_j| < m_*(E) + \epsilon/2
+\]
+We can expand each of these $I_j$ to an open cube $I'_j$ such that 
+\[
+m_*(I'_j - Q_j) < \epsilon/2^{k+1}
+\]
+and set $\mathcal{O} = \bigcup_j Q'_j$. So $\mathcal{O}$ is an open set containing $E$ and so we can write
+\[
+E = E \cap \mathcal{O} = \bigcup_j E \cap I'_j 
+\] 
+By monotonicity we can see that $m_*(E) \leq \sum_j m_*(E\cap I'_j)$. \\
+\indent Now suppose towards a contradiction that for every $j \in \Z^+$ we have that $m_*(E \cap I'_j) < \alpha m_*(I'_j)$. Then
+\[
+m_*(E) \leq \sum_jm_*(E\cap I'_j) < \alpha_j\sum_j m_*(I'_j) < \alpha(m_*(E) + \epsilon)
+\] 
+But, if we take 
+\[
+\epsilon < \frac{1-\alpha}{\alpha}m_*(E)
+\]
+Then we would get that $m_*(E) < m_*(E)$, which is impossible. Hence, we must be able to find some $j$ such that 
+\[
+m_*(E \cap I'_j) \geq \alpha m_*(I)
+\] 
+\problem{1.6.37} Suppose that $f:\R \to \R$ is continuous. Let $I = [a,b]$ with $a < b$and consider 
+\[
+\Gamma_I = \{(x, f(x)) \in \R^2 \suchthat x\in I\}
+\] 
+Note that $I$ is compact and $f$ is continuous, and so $f$ is uniformly continuous on $I$. Let $\epsilon > 0$ and set $\Delta = \epsilon/2(b-a)$. Because $f$ is uniformly continuous we can find a $\delta$ such that $|f(x) - f(y)| < \Delta$ whenever $|x-y| < \delta$. We then Partition $I$ into $n$ intervals $[x_j, x_{j+1}]$ such that $\max_j\{x_{j+1} - x_j\} < \delta$. We then construct a set of $n$ almost disjoint rectangles $R_1, R_2, \ldots, R_n$ where
+\[
+R_j = [x_j, x_{j+1}] \times [(f(x_j) - \Delta), (f(x_j) + \Delta)]
+\]
+Because we chose $|x_{j+1} - x_j| < \delta$ we have $|f(x) - f(x_j)| < \Delta$ for $x \in  [x_j, x_{j+1}]$. This immediately gives that $\Gamma_I \subseteq \bigcup_{j=1}^n R_j$. We then have that 
+\begin{align*}
+m(\Gamma_I) \leq m\left(\bigcup_{j=1}^n R_j \right) = \sum_{j=1}^n |R_j| = \sum_{j=1}^n2\Delta(b-a) = \epsilon
+\end{align*}
+We then let $\epsilon \to 0$ to see that $m(\Gamma_I) = 0$. Then letting $I \to R$ gives the result. 
+\end{document}

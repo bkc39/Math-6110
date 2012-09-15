@@ -1,0 +1,219 @@
+\documentclass{article}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,fancyhdr,parskip,graphicx}
+
+\pagestyle{fancy}
+\lhead{Ben Carriel}
+\chead{Math 6110 Lecture 1: Measurable Sets}
+\rhead{\today}
+
+\parskip 7.2pt
+\parindent 8pt
+
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+
+\DeclareMathOperator{\divides}{\mathrel{|}}
+\DeclareMathOperator{\lra}{\longrightarrow}
+
+\newcommand{\problem}[1]{\noindent{\textbf{Problem #1}}\\}
+\newcommand{\problempart}[1]{\noindent{\textbf{(#1)}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+
+\newtheorem*{thm}{Theorem}
+\newtheorem*{lem}{Lemma}
+\newtheorem*{claim}{Claim}
+\newtheorem*{defn}{Definition}
+\newtheorem*{prop}{Proposition}
+
+\begin{document}
+\section{Measurable Sets}
+We begin with defining what in fact a measurable set is. With the current concepts of outer measure we still have the problem that some sets do not admit a good approximation by the open sets. So, we restrict the number of sets that we are interested in to only those that can be well approximated open sets which we define to be the {\bf measurable sets}. More precisely, \\
+
+\begin{defn}
+A set $E\subset \R^d$ is called a {\bf measurable set} if for any $\epsilon > 0$ there exists an open set $\mathcal{O}$ such that $E \subset \mathcal{O}$ and $\mu^*(\mathcal{O}\setminus E) < \epsilon$
+\end{defn}
+Our main goal is to use this definition to see that the class of measurable sets is closed under the usual operations of set theory.
+
+\subsection{Properties of Measurable Sets}
+One benefit of the above characterization of measurable sets is that it immediately gives the highly desirable  fact that \\
+
+\begin{prop}
+Any open set $\mathcal{O} \subset \R^d$ is measurable
+\end{prop}
+The next nice property that we will get out of the definition is that sets with negligible outer measure must be measurable. Furthermore, any subset of these sets must also have negligible measure by monotonicity. This ensures that there is no nonsense going on after a decreasing sequence of sets reaches measure zero because taking smaller subsets will only get you other negligible sets. More rigorously we have \\
+
+\begin{prop}
+Any set $E$ with $\mu^*(E) = 0$ is measurable. Furthermore, any subset $F \subseteq E$ is measurable.
+\end{prop}
+\begin{proof}
+Recall that for a set $E$ we have that $\inf\mu^*(\mathcal{O})$ where $\mathcal{O}$ is any open set containing $E$. As a consequence of this we have that for any $\epsilon > 0$ that there is some open set $\mathcal{O}$ such that $E \subset \mathcal{O}$ and 
+\[
+\mu^*(\mathcal{O}) \leq \mu^*(E) + \epsilon
+\]
+Knowing that $\mu^*(E) = 0$ gives that $\mu^*(\mathcal{O}) \leq \epsilon$. Hence, because $E \subseteq \mathcal{O}$ we can use the monotonicity of the outer measure and the fact that $\mathcal{O} - E$ to get that $\mu^*(\mathcal{O} - E) < \epsilon$ and so $E$ is measurable. 
+\end{proof}
+
+We now proceed to establish the first closure property of measurable sets with respect to set-theoretic operations\\
+
+\begin{prop}
+If $E_1, E_2, \ldots$ is a sequence of measurable sets then
+\[
+E = \bigcup_{k = 1}^\infty E_k
+\]
+is measurable.
+\end{prop}
+\begin{proof}
+Because each of the $E_k$ is measurable, there must be a sequence of open sets $\mathcal{O}_1, \mathcal{O}_2, \ldots$ such that $E_k \subseteq \mathcal{O}_k$ and $\mu^*(\mathcal{O}_k\setminus E_k) < \frac{\epsilon}{2^k}$. If we take 
+\[
+\mathcal{O} = \bigcup_{k=1}^\infty \mathcal{O}_k
+\] 
+Then we have $E \subseteq \mathcal{O}$ and 
+\[
+(\mathcal{O} \setminus E) \subseteq \bigcup_{k=1}^\infty (\mathcal{O}_k \setminus E_k)
+\]
+Applying the properties of the outer measure gives
+\begin{align*}
+\mu^*(\mathcal{O} - E) &\leq \sum_{k=1}^\infty \mu^*(\mathcal{O}_k\setminus E_k) \\
+&= \epsilon\sum_{k=1}^\infty \frac{1}{2^k} \\
+&= \epsilon
+\end{align*}
+And so $E$ is measurable.
+\end{proof}
+
+With these two facts in mind we can extend the measurability of the open sets to the closed sets if possible. We begin this with the following lemma \\
+
+\begin{lem}
+Suppose that $F$ is closed and $K$ is compact and $F \cap K = \emptyset$, then $d(F,K) > 0$.
+\end{lem}
+\begin{proof}
+We know that $F$ is closed, so for each $x \in K$ there is a $d(x, F) > 3\delta_x$. We then choose an open cover of $K$ by open balls $B_{2\delta_x}(x)$ for each $x \in K$. Using the compactness of $K$ we can extract a finite subcover 
+\[
+B = \bigcup_{j = 1}^n B_{2\delta_j}(x_j)
+\] 
+We can then take 
+\[
+\delta = \min\{\delta_1, \delta_2, \ldots, \delta_n\}
+\]
+and by construction we have that $0 < \delta < d(K, F)$. Indeed, if $x\in K$ and $y \in F$ then we have that $|x - x_j| \leq 2\delta_j$ for some $j$ and $|y-x_j| \geq 3\delta_j$ so 
+\[
+|y-x| \geq |y - x_j| - |x_j - x| \geq \delta
+\]
+So $d(K,F) > 0$. 
+\end{proof}
+
+With this lemma in hand we can proceed to prove the following, \\
+
+\begin{prop}
+Any closed set $\mathcal{C} \subset \R^d$ is measurable.
+\end{prop}
+\begin{proof}
+We begin by breaking down the problem. We can decompose the closed set $\mathcal{C}$ into a union of compact sets via
+\[
+\mathcal{C} = \bigcup_{k=1}^\infty (\mathcal{C} \cap B_k)
+\]
+where $B_k$ is the ball of radius $k$ centered at the origin. With this decomposition in mind we can turn our attention to the measurability of compact sets. 
+\paragraph*{} Suppose that $\mathcal{C}$ is compact and let $\epsilon > 0$. In particular, $\mathcal{C}$ is bounded so $\mu^*(\mathcal{C}) < \infty$. Then there is some open set $\mathcal{O}$ which contains $\mathcal{C}$ that satisfies
+\[
+\mu^*(\mathcal{O}) \leq \mu^*(\mathcal{C}) + \epsilon
+\]
+Furthermore, we can see that $\mathcal{O}\setminus \mathcal{C}$ is open and hence we can find a covering by cubes $Q_j$ such that 
+\[
+\mu^*(\mathcal{O}\setminus \mathcal{C}) = \mu^*\left(\bigcup_{j=1}^\infty Q_j\right)
+\]
+If we take only finitely many of the cubes in the union on the right, we are left with a compact set and we have that 
+\[
+\mathcal{C} \cap \bigcup_{j=1}^n Q_j = \emptyset
+\]
+Hence, we can apply the lemma to get that $d\left(\mathcal{C}, \bigcup_{j=1}^n Q_j\right) > 0$. So we can see that
+\begin{align*}
+\mu^*(\mathcal{O}) &\geq \mu^*(\mathcal{C}) + \mu^*\left(\bigcup_{j=1}^n Q_j\right) \\
+&= \mu^*(\mathcal{C}) + \sum_{j=1}^n \mu^*(Q_j)
+\end{align*} 
+This gives that
+\[
+\sum_{j=1}^n \mu^*(Q_j) \leq \mu^*(\mathcal{O}) - \mu^*(\mathcal{C})< \epsilon
+\]
+We can then take the limit as $n\to \infty$ and see that the same result still holds. Finally, we appeal to the countable sub-additivity of the outer measure to see that
+\[
+\mu^*(\mathcal{O}\setminus\mathcal{C}) \leq \sum_{j=1}^\infty Q_j < \epsilon
+\]
+This gives the desired result. 
+\end{proof}
+
+Given that both the open and closed sets are measurable, it suggests the following
+\begin{prop}
+If $Y \subseteq X$ is a measurable set then $Y^c$ is measurable.
+\end{prop}
+\begin{proof}
+If we is measurable we apply the definition of measurability with $\epsilon = \frac{1}{n}$ to get a sequence of open sets $\mathcal{O}_n$ each containing $E$ and 
+\[
+\mu^*(\mathcal{O}_n \setminus Y) \leq \frac{1}{n}
+\]
+Furthermore, the complement of each $\mathcal{O}_n$ is closed and hence measurable. This means that the union 
+\[
+S = \bigcup _{n=1}^\infty \mathcal{O}_n^c
+\]
+is measurable by Proposition 3. Now we observe that $S \subset Y^c$ and 
+\[
+(Y^c \setminus S) \subset (\mathcal{O}_n \setminus Y)
+\]
+such that $\mu^*(Y^c\setminus S) \leq \frac{1}{n}$ for all $n$. Thus, $\mu^*(Y^c\setminus S) = 0$ and $Y^c \setminus S$ is measurable by Proposition 2. Then we have that $Y^c$ is measurable because 
+\[
+Y^c = S \cup (Y^c \setminus S)
+\] 
+and the two sets on the right are measurable.
+\end{proof}
+
+As a cheap consequence of this fact we get that \\
+\begin{prop}
+If $X_1, X_2, \ldots$ is a sequence of measurable sets then 
+\[
+X = \bigcap_{k=1}^\infty X_k
+\]
+is measurable.
+\end{prop}
+\begin{proof}
+We simply apply DeMorgan's laws in conjunction with Propositions 3 and 5 to see that 
+\[
+X = \bigcap_{k=1}^\infty X_k = \left(\bigcup_{k=1}^\infty X_k\right)^c
+\]
+\end{proof}
+
+\subsection{A Further Characterization of Measurable Sets}
+\paragraph*{} The key idea in the proof of Proposition 5 was that we could separate $Y^c$ as the union of two sets, each of which was measurable. That suggests that measurable sets have a certain ``separability'' property. It is illuminating to think of measurable sets with this view via another (equivalent) definition of measurability \\
+
+\begin{defn}
+ A set $E$ is called {\bf measurable} is for each set $A$ we have
+\[
+\mu^*(A) = \mu^*(A\cap E) + \mu^*(A\cap E^c)
+\]
+\end{defn}
+
+We now explore the immediate consequences of this definition of measurability. Because $A \subseteq (A \cap E) \cup (A\cap E^c)$ the subadditivity of the outer measure gives that 
+\[
+\mu^*(A) \leq \mu^*(A \cap E) + \mu^*(A\cap E^c)
+\]
+So the definition immediately implies that \\
+\begin{prop}
+A set $E$ is measurable if and only if for each set $A$ we have that 
+\[
+\mu^*(A) \geq \mu^*(A \cap E) + \mu^*(A\cap E^c)
+\]
+\end{prop}
+\indent Another nice consequence of this view is that the definition of measure is symmetric in $E$ and $E^c$ and so closure under complements is clear with this definition of measure. This implies that $\emptyset$ and $\R$ are measurable.  We are now left to show that these two points of view are equivalent. We show this with the following \\
+\begin{thm}
+Let $E$ be a given set. Then the following are equivalent:
+\begin{itemize}
+\item[1)] $E$ is measurable. 
+\item[2)] For each $\epsilon > 0$ there is an open set $\mathcal{O} \supset E$ with $\mu^*(O\setminus E) < \epsilon$
+\item[3)] For each $\epsilon > 0$ there is a closed set $\mathcal{C} \supset E$ with $\mu^*(C\setminus E) < \epsilon$
+\item[4)] There is a $G \in G_\delta$ with $E \subset G$ and $\mu^*(G\setminus E) = 0$
+\item[5)] There is an $F \in F_\sigma$ with $F \subset E$ and $\mu^*(E\setminus F) = 0$
+\end{itemize}
+\end{thm}
+\begin{proof}
+First consider the case that $\mu*(E) < \infty$. We want to show that 1 implies 2. 
+\end{proof}
+\end{document}

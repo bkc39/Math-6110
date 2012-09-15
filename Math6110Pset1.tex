@@ -1,0 +1,188 @@
+\documentclass{article}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,fancyhdr,parskip,graphicx}
+
+\pagestyle{fancy}
+\lhead{Ben Carriel}
+\chead{Math 6110 Problem Set 1}
+\rhead{\today}
+
+\parskip 7.2pt
+\parindent 10pt
+
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+
+\DeclareMathOperator{\divides}{\mathrel{|}}
+\DeclareMathOperator{\lra}{\longrightarrow}
+
+\newcommand{\problem}[1]{\noindent{\textbf{Problem #1}}\\}
+\newcommand{\problempart}[1]{\noindent{\textbf{(#1)}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+
+\newtheorem*{lem}{Lemma}
+\newtheorem*{claim}{Claim}
+\newtheorem*{defn}{Definition}
+
+\begin{document}
+
+\problem{1.6.4}
+\problempart{a} We begin by showing that we can choose the $\ell_j$ such that $\sum_{k=0}^\infty 2^{k-1}\ell_k < 1$. This is clear if we choose $l_k \leq (2+\epsilon)^{-(k-1)}$ for any $\epsilon > 0$ because then
+\[
+\sum_{k=0}^\infty 2^{k-1}\ell_k \leq \sum_{k=0}^\infty \left(\frac{2}{2+\epsilon}\right)^{k-1} 
+\]
+and the sum on the right converges and is less than 1 for $\ell_0 < 1/2$. Next, we follow a process similar to the construction of the Cantor set in defining
+\[
+\hat{\mathcal{C}} = \bigcap_{k=0}^\infty I_k
+\]
+where $I_0 = [0,1], I_1 = [0, (1-\ell_0)/2]\cup [(1+\ell_0)/2, 1]$ and each subsequent $I_k$ is obtained by taking each of the pieces in the union of $I_{k-1}$ and removing the middle $\ell_k$. As before, repeating this procedure yields a sequence of nested compact sets $I_0 \supset I_1 \supset I_2 \supset \dots$ and hence their intersection $\hat{\mathcal{C}} \neq \emptyset$. It then follows that $\hat{\mathcal{C}}$ is measurable. To find its measure, we instead compute the measure of $\hat{\mathcal{C}}^c$, which is also measurable because it is the complement of a measurable set. We can see that
+\[
+\hat{\mathcal{C}}^c = \bigcup_{k=0}^\infty I_k^c
+\] 
+The complement of each $I_k$ is precisely the $2^{k-1}$ intervals of length $\ell_k$. Hence, the measure of each of these $m(I_k) = 2^{k-1}\ell_k$. And so
+\[
+m(\hat{\mathcal{C}}^c) = m(\bigcup_{k=0}^\infty I_k^c) = \sum_{k=0}^\infty m(I_k^c) = \sum_{k=0}^\infty 2^{k-1}\ell_k
+\]
+Noting that $[0,1] = \hat{\mathcal{C}} \cup \hat{\mathcal{C}}^c$ and so 
+\[
+m(\hat{\mathcal{C}}) = 1 - \sum_{k=0}^\infty 2^{k-1}\ell_k
+\]
+
+\problem{1.6.6}
+Let $B$ be a ball of radius $r$ sitting in $\R^d$. We want to find the measure of this ball in terms of that of $B_1$, the unit ball centered at the origin. It is shown in the book that the measure of a set is translation invariant. Hence, we need only worry about dilating $B_1$ to a ball of radius $r$. Consider the representation of the ball by almost disjoint cubes $B_1 = \bigcup_{k=1}^\infty Q_k$ and note that $m(B_1) = \sum_{k=1}^\infty Q_k$. We then scale each set by $r$ to see that 
+\[
+rB_1 = r\left(\bigcup_{k=1}^\infty Q_k\right) = \bigcup_{k=1}^\infty rQ_k
+\]
+where the last equality holds because the $Q_k$ are disjoint. We then note that if $Q$ is a cube of side length $\ell$ then $rQ$ is a cube with side length $r\ell$ and therefore the volume (or measure in the case of cubes) of $v(rQ) = r^dv(Q)$. We then see that
+\[
+m(rB_1) = m\left(r\bigcup_{k=1}^\infty Q_k\right) = m\left(\bigcup_{k=1}^\infty rQ_k\right) \\
+\]
+Because the $Q_k$ are almost disjoint we can write
+\[
+m(rB_1) \sum_{k=1}^\infty m(rQ_k) = \sum_{k=1}^\infty r^dm(Q_k) = r^d\sum_{k=1}^\infty m(Q_k) = v_dr^d 
+\]
+where $v_d$ is the measure of $B_1$. This completes the proof.
+
+\problem{1.6.7} We begin by proving the result in the special case of cubes with \\
+\begin{lem}
+For any cube $Q \subset \R^n$ we have that $m_*(\delta Q) = \delta_1\delta_2\ldots\delta_nm_*(Q)$
+\end{lem}  
+\begin{proof}
+This is similar to the preceding problem. Choose any $p \in Q$ and note that $\delta p = (\delta_1p_1, \delta_2p_2, \ldots, \delta_np_n)$. So this scales the $k$th coordinate (side of the cube) by a factor of $\delta_k$. Letting $\ell$ be the length of a side of $Q$ and using the formula for the area of a rectangle gives
+\[
+m_*(\delta Q) = \prod_{k=1}^n \delta_k\ell = \delta_1\delta_2\cdots\delta_n\ell^n = \delta_1\delta_2\cdots\delta_nm_*(Q)
+\] 
+\end{proof}
+
+Now suppose that $E$ is a measurable set and recall from Observation 3 that
+\[
+m_*(E) < m_*\left(\bigcup_{j=1}^\infty |Q_j|\right) + \epsilon
+\]
+Where $\bigcup_{j=1}^\infty Q_j$ is any covering of $E$ by cubes. Then $\delta E \subset \delta\bigcup_{j=1}^\infty$ and so by monotonicity we get that 
+\[
+m_*(\delta E) \leq m_*\left(\delta\bigcup_{j=1}^\infty Q_j\right) + \epsilon/2
+\]
+Now we need to cover each rectangle $\delta Q_j$ by cubes $Q_{j,k}$ with 
+\[
+\sum_{k=1}^\infty |Q_{j,k}| < |Q_j| + \epsilon/2^{j-1}
+\]
+Then 
+\begin{align*}
+m_*(\delta E) &\leq m_*(\bigcup_{j=1}^\infty \delta Q_j) + \epsilon/2 \\
+&\leq m_*(\bigcup_{j,k}|Q_{j,k}|) + \epsilon/2 \\
+&\leq \sum_{j=1}^\infty\sum_{k=1}^\infty |Q_{j,k}| + \epsilon/2
+\end{align*}
+Using the above estimate and and the lemma we get
+\begin{align*}
+\sum_{j=1}^\infty\sum_{k=1}^\infty |Q_{j,k}|  &\leq \sum_{j=1}^\infty (|\delta Q_j| + \epsilon/2^{j-1}) + \epsilon/2 \\
+&= \delta_1\delta_2\cdots\delta_n\sum_{j=1}^\infty|Q_j| + \epsilon \\
+&= \delta_1\delta_2\cdots\delta_nm_*(E) + \epsilon 
+\end{align*}
+So now we need just establish that $\delta E$ is measurable and we are done. The measurability of $E$ gives us an $\mathcal{O} \supset E$ open such that 
+\[
+m_*(\mathcal{O} - E) < (\delta_1\delta_2\cdots\delta_n)^{-1} \epsilon
+\]
+To cover $\delta E$ we propose to use the open set $\delta\mathcal{O}$. This set is open because for any $p\in \mathcal{O}$ we have that $B_{\overline{\delta}}(p) \subset \delta\mathcal{O}$ when $\overline{\delta} = \min\{\delta_1, \delta_2, \ldots, \delta_n\}$. The above coupled with the fact that $\delta(\mathcal{O} - E) = \delta\mathcal{O} - \delta E$ with $\delta\mathcal{O}$ open gives 
+\[
+m_*(\delta\mathcal{O} - \delta E) = m_*(\delta(\mathcal{O} - E)) < \delta_1\delta_2\cdots\delta_nm_*(\mathcal{O} - E) < \epsilon
+\]
+So $\delta E$ is measurable with measure $m_*(\delta E) = \delta_1\delta_2\cdots\delta_nm_*(E)$.
+
+\problem{1.6.9} We begin with a Cantor-like set $\hat{\mathcal{C}}$ as described in Exercise 4. Our plan is to construct an open set whose closure has boundary $\hat{\mathcal{C}}$. At the $k^{th}$ stage of the construction we remove $2^{k-1}$ intervals each of length $\ell_j$ with the property that 
+\[
+\sum_{j=1}^k 2^{j-1}\ell_j < 1
+\]
+for each $k$. We now consider the set 
+\[
+\mathcal{I} = \bigcup_{k=1}^\infty \bigcup_{j=1}^{2^k} I_{2j-1, k}
+\]
+which is the union of those intervals $I_k$ that are removed at odd numbered steps in the construction. We have the following
+\begin{claim}
+Every $x \in \hat{\mathcal{C}}$ is a limit point of a sequence in $\mathcal{I}$
+\end{claim}
+\begin{proof}
+We construct $\hat{\mathcal{C}}$ iteratively as described in problem 4. Let $\mathcal{C}_j$ denote the remaining set after $j$ iterations of the removal step and $\mathcal{R}_j$ the set of elements removed. Recall that 
+\[
+\hat{\mathcal{C}} = \bigcap_{j=1}^\infty \mathcal{C}_j
+\]
+Next, we note that each of the $\mathcal{C}_j$ is the disjoint union of $2^j$ intervals which we denote $C_{j,k}$. Because the intervals are centrally situated we know that after $n$ iterations $x$ lies no further than $1/2^n$ from an element of $\mathcal{R}_n$. For each $n$, choose such an element, $x'_n$, of $\mathcal{R}_j$. This yields a convergent sequence $x'_n \to x$ because for any $\epsilon > 0$ we simply choose $n$ large enough that $1/2^n < \epsilon$. Next, note that the subsequence $x_n$ of odd numbered terms in $x'_n$ must also converge and each $x_n \in \mathcal{I}$. Then $x_n \to x$ and so $x$ is a limit point of a sequence in $\mathcal{I}$.
+\end{proof}
+Now we observe that $\mathcal{I}$ and $\hat{\mathcal{C}}$ are disjoint so we apply the claim to get that $\hat{\mathcal{C}} \subseteq \partial\overline{\mathcal{I}}$. Then by monotonicity of the measure and the results of Problem 4.a we have
+\[
+m(\overline{\mathcal{I}}) \geq \hat{\mathcal{C}} > 0
+\]
+Verifying that $\mathcal{I}$ satisfies the requirements. \\
+
+\problem{1.6.11} We can construct this Cantor-like set $\mathcal{C}'$ iteratively. We begin with the interval $[0,1]$ and remove $1/10$ of it. This leaves nine intervals of length $1/10$. At the next step we remove the last $1/10$ of each of these intervals, giving 81 intervals of length $1/100$. In general, after $k$ iterations we are left with the union $\mathcal{C}_k'$ of $9^k$ intervals each of length $10^{-k}$. Taking the limit as $k\to\infty$ gives
+\[
+m(\mathcal{C}') = \lim_{k\to\infty} m(\mathcal{C}_k') = \lim_{k\to\infty} (9/10)^k = 0
+\]
+
+\problem{1.6.15} Let $E$ be some subset of $\R^n$. First we begin by considering the outer measure of $E$, given by $m_*(E) = \inf\sum_{j=1}^\infty |Q_j|$. Consider any covering of $E$ by closed cubes $E \subset \bigcup_{j=1}^\infty Q_j$. For each $Q_j$ with side length $\ell_j$ we can pick the rectangle $R_j$ whose sides have length $r_1 = \ell + \epsilon/2^j\ell^{n-1}$ and $r_k = \ell$ for every other side. Then $R_j \supset E_j$ and 
+\[
+|R_j| = |Q_j| + \epsilon/2^j
+\]
+So 
+\[
+\sum_{j=1}^\infty |Q_j| < \sum_{j=1}^\infty |R_j| = \sum_{j=1}^\infty|Q_j| + \epsilon
+\]
+Passing to the infimum gives
+\[
+m_*^\mathcal{R}(E) \leq \sum_{j=1}^\infty |R_j| \leq  m_*(E) + \epsilon
+\]
+Then letting $\epsilon \to 0$ gives $m_*^\mathcal{R} \leq m_*(E)$. \\
+\indent Now begin with a covering of $E$ by rectangles $R_j$. Then we divide $\R^n$ into a grid of cubes with side length $1/k$. Then we can define $Q_{j,k}$ to be the set of rectangles that have non-empty intersection with $R_j$. We need to be precise about how much extra measure these cubes add. We know that there are $Ck^{d-1}$ that could intersect partially intersect $R_j$ (cubes not fully contained in $R_j$) for some suitably large $C$. The total volume these add is $C/k$ and so if $k \geq 2^jC$ then the total volume  is less than $\epsilon/2^j$. That is
+\[
+\sum_k |Q_{j,k}| \leq |R_j| + \epsilon/2^j
+\] 
+Then 
+\[
+\sum_j |R_j| \leq \sum_j\sum_k |Q_{j,k}| \leq \sum_{j}|R_j| + \epsilon
+\]
+As we did before, we pass to the infimum yielding 
+\[
+m_*(E) \leq \sum_j\sum_k |Q_{j,k}| < m_*^\mathcal{R} + \epsilon
+\]
+Letting $\epsilon \to 0$ again gives $m_*(E) \leq m_*^\mathcal{R}$. This completes the proof. \\
+
+\problem{1.6.16}
+\problempart{a} We need to formalize the notion of being in infinitely many of the $E_k$. To do this let $X_n = \bigcup_{k \geq n} E_k$. Then $x \in E$ is equivalent to $x \in X_n$ for each $n$. We can then rephrase 
+\[
+E = \bigcap_{n=1}^\infty X_n =\bigcap_{n=1}^\infty \bigcup_{k \geq n} E_k
+\]
+Each $X_n$ is a countable union of measurable sets, and hence measurable. Then $E$ is a countable intersection of measurable sets, and so it is also measurable. \\
+\problempart{b} The convergence of $m(E_k)$ is equivalent to 
+\[
+\sum_{k=N}^\infty m(E_k) < \epsilon
+\]
+for sufficiently large $N$ and any $\epsilon > 0$. This means that for $m > n$
+\[
+m(B_m) = m\left(\bigcup_{k \geq m} E_k\right) \leq \sum_{k=N}^\infty m(E_k) < \epsilon 
+\]
+which holds by sub-additivity. We then note that $E = \bigcap_{n=1}^\infty B_n \subset B_k$ for every $k$, means that we can use monotonicity to get
+\[
+m(E) \leq m(B_N) < \epsilon 
+\]
+So $m(E) = 0$.  
+\end{document}
