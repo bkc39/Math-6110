@@ -1,0 +1,248 @@
+\documentclass{article}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,relsize,fancyhdr,parskip,graphicx}
+
+\pagestyle{fancy}
+\lhead{Ben Carriel}
+\chead{Math 6110 Problem Set 6}
+\rhead{\today}
+
+\parskip 7.2pt
+\parindent 8pt
+
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\capchi}{\raisebox{2pt}{$\mathlarger{\mathlarger{\chi}}$}}
+
+\DeclareMathOperator{\divides}{\mathrel{|}}
+\DeclareMathOperator{\suchthat}{\mathrel{|}}
+
+\DeclareMathOperator{\lra}{\longrightarrow}
+\DeclareMathOperator{\into}{\hookrightarrow}
+\DeclareMathOperator{\onto}{\twoheadrightarrow}
+\DeclareMathOperator{\bijection}{\leftrightarrow}
+
+\newcommand{\problem}[1]{\noindent{\textbf{Problem #1}}\\}
+\newcommand{\problempart}[1]{\noindent{\textbf{(#1)}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+
+\newtheorem*{thm}{\\ Theorem}
+\newtheorem*{lem}{\\ Lemma}
+\newtheorem*{claim}{\\ Claim}
+\newtheorem*{defn}{\\ Definition}
+\newtheorem*{prop}{\\ Proposition}
+
+\begin{document}
+\problem{3.5.12}
+It is clear by elementary calculus that the function
+\[
+F(x) = \begin{cases}
+0                       & x = 0 \\ 
+x^2\sin(1/x^2) & \text{otherwise}
+\end{cases}
+\]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+is differentiable everywhere with derivative
+\[
+F'(x) = \begin{cases}
+0                                                          & x = 0 \\
+2x\sin(1/x^2) - \frac{2\cos(1/x^2)}{x} & \text{otherwise}
+\end{cases}
+\]
+We now need to show that $F'$ is not integrable on $[-1,1]$. First we note that $F'$ is symmetric about the origin so that 
+\[
+\int_{-1}^1 |F'(x)|dx = 2\int_{0}^1 |F'(x)|
+\]
+We will show that the integral on the right diverges. The intuition is that near the origin $\sin(1/x^2)$ and $\cos(1/x)$ oscillate too rapidly and add infinitely much ``area'' under the curve. More formally, consider the set of points 
+\[
+x_j = \left\{\frac{2}{(2j+1)\pi}\right\}_{j=1}^\infty
+\]
+It is clear that $x_j \to 0$ as $j \to \infty$ and so it suffices to show that
+\[
+\int_{x_N}^1 |F'(x)|dx \to \infty \text{ as } N\to\infty
+\]
+We will break the domain into smaller intervals of the form $[x_j,x_{j+1}]$ and observe that
+\[
+\int_{x_N}^1 = \sum_{j=1}^N \int_{x_{j+1}}^{x_{j}} |F'(x)|dx
+\]
+Then note that
+\[
+\int_{x_{j+1}}^{x_{j}} |F'(x)|dx = \int_{\sqrt{\frac{1}{2j\pi}}}^{x_j} F'(x) \pm \int_{x_{j+1}}^{\sqrt{\frac{1}{2j\pi}}} F'(x) = \pm 2\int_{\sqrt{\frac{1}{2j\pi}}}^{x_j} F'(x) 
+\]
+Where the sign is chosen to make the value positive. We then evaluate each term in the partial sum
+\[
+\int_{\sqrt{\frac{1}{2j\pi}}}^{x_j} F'(x) = F(x) \Big |_{\sqrt{\frac{1}{2j\pi}}}^{x_j} = \frac{1}{(2j+1)\pi} 
+\]
+So that 
+\[
+\int_{x_N}^1 |F'(x)| = \frac{4}{\pi} \sum_{j=1}^N \frac{1}{(2j+1)}
+\]
+Which diverges as $N \to \infty$ by comparison with the harmonic series. Hence, $F'$ is not integrable on $[-1,1]$.
+
+\problem{3.5.16}
+\problempart{a} 
+
+\problempart{b}
+
+\problem{3.5.17} We proceed similarly to the proof of Theorem 3.21. We note that 
+\[
+|(f * K_\epsilon)(x)| = \left| \int f(x-y)K_\epsilon(y)dy \right| \leq \int |f(x-y)||K_\epsilon(y)|dy
+\]
+We break the integral on the right up into 
+\[
+\int_{|y| < \epsilon} |f(x-y)||K_\epsilon(y)|dy + \sum_{k=1}^\infty \int_{|y| \in [2^{k-1}\epsilon, 2^k\epsilon]}|f(x-y)||K_\epsilon(y)|dy
+\]
+
+For the first term, we note that 
+\[
+\int_{|y| < \epsilon} |f(x-y)||K_\epsilon(y)|dy \leq A\epsilon^{-d}\int_{|x-y| < \epsilon}|f(y)|dy 
+\]
+We then note that $|x-y| < \epsilon$ describes precisely the ball with radius $\epsilon$ about the origin. As a result we see that 
+\[
+\sup_{\epsilon > 0} \int_{|x-y| < \epsilon} |f(y)| \leq m(B_\epsilon)\sup_{r \to 0} \frac{1}{m(B_r)} \int_{B_r} |f(y)|dy
+\]
+This gives 
+\[
+\int_{|y| < \epsilon} |f(x-y)||K_\epsilon(y)|dy \leq Ac_df^*(x)
+\]
+Where $c_d$ is a constant depending on the volume of the unit ball in $\R^d$. To estimate 
+\[
+\sum_{k=1}^\infty \int_{|y| \in [2^{k-1}\epsilon, 2^k\epsilon]}|f(x-y)||K_\epsilon(y)|dy
+\]
+We restrict our attention to the partial sums and observe that
+\[
+\int_{|y| \in [2^{k-1}\epsilon, 2^k\epsilon]}|f(x-y)||K_\epsilon(y)|dy \leq \frac{2^{(1-k)(d+1)}}{\epsilon^{d+1}}\int_{|y| \leq 2^k\epsilon} |f(x-y)|dy
+\]
+By the same reasoning as the first case (multiply by volume of appropriate ball and canceling powers), this gives
+\[
+2^d2^{1-k}\epsilon^{-1}c_df^*(x)
+\]
+As a result of this
+\begin{align*}
+\sum_{k=1}^\infty \int_{|y| \in [2^{k-1}\epsilon, 2^k\epsilon]}|f(x-y)||K_\epsilon(y)|dy &\leq \sum_{k=1}^\infty 2^d2^{1-k}\epsilon^{-1}c_df^*(x) \\
+&\leq 2^{d+1}\epsilon^{-1}c_df^*(x)
+\end{align*}
+So in total we have that
+\[
+|(f * K_\epsilon)(x)| \leq (2^{d+2}c_dA)f^*(x)
+\]
+as desired. 
+
+\problem{3.5.19}
+\problempart{a} Let $E \subset \R$ have measure 0. Pick some $\epsilon > 0$ and use the absolute continuity of $f$ to see that 
+\[
+\sum_{k=1}^N |b_k - a_k| < \delta \text{ implies } \sum_{k=1}^N |f(b_k) - f(a_k)| < \epsilon
+\] 
+We then use the fact that $E$ has measure 0 to find some open set $\mathcal{O} \supset E$ such that $m(\mathcal{O}) < \delta$. Because $\mathcal{O} \subset \R$ we can write it as a disjoint union of open intervals $I_k = (a_k, b_k)$ such that
+\[
+\mathcal{O} = \bigcup_{k=1}^\infty I_k
+\]
+and then we note that 
+\[
+m(\mathcal{O}) = \sum_{k=1}^\infty (b_k - a_k) < \delta
+\]
+Moreover we have that the closure of $\mathcal{O}$ also satisfies $m(\overline{\mathcal{O}}) < \delta$ because the boundary of $\mathcal{O}$ is countable and hence has measure 0. Now we look at the images of these closed intervals under $f$. Consider the points $\{y_k\}_{1}^\infty$ and $\{Y_k\}_{1}^\infty$ which are defined to be the points such that $y_k = \inf_{x \in I_k} f(x)$ and $Y_k = \sup_{x \in I_k} f(x)$. Then set $\{x_k = \{f^{-1}(y_k)\}$ and $\{X_k = \{f^{-1}(Y_k)\}$. We have that $x_k,X_k \in \overline{I_k}$ because $f$ is continuous and $\overline{I_k}$ is compact. So then we have that
+\[
+f(\mathcal{O}) \subset \bigcup_k [f(x_k), f(X_k)]
+\]
+Because next note that
+\[
+\sum_{k=1}^\infty |X_k - x_k| \leq \sum_{k=1}^\infty |b_k - a_k| < \delta
+\] 
+because $x_k,y_k \in I_k$ and so the absolute continuity of $f$ implies that 
+\[
+m(\overline{\mathcal{O}}) = \sum_{k=1}^\infty |f(X_k) - f(x_k)| < \epsilon
+\]
+So 
+\[
+m(E) < m(\overline{\mathcal{O}}) < \epsilon
+\] 
+Letting $\epsilon \to 0$ gives the result. 
+
+\problempart{b} Let $E$ now be a measurable subset of $\R$. Then we know that $E$ differs from an $F_\sigma$ by a set of measure 0. So we can write
+\[
+E = \left(\bigcup_{k=1}^\infty \mathcal{I}_k\right) \cup Z
+\]
+Where $Z$ is a set of measure 0 and each of the $I_k$ is closed (and bounded and hence, compact). Then the image under $f$ gives
+\[
+f(E) = \bigcup_k f(\mathcal{I}_k) \cup f(Z)
+\]
+The first element in the union is a countable union of measurable sets, and hence, measurable and $f(Z)$ has measure 0 by the previous part. Hence, $f(E)$ is measurable. 
+
+\problem{3.5.20}
+\problempart{a} The main hurdle to this exercise is that if $F' = 0$ on any interval, then $F$ is constant a.e. on that interval, and hence not strictly increasing. As as result, we are led to try to find a set with positive measure, but which contains no intervals, and then define $F$ as an integral over such a set. We constructed such a set (the ``fat'' Cantor set) in a previous problem set. Let $\mathcal{C}$ denote such a set (translated and dilated to appropriately sit in $[a,b]$). Consider the function
+\[
+D_\mathcal{C}(t) = d(t,\mathcal{C}) = \inf_{x\in \mathcal{C}} d(t,x)
+\]
+It is clear that $D_\mathcal{C}(t)$ is continuous and satisfies $D_\mathcal{C}(t) \geq 0$ with equality iff $t\in \mathcal{C}$. As a result, the function
+\[
+F(x) = \int_a^x D_\mathcal{C}(t)dt
+\]
+is well-defined. Moreover, $F$ is absolutely continuous on $[a,b]$ because of the absolute continuity of the integral. We can see that $F$ satisfies the requirements because $F' = 0$ a.e. in $\mathcal{C}$, which is a set of positive measure. To see that $F$ is strictly increasing, choose $x,y \in [a,b]$ with $x < y$, then we just set $y = x + h$ for some $h$ and note that 
+\[
+F(y) - F(x) = \int_a^{x+h} D_\mathcal{C}(t)dt - \int_a^{x} D_\mathcal{C}(t)dt = \int_x^{x+h} D_\mathcal{C}(t)dt
+\] 
+So we are integrating over some interval $I_x = [x,x+h]$. We then note that $\mathcal{C}$ contains no intervals and so there must be some interval $\mathcal{I}_x \subset \mathcal{C^c}$ such that
+\[
+\int_x^{x+h} D_\mathcal{C}(t)dt \geq \int_{\mathcal{I}_x} D_\mathcal{C}(t)dt > 0
+\] 
+Because $D_\mathcal{C}(t) > 0$ when $t \not\in \mathcal{C}$. Hence, $F$ is strictly increasing and we are done. 
+ 
+\problempart{b} Define $F$ as in part $\bf{(a)}$. Then we have that $F$ is strictly increasing and absolutely continuous. We then set $\mathcal{O} = [a,b] - \mathcal{C}$. Then $\mathcal{O}$ is open, as it is the complement of a closed set and so we can write
+\[
+\mathcal{O} = \bigcup_{k=1}^\infty I_k
+\]
+Where the $I_k$ are a collection of disjoint open intervals. Because $F$ is increasing $I_j \cap I_k = \emptyset$ implies that $F(I_j) \cap F(I_k) = \emptyset$ and so we have that
+\[
+F(\mathcal{O}) = \bigcup_{k=1}^\infty F(I_k)
+\] 
+And so we have that
+\[
+m(\mathcal{O}) = \sum_{k=1}^\infty m(I_k) = \int_{\mathcal{O}}D_\mathcal{C}(t)dt
+\]
+We then note that $\int_\mathcal{C} D_\mathcal{C}(t)dt = 0$ so that
+\[
+\int_\mathcal{O} d_\mathcal{C}(t)dt = \int_{[a,b]} D_\mathcal{C}(t)dt = F(b) - F(a)
+\]
+So we have that $m(F(\mathcal{O})) = m(F([a,b]))$ and as a result $m(F(\mathcal{C})) = 0$. Consequently, if we take any other set $U \subset \mathcal{C}$ we must have that $m(F(U)) = 0$. However, we also have that because $m(\mathcal{C}) > 0$ that it contains a non-measurable subset, $\mathcal{N}$. But then $F(\mathcal{N}) \subset F(\mathcal{C})$ and so $m(F(\mathcal{N})) = 0$ however $F^{-1}(F(\mathcal{N})) = \mathcal{N}$ is non-measurable and we are done. 
+
+% TODO % 
+\problempart{c}
+
+\problem{3.5.21}
+\problempart{a}
+
+\problempart{b} Before we begin we need to prove the following fact
+\begin{lem}
+Let $f$ and $g$ absolutely continuous. Then
+\[
+(f\circ g)'(x) = (f' \circ g)(x)g'(x)
+\]
+almost everywhere. 
+\end{lem}
+%TODO Add in the reason that abs cont means measure 0 maps to measure 0
+\begin{proof}
+Because both functions are absolutely continuous we must have that they are differentiable almost everywhere. As a result, we can consider the set $D$ where both $f'$ and $g'$ exist (it's complement has measure 0). Let
+\[
+\Delta_h(u) = u(x+h) - u(x)
+\]
+Then we note that
+\[
+\Delta(f \circ g) = [(f \circ g) + o(\Delta(g))]\cdot \Delta_t(g)
+\]
+Then divide by We then divide by $t$ giving and apply the definition of the derivative to see that
+\[
+(f \circ g)'(x) = (f' \circ g)(x)g'(x)
+\]
+on $D$. And as a result, almost everywhere so we are done. 
+\end{proof}
+To complete the proof we define the following function
+\[
+h(x) = \int_{-\infty}^x f(t)dt 
+\]
+We know $h$ is absolutely continuous because $f$ is integrable. We then compute
+\[
+\int_a^b (h\circ F)'(x)dx = (h \circ F)(b) - (h\circ F)(a) = \int_{-\infty}^{F(b)} f(y)dy -\int_{-\infty}^{F(a)} f(y)dy = \int_{A}^{B} f(y)dy 
+\]
+Applying the lemma to this identity gives the desired result. 
+\end{document}

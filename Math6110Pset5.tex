@@ -1,0 +1,160 @@
+\documentclass{article}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,relsize,fancyhdr,parskip,graphicx}
+
+\pagestyle{fancy}
+\lhead{Ben Carriel}
+\chead{Math 6110 Problem Set 5}
+\rhead{\today}
+
+\parskip 7.2pt
+\parindent 8pt
+
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\capchi}{\raisebox{2pt}{$\mathlarger{\mathlarger{\chi}}$}}
+
+\DeclareMathOperator{\divides}{\mathrel{|}}
+\DeclareMathOperator{\suchthat}{\mathrel{|}}
+
+\DeclareMathOperator{\lra}{\longrightarrow}
+\DeclareMathOperator{\into}{\hookrightarrow}
+\DeclareMathOperator{\onto}{\twoheadrightarrow}
+\DeclareMathOperator{\bijection}{\leftrightarrow}
+
+\newcommand{\problem}[1]{\noindent{\textbf{Problem #1}}\\}
+\newcommand{\problempart}[1]{\noindent{\textbf{(#1)}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+
+\newtheorem*{thm}{Theorem}
+\newtheorem*{lem}{Lemma}
+\newtheorem*{claim}{Claim}
+\newtheorem*{defn}{Definition}
+\newtheorem*{prop}{Proposition}
+
+\begin{document}
+\problem{3.5.2} We follow the same basic idea as the proof of Theorem 2.1. We observe that
+\[
+(f * K_\delta)(x) = \int f(x-y)K_\delta(y)dy
+\]
+We then need to show that
+\[
+\int |f(x-y)|K_\delta(y)dy \to 0
+\]
+We take the same approximation as in the proof of he theorem by breaking up the integral as follows
+\[
+\int |f(x-y)|K_\delta(y)dy = \int_{|y| \leq \delta} |f(x-y)|K_\delta(y)dy + \sum_{k=0}^\infty \int_{2^k\delta < |y| \leq 2^{k+1}\delta}|f(x-y)|K_\delta(y)dy
+\]
+We then have an easier time than in Theorem 2.1 because we appeal to the property of good kernels to see that
+\[
+\int_{|y| \geq \delta} |K_\delta(x)|dx \to 0
+\]
+So we can choose each of the terms in the sum to be less that $\epsilon/2^k$ for any $\epsilon > 0$. For the first term we use the fact that $\int_{\R} K_\delta = 0$ and the estimates given by the two properties of good kernels to see that 
+\[
+\int_{|y| \leq delta } |f(x-y)||K_\delta(y)|dy \leq CA\delta/\epsilon\int |f(x-y)|
+\]
+By taking $\delta$ small we can force this term to zero as well. This gives that the total sum goes to zero as $\delta \to \infty$, which completes the proof. 
+
+\problem{3.5.4} Following the hint, we use the fact that $f$ is not a.e. 0 to see that there must be some ball $B$ such that $\int_B |f| > 0$. Without loss of generality we can assume that $B$ is centered at the origin with radius 1 because the integral is translation invariant and a dilation is a linear change of variable. Suppose that we have that $\int_B f = c > 0$. Then pick any $x$ with $|x| \geq 1$ and observe that the ball of radius $|x|$ centered at the origin has measure $v_n|x|^n$. This gives that
+\[
+f^*(x) \geq \int_{|y| \leq |x|} f \geq \frac{c}{v_n|x|^n}
+\] 
+Combining the constant terms we get that $f*(x) \geq c'/|x|^d$. Now we apply linearity of the integral to get that
+\[
+\int f^* \geq \int |f| \geq c\int 1/|x|^d
+\]
+The integral on the right is unbounded and so $f^*$ is not integrable. To get the ``best inequality'', we note that the inequality above is the reverse inequality of the weak inequality. And if we take $\int|f| = 1$, then in the above argument we are left with 
+\[
+m(\{f^* > \alpha\}) \leq c'/\alpha
+\]
+Where $c'$ is a fixed constant not depending on $\alpha$ This is the desired result. 
+
+\problem{3.5.5}
+\problempart{a} We consider 
+\[
+f(x) = \begin{cases}
+\frac{1}{|x|(\log 1/|x|)^2} & \text{if } |x| \leq 1/2 \\
+0                                      & \text{otherwise}
+\end{cases}
+\]
+The main observation is that $f$ is symmetric about the origin, so we can compute
+\[
+\int_{\R} |f(x)|dx = \int_{|x| \leq 1/2} |f(x)|dx = 2\int_{0}^{1/2} \frac{1}{x\log 1/x}dx
+\]
+We then change variables with $u = \log 1/x$ to see that 
+\[
+\int \frac{1}{x\log 1/x}dx = \int \frac{-du}{u^2} = \frac{1}{u} = \frac{1}{\log 1/x} 
+\]
+Substituting we get
+\[
+\int |f(x)|dx = \frac{2}{\log 1/x}\Big |_0^{1/2} = \frac{2}{\log 2}
+\]
+So $\int |f| < \infty$ and $f$ is integrable. 
+
+\problempart{b} In $\R$ balls containing $x$ are just intervals. So if we choose a ball of radius $2r$ centered about $x$ then we have that
+\[
+f^*(x) \geq \frac{1}{2r}\int_0^{2r}|f(y)|dy
+\]
+We then take $|x| \leq 1/2$ and set $r = 2|x|$ we get that
+\[
+f^*(x) \geq \frac{1}{2|x|}\int_0^{2|x|}|f(y)|dy \geq \frac{1}{2|x|} \cdot \frac{1}{\log 1/|x|}
+\]
+So taking the supremum of all balls we have 
+\[
+f^*(x) \geq \frac{c}{|x|\log(1/|x|)}
+\]
+Integrating on any $\epsilon$-neighborhood of 0 we see
+\[
+\int_{-\epsilon}^\epsilon |f^*(x)|dx \geq \int_{-\epsilon}^\epsilon \frac{c}{|x|\log(1/|x|)}dx = -c\log\log(1/x)\Big |_0^\epsilon
+\]
+Which goes to $\infty$. So $f^*$ is not locally integrable. 
+
+\problem{3.5.8} Yes we can find such a sequence. Following the hint given in the text we are led to consider the Lebesgue density set of $A$. By  Theorem 1.4 in the text we see that we can always find the desired epsilon and $I_\epsilon$ with
+\[
+m(A \cap I_\epsilon) \geq (1-\epsilon)m(I_\epsilon)
+\] 
+Next, we can actually construct the sequence as follows. Let $\{r_n\}$ be an enumeration of $\Q$ and let $d$ be a point of Lebesgue density of   $A$. We set $t_k = r_k - d$. Now we let $E$ be all the translates of $A$ by $t_k$ or more precisely set
+\[
+E = \bigcup_{k} A + t_k
+\]
+We will show that $m(E^c) = 0$. Note that if we decompose the set into pieces
+\[
+E^c = \bigcap_{n} (E^c \cap [n,n+1))
+\]
+it suffices to show that $E^c_n = E^c \cap [n,n+1)$ has measure zero for every $n \in \Z$. We further restrict our attention to $E^c \cap [0,1]$ because the measure is translation is translation invariant and we we can translate to the rest of $\R$. \\
+\indent Now we extract from the sequence of $k = 1,2,3\ldots$ an integer $n_k$ such that 
+\[
+m(A \cap B_{n_k^{-1}}(r)) \geq (1 - 1/n_k)m(B_{n_k^{-1}}(r)) 
+\] 
+Each $n_k$ must exist because $x$ is in the Lebesgue set of $A$ and $r$ is a parallel translate of $x$ (by construction). If we look closely at these open balls we can enumerate a subset of them via
+\[
+B^m_{n^{-1}_k} = B_{n^{-1}_k}(j/2n_k) 
+\]
+for each $m \leq 2n_k$. Then 
+\[
+[0,1] \subset \bigcup_{m} B^m_{n^{-1}_k}
+\]
+So 
+\[
+E^c \cap [0,1] \subseteq \bigcup_{m=1}^{2n_k} B_{n_k^{-1}}^{m} \cap [0,1]
+\]
+Which means
+\begin{align*}
+m(E^c\cap [0,1]) &\leq \sum_{m=1}^{2n_k} m(B_{n_k^{-1}}^{m} \cap [0,1]) \\
+&\leq \sum_{m=1}^{2n_k} m(B_{n_k^{-1}}^{m})/m \\
+&= 2n_k \cdot \frac{1}{m}\cdot \frac{1}{n_k} \\
+&= 4/m
+\end{align*}
+This inequality holds for all $m$ meaning that $m(E^c \cap [0,1]) = 0$. Therefore $m(E^c) = 0$ and we are done. 
+
+\problem{3.5.9} Consider the function
+\[
+\delta(x) = \inf\{|x-y| : y \in F\}
+\]
+We want to show that $\delta(x+y)/|y| \to 0$ almost everywhere on $F$. The quantity $\delta(x+y)/|y|$ would lead us to consider the derivative the function $\delta(x)$. Consider $\delta$ on any interval $I = (a,b)$. We can see that for any $y,z \in \R$
+\[
+|\delta(y) - \delta(z)| \leq |y-z| 
+\]
+Restricting values to $I$ we get that $T_F(a,b) \leq |b-a|$. This means that $\delta$ is of bounded variation and so it is differentiable almost everywhere, and in particular at almost every $x \in F$. We then observe that by definition $\delta \geq 0$ and is identically 0 on $F$. And so $\delta$ has local minima on all of $F$, and because $\delta$ is differentiable its derivative on $F$ is zero almost everywhere. We then use the definition of the derivative to see that $\delta(x+y)/|y| \to 0$ a.e.
+\end{document}

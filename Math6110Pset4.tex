@@ -1,0 +1,265 @@
+\documentclass{article}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,relsize,fancyhdr,parskip,graphicx}
+
+\pagestyle{fancy}
+\lhead{Ben Carriel}
+\chead{Math 6110 Problem Set 3}
+\rhead{\today}
+
+\parskip 7.2pt
+\parindent 8pt
+
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\capchi}{\raisebox{2pt}{$\mathlarger{\mathlarger{\chi}}$}}
+
+\DeclareMathOperator{\divides}{\mathrel{|}}
+\DeclareMathOperator{\suchthat}{\mathrel{|}}
+
+\DeclareMathOperator{\lra}{\longrightarrow}
+\DeclareMathOperator{\into}{\hookrightarrow}
+\DeclareMathOperator{\onto}{\twoheadrightarrow}
+\DeclareMathOperator{\bijection}{\leftrightarrow}
+
+
+\newcommand{\problem}[1]{\noindent{\textbf{Problem #1}}\\}
+\newcommand{\problempart}[1]{\noindent{\textbf{(#1)}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+
+\newtheorem*{thm}{Theorem}
+\newtheorem*{lem}{Lemma}
+\newtheorem*{claim}{Claim}
+\newtheorem*{defn}{Definition}
+\newtheorem*{prop}{Proposition}
+
+\begin{document}
+\problem{2.5.4}
+\indent We begin by noting that because we can always write $f = f^+ - f^-$ we can assume without loss of generality that $f$ is non-negative (otherwise we would just look at each non-negative part separately). We then consider the function 
+\[
+g(x) = \int_x^b \frac{f(t)}{t}dt
+\]
+which is defined on the interval $I = (0, b]$. More generally, let $I_x = (x,b]$. We want to integrate $g$, so we observe that
+\[
+\int_I g(x)dx = \int_I\int_{I_x} \frac{f(t)}{t}dtdx
+\]
+This would lead us to consider the function
+\[
+h(x,t) = \frac{f(t)}{t}\capchi_{I_x}
+\]
+Note that $h$ is measurable because it is the quotient of $f(t)$ and $t$, which are both measurable on $I_x$, multiplied by $\capchi_{I_x}$, which is clearly measurable. Furthermore, because we took $f$ to be non-negative, $h$ is also non-negative. We then rewrite the above to see
+\[
+\int_I g(x)dx = \int_I\int_{I_x} \frac{f(t)}{t}dtdx = \int_{\R}\int_{\R} h(x,t)\capchi_{I}dtdx
+\]
+We then note that we satisfy the hypotheses for Fubini's theorem, so we can exchange the order of integration to get
+\[
+\int_{\R}\int_{\R} h(x,t)\capchi_{I}dtdx = \int_{\R}\left(\int_{\R} h(x,t)\capchi_{I}dx\right)dt
+\]
+Simplifying we get
+\begin{align*}
+\int_{\R}\left(\int_{\R} h(x,t)\capchi_{I}dx\right)dt &= \int_{\R}\left(\int_{\R} \frac{f(t)}{t}\capchi_{I}dx\right)\capchi_{I_x}dt \\
+&= \int_{0}^b\left(\int_{0}^t \frac{f(t)}{t}dx\right)dt \\
+&= \int_0^b t\frac{f(t)}{t}\\
+&= \int_0^b f(t)dt
+\end{align*}
+Because $f$ is integrable on $(0,b]$, we have that $g$ must also be integrable and that
+\[
+\int_0^b g(x)dx = \int_0^b f(t)dt
+\]
+
+\problem{2.5.5}
+\problempart{a} We need to show that $\delta$ is continuous. We will in fact show more, that $\delta$ in Lipschitz with constant 1 and therefore continuous with setting $\delta = \epsilon$ and observing that
+\[
+|\delta(x) - \delta(y)| \leq |x-y| < \delta = \epsilon
+\]
+
+We proceed by choosing an $\epsilon > 0$ and a $z \in F$ such that $|y - z| < \delta(y) + \epsilon$. Then we see that
+\[
+\delta(x) \leq |x - z| \leq |x-y| + |y-z| < |x - y| + \delta(y) + \epsilon
+\] 
+Which means that
+\[
+\delta(x) - \delta(y) < |x - y| + \epsilon
+\]
+We then note that this is symmetric in $x$ and $y$, so the same process for $x$ gives
+\[
+\delta(y) - \delta(x) < |y - x| + \epsilon = |x - y| + \epsilon 
+\]
+These two facts together implies that
+\[
+|\delta(x) - \delta(y)| < |x + y| + \epsilon
+\]
+Letting $\epsilon \to 0$ gives the result. 
+
+\problempart{b} We are given that $F$ is closed and that $x \not\in F$. This means that $\delta(x)$ must be greater than zero because otherwise we could find a sequence of points in $F$ that converge to $x$ and that would imply $x$ is a limit point of $F$, a contradiction. We set $\delta = \delta(x)$ then use the Lipschitz condition in the previous part to see that if we pick a $y \in N_{\delta/2}(x)$ then 
+\[
+|x - y| < \delta/2 \text{ and } |\delta(y) - \delta| < \delta/2
+\] 
+Which means that $\delta(y) \geq \delta/2$. So we can compute
+\[
+I(x) = \int_{\R} \frac{\delta(y)}{|x-y|^2}dy \geq \int_{x - \delta/2}^{x + \delta/2} \frac{\delta(y)}{|x - y|^2}dy \geq \frac{\delta}{2}\int_{x - \delta/2}^{x + \delta/2} \frac{1}{|x - y|^2}dy
+\]
+We then use a translation by $x$ to see that
+\[
+\frac{\delta}{2}\int_{x - \delta/2}^{x + \delta/2} \frac{1}{|x - y|^2}dy = \frac{\delta}{2}\int_{x - \delta/2}^{x + \delta/2} \frac{1}{y^2}dy
+\]
+We then observe that the integral on the right diverges to $\infty$. This precisely gives that $I(x) = \infty$ for $x \not\in F$.
+
+\problempart{c} We proceed in a similar manner to the previous exercise. We observe that
+\[
+\int_F I(x)dx = \int_{\R}\int_{\R} \frac{\delta(y)}{|x-y|^2} \capchi_F(x) dydx
+\]
+We then note that because $I \geq 0$ and measurable on $F$ as it is the quotient of two measurable functions, we can apply Theorem 3.2 from the text to see that
+\begin{align*}
+ \int_{\R}\int_{\R} \frac{\delta(y)}{|x-y|^2} \capchi_F(x) dydx &=  \int_{\R}\left(\int_{\R} \frac{\delta(y)}{|x-y|^2} \capchi_F(x) dx\right)dy \\
+ &=  \int_{\R}\delta(y)\left(\int_{\R} \frac{1}{|x-y|^2} \capchi_F(x) dx\right)dy
+\end{align*}
+We then note that $F \subset \{x \suchthat |x - y| > \delta(y)\}$ and recall that $x \not\int F$ so that
+\[
+\int_F \frac{1}{|x-y|^2}dx \leq \int_{|\delta(y)|}^\infty \frac{dx}{x^2}dx = 2\int_{\delta(y)}^\infty \frac{dx}{x^2} = \frac{2}{\delta(y)}
+\]
+Using this inequality above yields
+\[
+\int_{\R}\delta(y)\left(\int_{\R} \frac{1}{|x-y|^2} \capchi_F(x) dx\right)dy \leq \int_{F^c}\delta(y) \cdot \frac{2}{\delta(y)} = 2m(F^c)
+\]
+We assumed that $m(F^c) < \infty$, so we have that $\int_{\R} I(x)dx < \infty$ which means that $I(x) < \infty$ a.e on $F^c$. 
+
+\problem{2.5.7} First we need to show that $\Gamma$ is measurable. this is clear because we know that for each pair $(x,y) \in \R^d \times \R$, we have $\{x \suchthat x = f^{-1}(y)\}$ is a measurable set. Then we apply Proposition 3.6 in the text which says that the product of two measurable sets is measurable. Then we write for any 
+\[
+\Gamma = \bigcup_{k=1}^\infty (f^{-1}(I_k) \times I_k)
+\]
+where $I_k$ is any countable collection of intervals covering $\R$. $\Gamma$ is the countable union of measurable sets, and is therefore measurable. \\
+\indent As usual we will assume that $f$ is non-negative, because we can always just individually consider $f^+$ and $f^{-}$. Applying Theorem 3.2 from the text we see that each of the vertical slices of $\Gamma$ are measurable and of the form
+\[
+\Gamma_x = \{y \suchthat (x,y) \in \Gamma\}
+\]
+Moreover, we have that $m(\Gamma_x) = 0$ for every $x$ because each $\Gamma_x$ contains only a single point. We then apply Theorem 3.2 again to express $m(\Gamma)$ as an integral
+\[
+m(\Gamma) = \int\int \capchi_{\Gamma_x}(x,y)dydx = 0
+\]
+which concludes the proof. 
+
+\problem{2.5.12} Following the hint given in the book, we will begin by constructing a sequence of measurable sets $I_n \subset \R$ such that $m(I_n) \to 0$. This construction will be based on the harmonic series $\sum_{k=1}^\infty 1/k$. We construct a sequence of integers $b_1,b_2,\ldots$ such that for each $N$ the partial sum
+\[
+\sum_{k=1}^{b_N} 1/k > 10^N
+\]
+We know that this is possible because the harmonic series is divergent. Then for each $N \in \Z^+$ we set $B_{b_{N+1}}$ to be the interval of length $1/b_{N+1}$. We then complete the sequence of $B_\ell$ as follows: 
+\begin{enumerate}
+\item Find $N$ such that $b_N < \ell \leq b_{N+1}$.
+\item Set $B_\ell$ to be the interval centered at the origin such that 
+\[
+m(B_\ell) = m(B_{\ell-1}) + 1/\ell
+\]
+\end{enumerate}  
+We now use the intervals $B_\ell$ to construct the decreasing sequence of intervals by setting
+\[
+I_n = 
+\begin{cases}
+B_n & \text{if }\exists N,  n = b_{N+1} \\
+B_n - B_{n-1} & \text{otherwise}
+\end{cases}
+\]
+We can now see that $m(I_n) \leq 1/n$ because if $n = b_{N+1}$ for some $N$, then it is true by definition, and for any other $n$ then $m(I_n) = m(B_n) - m(B_{n-1}) < 1/n - 1/(n-1)$. As a result, we have that $m(I_n) \to 0$. However, we have that the union 
+\[
+m\left(\bigcup_{n = b_{N}}^{b_{N+1}} I_n\right) > 10^N
+\]
+And because each interval is centered at the origin, we will eventually cover all of $\R$. We then set $f(x) = 0$ define $f_n(x) = \capchi_{I_n}(x)$. Observe that by the above 
+\[
+\int_{\R} f_n \leq 1/n
+\]
+And so 
+\[
+\| f_n - f\| = \int |f_n - f| = \int f_n \leq 1/n
+\]
+And so $f_n \to f$ in the norm. However, we have that for any $x$ there are infinitely many $I_n$ such that $x \in I_n$, because their union is unbounded and so for sufficiently large $N$ we have that $n > N$ implies $x \in \bigcup_{n = b_N}^{b_{N+1}} I_n$. this meas that there are infinitely many $n$ with $f_n(x) = 1$. So $f_n$ cannot converge to $f$ pointwise for any $x$. 
+
+\problem{2.5.17}
+\problempart{a} We are given the function
+\[
+f(x,y) = 
+\begin{cases}
+a_n   & (x,y) \in [n,n+1) \times [n, n+1) \\
+-a_n & (x,y) \in [n,n+1) \times [n, n+2) \\
+0      & \text{otherwise}
+\end{cases}
+\]
+Where the $a_n$ are the partial sums of the convergent series $\sum_{j=1}^\infty b_i$ with $b_j$ non-negative for every $j$. That each slice $f^y$ and $f_x$ are integrable is integrable is clear if we look at the graph of $f$. It is constant on each box in the lattice $\Z^2$, and takes non-zero values only on the two ``diagonals'' for $y = x$ and $y = x+1$. So geometrically we have that the slices are constant on intervals contained in each box. More precisely we see that
+\[
+f^y(x) = 
+\begin{cases}
+-a_{\lfloor y \rfloor - 1} & y \geq 1 \text{ and } (\lfloor y \rfloor - 1) \leq x < \lfloor y \rfloor \\
+a_{\lfloor y \rfloor}         & y \geq 1 \text{ and }\lfloor y \rfloor \leq x < (\lfloor y \rfloor + 1)\\
+a_0                                 & 0 \leq x < 1 \\
+0                                    & \text{otherwise}
+\end{cases}
+\]
+Similarly,
+\[
+f_x(y) = 
+\begin{cases}
+a_{\lfloor x \rfloor}         & \lfloor x \rfloor \leq y < (\lfloor x \rfloor + 1)\\
+-a_{\lfloor x \rfloor}         & (\lfloor x \rfloor + 1) \leq y < (\lfloor x \rfloor + 2) \\
+0                                    & \text{otherwise}
+\end{cases}
+\]
+To show that each slice $f^y(x)$ is integrable we simply compute
+\[
+\int f^y(x)dx = \int_{\lfloor y \rfloor - 1}^{\lfloor y \rfloor} -a_{\lfloor y \rfloor - 1}dx + \int_{\lfloor y \rfloor}^{\lfloor y \rfloor + 1} a_{\lfloor y \rfloor}dx = a_{\lfloor y \rfloor} - a_{\lfloor y \rfloor - 1} = b_{\lfloor y \rfloor}
+\]
+This quantity is bounded because the sequence $b_n$ converges (so in fact it goes to 0). In the case that $0 \leq x < 1$, we have that that $\int f^y(x)dx = a_0$. For the slice $f_x(y)$ we have that
+\[
+\int f_x(y) = \int_{\lfloor x \rfloor}^{\lfloor x \rfloor + 1} a_{\lfloor x \rfloor}dx + \int_{\lfloor x \rfloor + 1}^{\lfloor x \rfloor + 2} -a_{\lfloor x \rfloor}dx = a_{\lfloor x \rfloor} - a_{\lfloor x \rfloor} = 0
+\]
+And so
+\[
+\int\int f(x,y)dydx = \int\left(\int f_x(y)dy\right)dx = \int 0dx = 0
+\]
+
+\problempart{b} We computed the values of each of he integral of each slice $f^y(x)$ in the previous part. We then compute
+\[
+\int_{\R}\int_{\R}f(x,y)dxdy = \sum_{n=0}^\infty \int_n^{n+1}\left(\int_{\R} f^y(x)dx\right)dy = \sum_{n=0}^\infty b_n = s
+\]
+
+\problempart{c} We then use the fact that $0 \leq |f(x,y)| < \infty$ and apply Theorem 3.2 to see that
+\begin{align*}
+\int\int |f(x,y)| &= \int\left(\int f_x(y)dy\right)dx \\
+&= \sum_{n=0}^\infty \int_n^{n+1}\left(\int f_x(y)dx\right)dx \\
+&= \sum_{n=0}^\infty 2a_n 
+\end{align*}
+Because each of the $a_n \geq a_0 > 0$, this sum diverges and so 
+\[
+\int_{\R\times\R} |f(x,y)| = \infty
+\]
+\problem{2.5.18} The plan is to use Fubini on the function $g(x,y) = |f(x) - f(y)|$. By hypothesis we have that $g$ is integrable on $[0,1] \times [0,1]$, and so we can apply Fubini's theorem to get that each slice $g^y(x)$ is integrable for a.e. $y \in [0,1]$. Choose one of these $y$ and note that because
+\[
+f(x) - f(y) \leq |f(x) - f(y)|
+\]
+we can use the monotonicity of the integral to see that 
+\[
+\int_{[0,1]} f(x) - f(y)dx \leq \int_{[0,1]}|f(x) - f(y)|dx \leq \infty
+\]
+Which means that
+\begin{align*}
+\int_{[0,1]}f(x)dx &\leq \int_{[0,1]}f(y)dx + \int_{0,1} |f(x) - f(y)|dx \\
+&= f(y) + \int_{0,1} |f(x) - f(y)|dx 
+\end{align*}
+Each of these terms is finite, and so the sum is finite, which means that $f(x)$ is integrable. \\
+
+\problem{2.5.19} The key observation is that 
+\[
+m(E_\alpha) = \int_{\R^d}\capchi_{E_\alpha}(x)dx
+\]
+So if we set 
+\[
+f(\alpha, x) = \capchi_{E_\alpha}(x)
+\]
+It is clear that $f$ is non-negative and measurable and so we can apply Theorem 3.2 to see that
+\begin{align*}
+\int_0^\infty m(E_\alpha)d\alpha &= \int_0^\infty\int_{\R^d} f(\alpha,x)dxd\alpha  \\
+&= \int_{\R^d}\left(\int_0^\infty \capchi_{E_\alpha}(x)d\alpha\right)dx \\
+&= \int_{\R^d}|f(x)|dx
+\end{align*}
+And so we are done. 
+
+\end{document}
