@@ -1,0 +1,210 @@
+\documentclass{article}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,relsize,fancyhdr,parskip,graphicx}
+
+\pagestyle{fancy}
+\lhead{Ben Carriel}
+\chead{Math 6110 Problem Set 7}
+\rhead{\today}
+
+\parskip 7.2pt
+\parindent 8pt
+
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\capchi}{\raisebox{2pt}{$\mathlarger{\mathlarger{\chi}}$}}
+
+\DeclareMathOperator{\divides}{\mathrel{|}}
+\DeclareMathOperator{\suchthat}{\mathrel{|}}
+
+\DeclareMathOperator{\lra}{\longrightarrow}
+\DeclareMathOperator{\into}{\hookrightarrow}
+\DeclareMathOperator{\onto}{\twoheadrightarrow}
+\DeclareMathOperator{\bijection}{\leftrightarrow}
+
+\newcommand{\problem}[1]{\noindent{\textbf{Problem #1}}\\}
+\newcommand{\problempart}[1]{\noindent{\textbf{(#1)}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\norm}[1]{\|#1\|}
+
+\newtheorem*{thm}{\\ Theorem}
+\newtheorem*{lem}{\\ Lemma}
+\newtheorem*{claim}{\\ Claim}
+\newtheorem*{defn}{\\ Definition}
+\newtheorem*{prop}{\\ Proposition}
+
+\begin{document}
+\problem{4.7.2} We need to show that $|(f,g)| = \norm{f}\cdot\norm{g}$ iff $f$ and $g$ are linearly dependent, so $f = cg$ for some $c \in \R$. Following the hint, we take 
+\[
+\norm{f} = \norm{g} = 1 \text{ and } (f,g) = 1
+\]
+Then it is clear that
+\[
+(f-g, g) = (f, g) - (g,f) = 1-1 = 0
+\]
+So $f-g$ and $g$ are orthogonal. We then write $f = (f- g) + g$ to see that
+\begin{align*}
+\norm{f}^2 &= \norm{(f-g) + g}^2 \\
+&= ((f-g) + g, (f-g) + g) \\
+&= (f-g, f-g) + (f-g, g) + (g, f-g) + (g, g) \\
+&= \norm{f-g}^2 + \norm{g}^2 
+\end{align*}
+So we must have that $\norm{f-g}^2 = 0$, because we have equality in Cauchy-Schwartz. As  a result of this we note that this implies $f - g = 0$ or $f = g$. For general $f,g$, we simply take $\hat{f} = f/\norm{f}$ and $g/ \norm{g}$, which reduces to the case above, and gives that $f = \frac{\norm{f}}{\norm{g}}g$ and we are done. 
+
+\problem{4.7.5}
+\problempart{a} For the first inclusion we observe that if we have the functions $f,g: \R^n \to \R$ given by
+\[
+f(x) = |x|^{-\alpha}\capchi_{|y| \geq 1}(x)
+\]
+and
+\[
+g(x) = |x|^{-\alpha/2}\capchi_{|y| \leq 1}(x)
+\]
+Then if we take $\alpha = n$ we have that $f^2$ is integrable but $f$ is not. Moreover, we have that $g$ is integrable but $g^2$ is not (c.f. Stein and Shakarchi Exercise 2.5.10; proved on Pset 3). So $f \in L^2(R^n)$ but $f \not\in L^1(\R^N)$ and $f \in L^1(\R^d)$ but $g \not\in L^2(\R^d)$.
+
+\problempart{b} Duly noted, we simply compute
+\begin{align*}
+\norm{f}_{L^1}^2 &= \int |f(x)|\capchi_{E}(x)dx \\
+&\leq \left(\int |f(x)|dx\right)^{1/2}\left(\int \capchi_E(x)dx\right)^{1/2} \\
+&= m(E)^{1/2}\norm{f}_{L^2}
+\end{align*}
+
+\problempart{c} We note that because $f \in L^1(\R^d)$ that $\int |f| < \infty$ so we use $|f| < M$ to see that
+\begin{align*}
+\norm{f}_{L^2}^2 &= \int |f(x)|^2dx \\
+&\leq M \int|f(x)|dx 
+\end{align*} 
+So that
+\[
+\norm{f}_{L^2} \leq M^{1/2}\norm{f}_{L^1}^{1/2}
+\]
+
+\problem{4.7.7} First we observe that the $\varphi_{ij} \in L^2(\R^d \times \R^d)$ because we compute
+\begin{align*}
+\norm{\varphi_{ij}}^2_{L^2(\R^d \times \R^d)} &=\int_{\R^d \times \R^d} |\varphi_{ij}(x,y)|^2 \\
+&= \int_{\R^d \times \R^d}\int |\varphi_i(x)\varphi_j(y)|^2dxdy \\
+&= \int_{\R^d} |\varphi_i(x)|^2\left(\int_{R^d} |\varphi_j(y)|^2dy\right)dx \\
+&= \left(\int_{\R^d} |\varphi_i(x)|^2dx\right)\left(\int_{R^d} |\varphi_j(y)|^2dy\right) \\
+&= \norm{\varphi_i}_{L^2(\R^d)}\norm{\varphi_{j}}_{L^2(\R^d)} \\
+&\leq \infty
+\end{align*}
+We then verify they the set of $\{\varphi_{ij}\}$ is orthonormal. We begin by establishing normality, observe that
+\begin{align*}
+\norm{\varphi_{ij}}^2_{L^2(\R^d \times \R^d)} &= \int_{\R^d \times \R^d} |\varphi_i(x)\varphi_j(y)|^2dxdy\\
+&= \int_{\R^d} |\varphi_i(x)|^2 \left(\int_{\R^d} |\varphi_j(y)|^2dy\right)dx \\
+&= \left(\int_{\R^d}|\varphi_i(x)|^2dx \right)\left(\int_{\R^d} |\varphi_j(y)|^2dy\right) \\
+&= \norm{\varphi_i}_{L^2(\R^d)}\norm{\varphi_j}_{L^2(\R^d)} 
+\end{align*}
+And because each of the terms in the above product is 1, we are done. Again, we use Fubini's theorem to compute
+\begin{align*}
+(\varphi_{ij} , \varphi_{kl}) &= \int_{\R^d \times \R^d} \varphi_{ij}(x,y)\overline{\varphi_{kl}}(x,y)dxdy \\
+&= \int_{\R^d \times \R^d} \varphi_i(x)\overline{\varphi_j}(y)\varphi_k(x)\overline{\varphi_l}(y)dxdy \\
+&=  \int_{\R^d} \varphi_i(x)\overline{\varphi_k}(x)\left(\int_{\R^d} \varphi_j(y)\overline{\varphi_l}(y)dy\right)dx \\
+&= \left(\int_{\R^d} \varphi_i(x)\overline{\varphi_k}(x)dx\right)\left(\int_{\R^d} \varphi_j(y)\overline{\varphi_l}(y)dy\right) 
+\end{align*}
+And because the $\{\varphi_i\}$ are orthonormal, we have that the above quantity is zero and so the above quantity is 0, meaning that $\{\varphi_{ij}\}$ is orthonormal as well. Now we need to verify that the $\{\varphi_{ij}\}$ are indeed a basis. Take any $f \in L^{2}(\R^d \times \R^d)$ and suppose that $(f, \varphi_{ij}) = 0$ for every $j$ and $k$, then we see that
+\begin{align*}
+0 &= \int_{\R^d \times \R^d} f(x,y)\overline{\varphi_{ij}}(x,y)dxdy \\
+&= \int_{\R^d}\left(\int_{\R^d}f(x,y)\overline{\varphi_j}(y)dy\right)\overline{\varphi_i}(x)dx \\
+\end{align*}
+We then define (as in the hint)
+\[
+f_j(x) = \int_{\R^d} f(x,y)\overline{\varphi_j}(y)dy 
+\]
+So this means that 
+\[
+\int_{\R^d} f_j(x)\overline{\varphi_i}(x)dx = 0
+\]
+Because the $\{\varphi_i\}$ form an orthonormal basis, this means that $f_j(x) = 0$ for all $j$. We then apply this fact again in the definition of $f_j$ to see that $f(x,y) = 0$ for all $j$. So because $f$ is orthogonal to all of the $\{\varphi_{ij}\}$ implies that $f = 0$, we must have that the $\{\varphi_{ij}\}$ are an orthonormal basis. 
+
+%TODO finish triangle inequality, cauchy schwartz and 
+\problem{4.7.8}
+\problempart{a} It is clear that $\mathcal{H}_\eta$ is a vector space because for $f,g \in \mathcal{H}_\eta$ 
+\begin{align*}
+\int_{a}^b |(f+g)(t)|^2\eta(t)dt &\leq \int_a^b (|f(t)|^2 + 2\max\{|f(t)|, |g(t)|\}^2 + |g(t)|^2)\eta(t)dt \\
+&= \int_a^b |f(t)|^2\eta(t)dt + 2\int_a^b \max\{|f(t)|, |g(t)|\}^2\eta(t)dt + \int_a^b |g(t)|^2\eta(t)dt \\
+&< \infty
+\end{align*}
+Also
+\[
+\int_a^b |\alpha f(t)|^2\eta(t)dt = \alpha^2 \int_a^b |f(t)|^2\eta(t)dt < \infty
+\]
+We simply define the norm of an element to be $\norm{f}_\eta = (\int_a^b |f(t)|^2\eta(t)dt)^{1/2}$ and then verify that $\norm{f}_\eta = 0$ iff $f = 0$, so that
+\[
+\norm{f}_\eta^2 = \int_a^b |f(t)|^2\eta(t) = 0 
+\]
+Because $\eta$ is strictly positive and increasing, we must have that $|f(t)|^2 = 0$ so $f = 0$. The converse is clear. Next we verify the Cauchy-Schwartz inequality and triangle inequalities. Take $f,g \in \mathcal{H}_\eta$ so that
+\begin{align*}
+|(f,g)|^2 &= \left|\int_a^bf(t)\overline{g(t)}\eta(t)\right|^2 \\
+&=  \left|\int_a^bf(t)\overline{g(t)}\eta(t)\right|\cdot \left|\int_a^b\overline{f(t)}g(t)\eta(t)\right|\\
+&\leq \left|\int_a^b f(t)\overline{f(t)}g(t)\overline{g(t)}\eta^2(t)\right| \\
+&= \left|\int_a^b |f(t)|^2\eta(t)|g(t)|^2\eta(t)dt\right| \\
+&\leq \left(\int_a^b |f(t)|^2\eta(t)dt\right)\left(\int_a^b |g(t)|^2\eta(t)dt\right) \\
+&= (f,f) \cdot (g,g)
+\end{align*} 
+Taking square roots gives the result. For the triangle inequality
+\begin{align*}
+\norm{f + g}_\eta^2 &= \int_a^b|(f + g)|^2\eta(t)dt \\
+&\leq \int_a^b (|f(t)|^2 + |g(t)|^2)\eta(t)dt \\
+&= \int_a^b |f(t)|^2\eta(t)dt + \int_a^b|g(t)|^2)\eta(t)dt \\
+&= \norm{f}_\eta\norm{g}_\eta
+\end{align*}
+Now we show that $\mathcal{H}_\eta$ is complete in the metric. This will follow from the completeness of $L^2([a,b])$ because $\mathcal{H}_\eta \subset L^2([a,b])$ so we take $f_n \to f$ in $L^2$ and note that this still converges in $\mathcal{H}_\eta$ because
+\[
+\norm{f - f_n}^2_\eta = \int_a^b |f(t) - f_n(t)|^2\eta(t)dt \leq \norm{f-f_n}_{L^2}\norm{\eta}_{L^2}
+\]
+Which goes to $0$ as $n \to \infty$. Furthermore, we can also see that $\mathcal{H}_\eta$ is separable because it is a subspace of a separable space $L^2([a,b])$ so the dense subset $D \subset L^{2}([a,b])$ will yield a new set $D' = D \cap \mathcal{H}_\eta$, which is dense in $\mathcal{H}_\eta$. Now we need to check that the map $U: f \mapsto \eta^{1/2}f$ is unitary. We can see that $U$ is injective because its kernel is $0$ because $\eta(t) > 0$ for all $t$. to see that the map is surjective we can see that $U^{-1}g = \eta^{-1/2}g$ is well defined for all $g$ because $\eta$ is positive and increasing. Lastly, we need to show that $\mathcal{U}$ preserves the norm. Observe that
+\[
+\norm{Uf}_{L^2}^2 = \int_a^b |\eta(t)^{1/2}f(t)|^{2}dt = \int_a^b |f(t)|\eta(t)dt = \norm{f}_\eta^2
+\]
+Where equality holds in the middle step because $|\eta(t)| = \eta(t)$ (i.e $\eta(t) > 0$). So $U$ is a unitary map and we are done. 
+ 
+\problem{4.7.9}
+\problempart{a} We compute
+\begin{align*}
+\int_{\R} |f(x)|^2dx &= \int_{\R} \frac{1}{\pi |i+x|^2}\left| F\left(\frac{i-x}{i+x}\right)\right|^2dx \\
+&= \int_{\R} \frac{1}{\pi (1 + x^2)}\left| F\left(\frac{i-x}{i+x}\right)\right|^2dx
+\end{align*}
+We make the change of variable 
+\[
+\theta = 2\tan^{-1}(x)
+\]
+so that $x = \tan(\theta/2)$. Similarly we have $e^{i\theta}= (i-x)/(1+x)$ and $1+x^2 = \sec^2(\theta/2)$. Taking derivatives we see that 
+\[
+dx = \frac{1}{2}\sec^2(\theta/2)d\theta
+\] We then see that
+\begin{align*}
+\int_{\R} \frac{1}{\pi (1 + x^2)}\left| F\left(\frac{i-x}{i+x}\right)\right|^2dx &= \int_{-\pi}^\pi \frac{1}{\pi\sec^2(\theta/2)}|F(e^{i\theta})|\frac{1}{2}\sec^2(\theta/2)d\theta \\
+&= \frac{1}{2\pi}\int_{-\pi}^\pi |F(e^{i\theta})|d\theta
+\end{align*}
+So we have that $\norm{f}_{\mathcal{H}_2} = \norm{F}_{\mathcal{H}_1}$, and we are done. 
+
+\problempart{b} We use the above and the fact that $\{e^{in\theta}\}$ are an orthonormal basis for $L^2([-\pi, \pi])$ to observe that the family
+\[
+\{U(e^{in\theta})\}_{n=1}^{\infty} = \left\{ \frac{1}{\sqrt{\pi}}\left(\frac{i-x}{i+x}\right)^n\frac{1}{i+x}\right\}_{n=1}^\infty
+\]
+must also be an orthonormal basis for $L^2(\R)$ because $U$ is unitary and we can apply the Riesz Representation Theorem.
+
+\problem{4.7.10} We proceed by a familiar construction. Let $\mathcal{C}$ be the collection of closed sets containing $S$, and set $\overline{S} = \bigcap_{C \in \mathcal{C}} C$. then we see that $\mathcal{S}$ is clearly closed as t is the intersection of closed subspaces and furthermore, it is a subspace, for the same reason. So what we need to show is that $(S^\perp)^\perp = \overline{S}$. We know that $(S^\perp)^\perp$ is closed (c.f. pg 177) so we must have that $\overline{S} \subset (S^\perp)^\perp$. Thus, we need only show the reverse inclusion. We begin with the following claim,
+\begin{claim}
+For any subspace $S$ in a Hilbert space we have that $\overline{S}^\perp = S^\perp$
+\end{claim}
+\begin{proof}
+Clearly we have that $\overline{S}^\perp \subset S^\perp$ because $S \subset \overline{S}$. So we need only show the reverse inclusion, Pick $p \in S^\perp$ and some $s \in \overline{S}$. Because $\overline{S}$ is closed we can find a sequence of points $\{s_n\}_{n=1}^\infty$ such that $s_n \to s$ as $n \to \infty$. We then use the fact that the inner product is continuous to see that
+\[
+\lim_{n\to \infty} (s_n,p) = (s,p)
+\]
+Because $(s_n,p) = 0$ for every $n$ we must have that $(s,p) = 0$. Thus, $s \perp p$ and therefore $p \in \overline{S}^\perp$ and we are done. 
+\end{proof}
+With the claim in hand we apply Proposition 4.2 to see that
+\[
+\mathcal{H} = \overline{S} \oplus S^\perp
+\]
+Now choose $x \in (S^\perp)^\perp$. Then we can write $x = u + v$ with $u \in \overline{S}$ and $v \in S^\perp$. As a result we see that
+\[
+(x,v) = (u,v) + (v,v) 
+\]
+We know that $u,v = 0$ by construction and moreover we know that $(x,v) = 0$ because $c \in S^\perp$ and $x \in (S^\perp)^\perp$. So this means that $(v,v) = 0$ which implies that $v = 0$. Hence, $x \in \overline{S}$ and we are done. 
+\end{document}
