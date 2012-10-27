@@ -1,0 +1,213 @@
+\documentclass{article}
+\usepackage[tmargin=1in,bmargin=1in,lmargin=1.4in,rmargin=1.4in]{geometry}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,relsize,fancyhdr,parskip,graphicx}
+
+\pagestyle{fancy}
+\lhead{Ben Carriel}
+\chead{Math 6110 Problem Set 8}
+\rhead{\today}
+
+\parskip 7.2pt
+\parindent 8pt
+
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\capchi}{\raisebox{2pt}{$\mathlarger{\mathlarger{\chi}}$}}
+
+\DeclareMathOperator{\divides}{\mathrel{|}}
+\DeclareMathOperator{\suchthat}{\mathrel{|}}
+
+\DeclareMathOperator{\lra}{\longrightarrow}
+\DeclareMathOperator{\into}{\hookrightarrow}
+\DeclareMathOperator{\onto}{\twoheadrightarrow}
+\DeclareMathOperator{\bijection}{\leftrightarrow}
+
+\newcommand{\problem}[1]{\noindent{\textbf{Problem #1}}\\}
+\newcommand{\problempart}[1]{\noindent{\textbf{(#1)}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\diam}[1]{\text{diam}(#1)}
+
+\DeclareMathOperator{\im}{\text{im}}
+
+\newtheorem*{thm}{\\ Theorem}
+\newtheorem*{lem}{\\ Lemma}
+\newtheorem*{claim}{\\ Claim}
+\newtheorem*{defn}{\\ Definition}
+\newtheorem*{prop}{\\ Proposition}
+
+\begin{document}
+\problem{4.7.11}
+\problempart{a} This is clear if we recall that for a closed subspace $S \subset \mathcal{H}$ we have that $\mathcal{H} = S \oplus S^\perp$. As a result if we take $f \in \mathcal{H}$ we can find $g \in S$ and $h \in S^\perp$. Then we compute
+\[
+P^2f= P^2(g + h) = P(P(g+h)) = P(Pg + Ph) = Pg = P(g + h) = Pf
+\]
+which gives $P^2 = P$. Similarly, if we choose another vector $f' \in g' + h'$ with $g' \in S$ and $h' \in S^\perp$ then we see that 
+\[
+(Pf, f') = (Pg + Ph, g' + h') = (g, g' + h') = (g,g') = (g + h, g') = (f, Pg' + Ph') = (f, Pf)
+\]
+So we have $P = P^*$.
+
+\problempart{b} To show the converse we choose the natural choice of the subspace, namely $P(\mathcal{H}) = \im(P)$. We know that $P$ is a linear operator and so $P(\mathcal{H})$ is a linear subspace of $\mathcal{H}$. We begin by showing that $P(\mathcal{H})$ is closed. Indeed, if $\{f_n\}$ is a sequence in $P(\mathcal{H})$ converging to $x$ then we have that because $P$ is bounded, and therefore continuous, that $Pf_n \to Pf$. But because each of the $f_n \in P(\mathcal{H})$ that $f_n \to Pf$, meaning that $f = Pf$ so that $f \in P(\mathcal{H})$. We are left to verify that $Pg = 0$ if $g \in P(\mathcal{H})^\perp$. Observe that if $g \in P(\mathcal{H})^\perp$ then 
+\[
+(f, Pg) = (Pf, g) = (f,g) = 0
+\]
+So this means that $Pg \in P(\mathcal{H})^\perp$. However, because $Pg \in P(\mathcal{H})$ we must have that $g = 0$. By Proposition 4.2 this means that $\mathcal{H}$ admits the decomposition $\mathcal{H} = P(\mathcal{H}) \oplus P(\mathcal{H})^\perp$. So for any $h \in \mathcal{H}$ we have $f \in P(\mathcal{H})$ and $g \in P(\mathcal{H})^\perp$ such that $h = f + g$ and so $Ph = Pf + Pg = Pf$. So $P$ is the projection operator onto $P(\mathcal{H})$. 
+
+\problempart{c} Suppose that $\mathcal{H}$ is a separable Hilbert space and $\mathcal{S}$ a closed subspace. Let the map $P_\mathcal{S}$ be the orthogonal projection onto $\mathcal{S}$. Because $\mathcal{H}$ is separable we can find a countable dense subset $\{x_n\}$ in $\mathcal{H}$. We will see that $\{P_\mathcal{S}x_n\}$ is dense in $\mathcal{S}$. Because $\mathcal{S} \subset \mathcal{H}$ we can find a subsequence $x_{n_k} \to x$ for any $x \in \mathcal{S}$. Then we see that 
+\[
+P_\mathcal{S}(x_{n_k} - x) = P_\mathcal{S}x_{n_k} - P_\mathcal{S}x = P_\mathcal{S}x_{n_k} - x
+\]
+We then observe that $\norm{P_\mathcal{S}y} \leq \norm{y}$ for any $y \in \mathcal{H}$ because $P_\mathcal{S}$ is an orthogonal projection. So we have that for any $\epsilon > 0$
+\[
+\norm{P_\mathcal{S}x_{n_k} - x} \leq \norm{x_{n_k} - x} < \epsilon
+\]
+So $P_\mathcal{S}x_{n_k} \to x$ and therefore $\{P_\mathcal{S}x_n\}$ is dense in $\mathcal{S}$.
+
+\problem{4.7.13} In the forward direction suppose that $P_1P_2$ is an orthogonal projection. By the previous problem, this means that $(P_1P_2)^2 = P_1P_2$ and $(P_1P_2)^* = P_1P_2$. Because $P_1$ and $P_2$ are orthogonal they also have $P_1^* = P_1$ and $P_2^* = P_2$ so 
+\[
+P_2P_1 = P_2^*P_1^* = (P_1P_2)^* = P_1P_2
+\]
+So $P_1$ and $P_2$ commute. Conversely, suppose that $P_1$ and $P_2$ commute. Then we have that
+\[
+(P_1P_2)^2 = P_1^2P_2^2 = P_1P_2
+\]
+because $P_1^2 = P_1$ and $P_2^2 = P_2$. Similarly,
+\[
+(P_1P_2)^* = P_2^*P_1^* = P_2P_1 = P_1P_2
+\]
+So $P_1P_2$ is an orthogonal projection. 
+
+Now we need to show that $\im(P_1P_2) = S_1 \cap S_2$. Observe that for any $f \in \mathcal{H}$ we have that 
+\[
+P_1P_2f = P_1(P_2f) \in S_1
+\]
+Analogously we see that 
+\[
+P_1P_2f = P_2P_1f = P_2(P_1f) \in S_2
+\]
+So $\im(P_1P_2) \subseteq S_1\cap S_2$. For the reverse inclusion choose any vector $f \in S_1 \cap S_2$. Then we have that 
+\[
+P_1P_2f = P_1(P_2f) = P_1f = f
+\]
+So that $f \in \im(P_1P_2)$. 
+
+\problem{4.7.19} We first recall Lemma 5.1 to see that 
+\[
+\norm{T} = \sup \{|(Tf, g)| \mathrel{:} \norm{f} \leq 1, \norm{g} \leq 1\}
+\]
+We begin by showing that $\norm{T^*T} = \norm{T}^2$. Note that this will also show that $\norm{TT^*} = \norm{T^*}^2$ because the equality is symmetric in $T^*$ (just replace $T$ with $T^*$ in the equality). We compute
+\[
+\norm{T^*T} = \sup_{\norm{f}, \norm{g} \leq 1} |(T^*Tf, g)| = \sup_{\norm{f}, \norm{g} \leq 1} |(Tf, Tg)|
+\]
+We then apply the Cauchy-Schwartz inequality to get
+\[
+\sup_{\norm{f}, \norm{g} \leq 1} |(Tf, Tg)| \leq  \sup_{\norm{f}, \norm{g} \leq 1} \norm{Tf}\norm{Tg} =  \sup_{\norm{f} \leq 1} \norm{Tf}\sup_{\norm{g} \leq 1}\norm{Tg} = \norm{T}^2
+\]
+So $\norm{T^*T} \leq \norm{T}^2$. We now proceed to get the reverse inequality. Pick a sequence $\{f_n\}$ such that $\norm{Tf_n} \to \norm{T}$. Then we see that $(Tf_n, Tf_n) \to \norm{T}^2$ so that
+\[
+\norm{T^*T} = \sup_{\norm{f}, \norm{g} \leq 1} (Tf, Tg) \geq \sup (Tf, Tf) \geq \norm{T}^2
+\]
+So $\norm{T^*T} \geq \norm{T}^2$, and therefore we must have equality. We then apply Proposition 5.4 to get $\norm{T}^2 = \norm{T*}^2$ which gives
+\[
+\norm{T}^2 = \norm{T^*T} = \norm{TT^*} = \norm{T^*}^2
+\]
+
+\problem{4.7.22}
+\problempart{a} We apply the polarization identity to compute
+\begin{align*}
+(Tf, Tg) &= \frac{1}{4}(\norm{Tf + Tg}^2 - \norm{Tf - Tg}^2 +i\norm{Tf + iTg}^2 - i\norm{Tf - iTg}^2) \\
+&= \frac{1}{4}(\norm{T(f + g)}^2 - \norm{T(f - g)}^2 +i\norm{T(f + ig)}^2 - i\norm{T(f - ig)}^2) \\
+&= \frac{1}{4}(\norm{(f + g)}^2 - \norm{(f - g)}^2 +i\norm{(f + ig)}^2 - i\norm{(f - ig)}^2) \\
+&= (f, g)
+\end{align*}
+Consequently we have that
+\[
+(f,g) = (Tf,Tg) = (f, T^*Tg)
+\]
+So $T^*T = I$. 
+
+\problempart{b} We are given that $T$ is an isometry and surjective. To verify that $T$ is unitary we are only left to establish that $T$ is injective. To see this note that $\ker(T) = \{0\}$ because if we have that $Tf = 0$ then $\norm{f} = \norm{0} = 0$ because $T$ is an isometry, so $f = 0$. Thus, $T$ is unitary. By the previous part we have that $T^*T = I$. Because $T$ is linear and bijective its left inverse must also be its right inverse. This gives that $TT^* = I$.  
+
+\problempart{c} It is clear from the previous part that we must look for a map that is an isometry by is not surjective. Consider the space $\ell^2(\N)$ together with the map $R: \ell^2(\N) \to \ell^2(\N)$ given by
+\[
+R(x_0,x_1,x_2,\ldots) = (0, x_0, x_1,x_2, \ldots)
+\]
+This map is clearly not surjective because the element $(1,x_0,x_1,\ldots)$ has no pre-image. However, we can see that this is an isometry because
+\[
+\norm{(0,x_0,x_1, \ldots)}^2 = \sum_{n=1}^\infty |x_{n-1}|^2 = \sum_{n=0}^\infty |x_{n}|^2 = \norm{(x_0, x_1, \ldots)}^2
+\]
+So $\norm{R\vec{x}} = \norm{\vec{x}}$
+
+\problempart{d} We are given that $T^*T$ is a unitary map. So we begin by estimating
+\[
+\norm{Tf}^2 = (Tf,Tf) = (f,T^*Tf) \leq \norm{f}\norm{T^*Tf} = \norm{f}^2 
+\]
+To show the reverse inequality we have observe that
+\[
+\norm{f}^2 = \norm{T*Tf}^2 = (T^*Tf, T^*Tf) = (Tf, TT^*Tf) \leq \norm{Tf}\norm{T(T^*Tf)}
+\]
+Applying the fact that $\norm{Tf} \leq \norm{f}$ we get that $\norm{T(T^*Tf)} \leq \norm{T^*Tf}$ so that
+\[
+\norm{Tf}\norm{T(T^*Tf)} \leq \norm{Tf}\norm{T^*Tf} = \norm{Tf}\norm{f}
+\] 
+Dividing by $\norm{f}$ gives that $\norm{f} \leq \norm{Tf}$. So we have equality and $T$ must be an isometry. 
+
+\problem{4.7.25} Following the hint, we begin by showing the reverse direction. Suppose that $\lambda_k \to 0$. We let $P_n$ be the projection onto the subspace spanned by $\{\varphi_1, \varphi_2, \ldots, \varphi_n\}$. Then we have that $P_nT$ is also a diagonal operator and that 
+\[
+\norm{P_nT - T} = \sup_{\varphi_k} P_nT\varphi_k - T\varphi_k = \sup_{k > n} |\lambda_k|  
+\]
+So $\norm{P_nT - T} \to 0$ as $n \to \infty$. Because each of the $P_nT$ is a finite rank operator we can apply Proposition 6.1 to see that $T$ is compact. To prove the reverse direction we will instead show the converse. Suppose that $\lambda_n \not\to\infty$. Then we have that $\limsup |\lambda_k| > 0$ and so we can find a subsequence $\{\lambda_{k_j}\}$ such that $|\lambda_{k_j}| > \delta/2$ for sufficiently large $j$. So we see that because $T\varphi_{k_j} = \lambda_{k_j}\varphi_{k_j}$ and so 
+\[
+\norm{T\varphi_{k_j} - T\varphi_{k_\ell}} = \sqrt{\lambda_{k_j}^2 + \lambda_{k_\ell}^2} > 2^{-1/2}\delta
+\]
+Thus, the $\{T\varphi_{k_j}\}$ are uniformly separated from each other, and it can have no convergent subsequence. Because all of these points lie in $T(B)$, where $B$ is the unit ball, we must have that $T(B)$ is not compact. Hence, $T$ is not a compact operator. This completes the proof. 
+
+\problem{4.27.26} Take any $f \in L^2$ and compute 
+\[
+\norm{Tf}^2 = \int\left|\int K(x,y)f(y)dy\right|^2dx \leq \int\left(\int|K(x,y)||f(y)|dy\right)^2dx
+\] 
+We then estimate the inner term
+\begin{align*}
+\left(\int|K(x,y)||f(y)|dy\right)^2 &= \left(\int|K(x,y)||f(y)|w(y)^{1/2}w(y)^{-1/2}dy\right)^2 \\
+&= \left[\int\left(\sqrt{|K(x,y)|}w(y)^{1/2}\right)\left(\sqrt{|K(x,y)|}|f(y)|w(y)^{-1/2}\right)dy\right]^2 \\
+&\leq \left[\left(\int \sqrt{|K(x,y)|}w(y)^{1/2}dy\right)\left(\int\sqrt{|K(x,y)|}|f(y)|w(y)^{-1/2}dy\right)\right]^2 \\
+&\leq \left(\int |K(x,y)|w(y)dy\right) \left(\int |K(x,y)||f(y)|^2w(y)^{-1}dy\right)   
+\end{align*}
+We then recall that 
+\[
+\int|K(x,y)|w(y)dy \leq Aw(x) \text{ a.e. }
+\]
+So we have that 
+\[
+\left(\int|K(x,y)||f(y)|dy\right)^2 \leq Aw(x)\int |K(x,y)||f(y)|^2w(y)^{-1}dy
+\]
+So we have 
+\[
+\norm{Tf}^2 \leq \int\left(\int|K(x,y)||f(y)|dy\right)^2dx \leq \int Aw(x)\left(\int |K(x,y)||f(y)|^2w(y)^{-1}dy\right)dx
+\]
+Then we apply Tonelli's theorem to get 
+\[
+\int Aw(x)\left(\int |K(x,y)||f(y)|^2w(y)^{-1}dy\right)dx = A\int |f(y)|^2w(y)^{-1}\left(\int|K(x,y)|w(x)dx\right)dy
+\]
+Applying the estimate
+\[
+\int|K(x,y)|w(x)dx \leq Aw(y) \text{ a.e. }
+\]
+gives
+\begin{align*}
+\norm{Tf}^2 &\leq A\int |f(y)|^2w(y)^{-1}\left(\int|K(x,y)|w(x)dx\right)dy \\
+&\leq A\int A|f(y)|^2w(y)^{-1}w(y)dy \\
+&= A^2 \int |f(y)|^2dy \\
+&= A^2\norm{f}^2
+\end{align*}
+So 
+\[
+\norm{T} = \inf \{M \mathrel{:} \norm{Tf} \leq M\norm{f}\} \leq A
+\]
+and we are done.
+\end{document}
