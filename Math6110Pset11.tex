@@ -1,0 +1,194 @@
+\documentclass{article}
+\usepackage[tmargin=1in,bmargin=1in,lmargin=1.5in,rmargin=1.5in]{geometry}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,relsize,fancyhdr,parskip,graphicx}
+
+\pagestyle{fancy}
+\lhead{Ben Carriel}
+\chead{Math 6110 Problem Set 11}
+\rhead{\today}
+
+\parskip 7.2pt
+\parindent 8pt
+
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\capchi}{\raisebox{2pt}{$\mathlarger{\mathlarger{\chi}}$}}
+
+\DeclareMathOperator{\divides}{\mathrel{|}}
+\DeclareMathOperator{\suchthat}{\mathrel{|}}
+
+\DeclareMathOperator{\lra}{\longrightarrow}
+\DeclareMathOperator{\into}{\hookrightarrow}
+\DeclareMathOperator{\onto}{\twoheadrightarrow}
+\DeclareMathOperator{\bijection}{\leftrightarrow}
+
+\newcommand{\problem}[1]{\noindent{\textbf{Problem #1}}\\}
+\newcommand{\problempart}[1]{\noindent{\textbf{(#1)}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\diam}[1]{\text{diam}(#1)}
+
+\newcommand{\im}[1]{\text{Im}(#1)}
+\newcommand{\re}[1]{\text{Re}(#1)}
+
+\newtheorem*{thm}{\\ Theorem}
+\newtheorem*{lem}{\\ Lemma}
+\newtheorem*{claim}{\\ Claim}
+\newtheorem*{defn}{\\ Definition}
+\newtheorem*{prop}{\\ Proposition}
+
+\begin{document}
+\problem{1.8.25} Let $\mathcal{B}$ be a Banach space in which the parallelogram law holds. We can define an inner product on $\mathcal{B}$ by
+\[
+4(f,g) = \norm{f+g}^2 - \norm{f-g}^2
+\]
+Note that $(\cdot, \cdot)$ induces the norm because
+\begin{align*}
+(f,f) &= \frac{1}{4}\left(\norm{f+f}^2 - {f-f}^2\right) \\
+&= \frac{1}{4}(4\norm{f}^2) 
+\end{align*}
+So we have that $\norm{f} = \sqrt{(f,f)}$. We need to show that $(\cdot, \cdot)$ is indeed an inner product because 
+\begin{align*}
+4(f,g) &= \norm{f+g}^2 - \norm{f-g}^2 \\
+&= (\norm{f+g} - \norm{f-g})(\norm{f+g} + \norm{f-g}) \\
+&= (\norm{f+g} + \norm{g-f})(\norm{f+g} + \norm{f-g}) 
+\end{align*}
+Because the norm is non-negative, we have $(\cdot, \cdot)$ is the product of positive terms and hence, positive. Symmetry is also clear because 
+\begin{align*}
+4(f,g) &= \norm{f+g}^2 - \norm{f-g}^2 \\
+&= \norm{g+f}^2 - (-1)^2\norm{g-f}^2 \\
+&= 4(g,f)
+\end{align*}
+We are only left to verify linearity. In the real case we compute
+\[
+(f, g+h) = \norm{f+g+h}^2 - \norm{f - (g+h)}^2
+\]
+We can decompose the right side into the following quantities
+\begin{align*}
+A &= \frac{1}{2}\norm{f+g+h}^2 + \frac{1}{2}\norm{f+g-h}^2 - \norm{h}^2 \\
+B &= \frac{1}{2}\norm{f-g+h} + \frac{1}{2}\norm{f-g-h} - \norm{h}^2 \\
+C &= \frac{1}{2}\norm{f+g+h} + \frac{1}{2}\norm{f-g-h}^2 - \norm{g}^2 \\
+D &= \frac{1}{2}\norm{f+g-h}^2 + \frac{1}{2}\norm{f-g-h}^2 - \norm{g}^2 \\
+\end{align*}
+Then we have
+\begin{align*}
+\norm{f+g+h}^2 - \norm{f-(g+h)}^2 &= A - B + C - D \\
+&= \left(\norm{f+g}^2 - \norm{f-g}^2\right) + \left(\norm{f+h}^2 - \norm{f-h}^2\right) \\
+&= 4(f,g) + 4(f,h)
+\end{align*}
+So the operation is linear. 
+
+To get scalar multiplication we note that linearity immediately implies that
+\[
+(nf,g) = (f + \cdots + f,g) = (f,g) + \cdots + (f,g) = n(f,g)
+\]
+whenever $n \in \Z$. To get rational scalars we note that 
+\[
+(f,g) = (n(\frac{1}{n}f), g) = n(\frac{1}{n}f, g)
+\]
+So for any $q \in \Q$ we must have $q(f,g) = (qf, g)$. To extend this to real scalars we define a function $\varphi: \R \to \R$ given by 
+\[
+t \mapsto t(f,g) - (tf, g)
+\]
+This function is clearly continuous because it is the difference of continuous functions. Moreover, it is $0$ on $\Q$, which is dense in $\R$ and therefore it must be zero on the whole line. Consequently, we must have that $(tf, g) = t(f,g)$ for every $t \in \R$. 
+
+For complex Banach spaces we define the inner product by the formula
+\[
+4(f,g) = \left(\norm{f+g}^2 - \norm{f-g}^2\right) + i\left(\norm{f+ig}^2 - \norm{f-ig}^2\right)
+\]
+The computation to show that this indeed an inner product in analogous to the one above, but considers the real and imaginary parts of the vectors separately.
+
+To see that $L^p(\R)$ is only a Hilbert space for $p = 2$ consider the functions $f(x) = \capchi_{[0,1]}(x)$ and $g(x) = \capchi_{[1/2,1]}(x)$. In order for the parallelogram law to hold in $L^p(\R)$ we must have that $2(2)^{2/p} = 1(1)^{2/p}$, which holds only when $p = 2$. 
+
+\problem{1.8.30} It is clear that $\mathcal{B}/\mathcal{S}$ is a vector space. Let $[f]$ denote the equivalence class of $f$ under the relation $\sim$. We define addition pointwise
+\[
+[f] + [g] = [f+g]
+\]
+and scalar multiplication via $\alpha[f] = [\alpha f]$. We then put the following norm on $\mathcal{B}/\mathcal{S}$,
+\[
+\norm{[f]}_{\mathcal{B}/\mathcal{S}} = \inf_{f' \sim f} \norm{f'}_{\mathcal{B}}
+\]
+To see that this is indeed a norm we note that $f' \sim f$ implies that $f = f' + s$ for some non-zero $s \in \mathcal{S}$. We check scalar multiplication by noting that if $\alpha \neq 0$ then
+\begin{align*}
+\norm{\alpha [f]}_{\mathcal{B}/\mathcal{S}} &= \norm{[\alpha f]}_{\mathcal{B}/\mathcal{S}} \\
+&= \inf_{s \in \mathcal{S}} \norm{\alpha f + s}_{\mathcal{B}} \\
+&= \inf_{s \in \mathcal{S}} \norm{\alpha f + \alpha s}_{\mathcal{B}} \\
+&= |\alpha| \inf_{s \in \mathcal{S}} \norm{f + s}_{\mathcal{B}} \\
+&= |\alpha| \norm{[f]}_{\mathcal{B}/\mathcal{S}}
+\end{align*}
+Equality still holds when $\alpha = 0$ because $[0] \in \mathcal{S}$ and $\inf_{s \in \mathcal{S}} \norm{s} = 0$. Now we check the triangle inequality by computing
+\begin{align*}
+\norm{[f] + [g]}_{\mathcal{B}/\mathcal{S}} &= \norm{[f + g]}_{\mathcal{B}/\mathcal{S}} \\
+&= \inf_{s \in \mathcal{S}} \norm{f + g + s}_{\mathcal{B}} \\
+&= \inf_{s, s' \in \mathcal{S}} \norm{f + s + g + s'}_{\mathcal{B}} \\
+&= \inf_{s \in \mathcal{S}} \norm{f + s}_{\mathcal{B}} + \norm{ g + s}_{\mathcal{B}} \\
+&= \norm{[f]}_{\mathcal{B}/\mathcal{S}} + \norm{[g]}_{\mathcal{B}/\mathcal{S}}
+\end{align*}
+Now we need only verify that $\norm{[f]} = 0$ implies that $[f] = 0$. Let $f \in \mathcal{B}$ be such that $\norm{[f]} = 0$. Then we must have that $\inf_{s \in \mathcal{S}} \norm{f+s}_{\mathcal{B}} = 0$. So for each $n > 0$ we can sind an $s_n \in \mathcal{S}$ such that $\norm{f + s_n}_{\mathcal{B}} < 1/n$. Consequently, we must have that $-s_n \to f$ as $n \to \infty$. Because $\mathcal{S}$ is closed we must have that $f \in \mathcal{S}$ and therefore $[f] = 0$ in $\mathcal{B}/\mathcal{S}$. 
+
+Now we need to show that $\mathcal{B}/\mathcal{S}$ is complete. Let $\sum_n F_n$ be an absolutely convergent series in $\mathcal{B}/\mathcal{S}$. By definition of $\norm{\cdot}_{\mathcal{B}/\mathcal{S}}$ we can find $f_n$ such that 
+\[
+\norm{f_n}_{\mathcal{B}} \leq \norm{F_n}_{\mathcal{B}/\mathcal{S}} + 2^{-n}
+\]
+It is then clear that $\sum_n |f_n|$ is bounded and hence converges and therefore $\sum_n f_n$ converges because $\mathcal{B}$ is a Banach space. 
+
+Let $f = \sum_n f_n$ and let $S_N(f)$ denote the $N^{\text{th}}$ partial sum. We then see that
+\begin{align*}
+\norm{[S_N(f)] - [f]}_{\mathcal{B}/\mathcal{S}} &= \norm{S_N([f_n - f])}_{\mathcal{B}/\mathcal{S}} \\
+&= \inf_{s \in \mathcal{S}}\norm{S_N(f) - f + s}_{\mathcal{B}} \\
+&\leq \norm{S_N(f) - f + S_N(s)}_{\mathcal{B}} \\
+&= \norm{S_N(f + m) - f}_{\mathcal{B}}
+\end{align*}
+The last quantity clearly goes to 0 as $N \to \infty$. Thus, we have that $S_N([f]) \to [f]$ as $N \to \infty$ and so $\mathcal{B}/\mathcal{S}$ is complete. 
+ 
+\problem{1.8.32} If $\mathcal{B}^*$ is separable then we can find a countable dense subset $\{\varphi_1, \varphi_2,\ldots\}$. Now choose a set of unit vectors $f \in \mathcal{B}$ such that $|\varphi_n(x_n)| \geq \frac{1}{2} \norm{\varphi_n}$. Let $\mathcal{C}$ be the set of linear combinations of the $x_n$. We need to show that $\mathcal{C}$ is dense in $\mathcal{B}$. Suppose not, then we have that $\overline{\mathcal{C}}$ is a proper closed subspace of $\mathcal{B}$. So we can find some non-zero bounded linear functional $L \in \mathcal{B}^*$ such that $L(\overline{\mathcal{C}}) = 0$. Since $L \in \mathcal{B}^*$ and $\{\varphi_n\}$ is dense in $\mathcal{B}^*$ we must have some sequence $\varphi_{n_k} \to L$ as $n_k \to \infty$. Hence $\norm{L - \varphi_{n_k}} \to 0$ as $n_k \to \infty$. But,
+\begin{align*}
+\norm{L - \varphi_{n_k}} &\geq |(L - \varphi_{n_k})(x_{n_k})| \\
+&= |\varphi_{n_k}(x_{n_k})| \\
+&\geq \frac{1}{2}\norm{\varphi_{n_k}}
+\end{align*}
+So we must have that $\norm{\varphi_{n_k}} \to 0$ as $n_k \to \infty$. However, $\varphi_{n_k} \to L$ and so $\norm{\varphi_{n_k}} \to \norm{L}$, which means that $\norm{L} = 0$. This is a contradiction, and therefore we have that $\mathcal{C}$ is dense in $\mathcal{B}$. 
+
+\problem{1.8.33} Following the hint, we take $u = \re{\ell_0}$. We then apply Theorem 1.5.2 to extend $u$ to a linear functional $U: V \to \R$ such that $U(f_0) = u(f_0)$ for every $f_0 \in V_0$ and $U(f) \leq p(f)$ for every $f \in V$. We then define
+\[
+\ell(f) = U(f) - iU(if)
+\]
+Then it is clear that $\ell(f_0) = \ell_0(f_0)$ whenever $f_0 \in V_0$. Fix a $g \in V$ and find a complex $z$ such that $|z| = 1$ and $z\ell(g) = |\ell(g)|$. Hence,
+\[
+|\ell(g)| = z\ell(g) = \ell(zg)
+\]
+which means that $\ell(zg) \in \R$ and therefore $\ell(zg) = U(zg)$. As a result we see
+\[
+|\ell(g)| = U(zg) \leq p(zg) = |z|p(g) = p(g)
+\]
+And therefore $\ell$ is the functional with the desired properties. 
+
+\problem{1.8.34} Consider the functional $\ell: V \to \R$ defined by 
+\[
+\ell(f) = \frac{\norm{f - p(f)}}{\norm{f_0 - p(f_0)}}
+\]
+where $p(f)$ is the canonical projecction of $f$ onto $\mathcal{S}$. If $f_0 \not\in \mathcal{S}$ then the mapping is well-defined because $f_0 \neq p(f_0)$ so the denominator is non-zero. Moreover, it is clear that $\ell$ s continuous because the norm is continuous and the denominator is a non-zero scalar. If $f \in \mathcal{S}$ then we have that $f = p(f)$ and so $\ell(f) = 0$. To check the other conditions we compute
+\[
+\ell(f_0) = \frac{\norm{f_0 - p(f_0)}}{\norm{f_0 - p(f_0)}} = 1
+\]
+So $\ell(f_0) = 1$. 
+
+Now we need to verify that $\norm{\ell} = 1/d$ where $d$ is the distance from $f_0$ to $\mathcal{S}$. We begin by computing
+\begin{align*}
+\norm{\ell} &= \sup_{f\neq 0} \frac{|\ell(f)|}{\norm{f}} \\
+&= \sup_{f \neq 0} \frac{\norm{f - p(f)}}{\norm{f}} \cdot \frac{1}{d} \\
+&= \sup_{f \neq 0} \left(1 - \frac{\norm{p(f)}}{\norm{f}}\right) \cdot \frac{1}{d} \\
+&\leq \frac{1}{d}
+\end{align*}
+But we can find a case where equlity holds by choosing $f \in \ker p$. Then we have
+\begin{align*}
+\frac{|\ell(f)|}{\norm{f}} &= \sup_{f \neq 0} \frac{\norm{f - p(f)}}{\norm{f}} \cdot \frac{1}{d} \\
+&= \sup_{f \neq 0} \frac{\norm{f - 0}}{\norm{f}} \cdot \frac{1}{d} \\
+&= \frac{1}{d}
+\end{align*}
+Which means that $\norm{\ell} = 1/d$ as desired. 
+\end{document}

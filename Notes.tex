@@ -1,0 +1,748 @@
+\documentclass{article}
+\usepackage[tmargin=1in,bmargin=1in,lmargin=1.5in,rmargin=1.5in]{geometry}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,relsize,fancyhdr,parskip,graphicx}
+
+\pagestyle{fancy}
+\lhead{Ben Carriel}
+\chead{Math 6110 Notes}
+\rhead{\today}
+
+\parskip 7.2pt
+\parindent 8pt
+
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\capchi}{\raisebox{2pt}{$\mathlarger{\mathlarger{\chi}}$}}
+
+\DeclareMathOperator{\divides}{\mathrel{|}}
+\DeclareMathOperator{\suchthat}{\mathrel{:}}
+
+\DeclareMathOperator{\lra}{\longrightarrow}
+\DeclareMathOperator{\into}{\hookrightarrow}
+\DeclareMathOperator{\onto}{\twoheadrightarrow}
+\DeclareMathOperator{\bijection}{\leftrightarrow}
+
+\newcommand{\problem}[1]{\noindent{\textbf{Problem #1}}\\}
+\newcommand{\problempart}[1]{\noindent{\textbf{(#1)}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\diam}[1]{\text{diam}(#1)}
+
+\DeclareMathOperator{\im}{\text{im}}
+
+\newtheorem*{thm}{\\ Theorem}
+\newtheorem*{lem}{\\ Lemma}
+\newtheorem*{claim}{\\ Claim}
+\newtheorem*{defn}{\\ Definition}
+\newtheorem*{prop}{\\ Proposition}
+
+\begin{document}
+\section{Measure and Integration Theory}
+Basically just a collection of Theorems and proofs from measure theory.
+
+\subsection{Measurable Sets}
+\begin{thm}[Inner and Outer Regularity for Lebesgue Measure]
+  Suppose that $E_1, E_2,\ldots$ is a sequence of measurable sets in $\R^d$
+  then
+  \begin{enumerate}
+  \item[I.] If $E_k \nearrow E$ then $\lim_{k\to \infty} m(E_k) = m(E)$.
+  \item[I.] If $E_k \searrow E$ and $m(E_k) < \infty$ for some $k$ then
+    $\lim_{k\to \infty} m(E_k) = m(E)$.
+  \end{enumerate}
+\end{thm}
+\begin{proof}
+  For $I.$ we let $F_1 = E_1$ and then recursively define $F_n = E_n - E_{n-1}
+  $. By construction we have that each of the $F_n$ are measurable, disjoint
+  and $\bigcup_{n}F_n = E$. So we have that
+  \[
+  m(E) = \sum_{n=1}^\infty m(F_n) = \lim_{N\to\infty}\sum_{n=1}^N m(F_n) =
+  \lim_{N\to\infty} m\left(\bigcup_{n=1}^\infty F_n\right) = \lim_{N\to\infty}
+  m(E_n)
+  \]
+  So we have the desired limit.
+
+  For $II.$ we suppose without loss of generality that $m(E_1) < \infty$. We
+  then do a similar construction letting $F_n = E_n - E_{n+1}$ so that we
+  have
+  \[
+  E_1 = E \cup \bigcup_{n=1}^\infty F_n
+  \]
+  is a disjoint union of measurable sets. We then see that
+  \begin{align*}
+    m(E_1) &= m(E) + \lim_{N\to\infty}\sum_{n=1}^{N-1}m(E_n - E_{n+1} \\
+    &= m(E) + m(E_1) - \lim_{N\to\infty} m(E_N)
+  \end{align*}
+  Subtracting $m(E_1)$ from both sides gives the result. 
+\end{proof}
+
+\begin{thm}[Regularity Theorem for Lebesgue Measure]
+  Suppose that $E \subset \R^d$ is measurable. Then for every $\epsilon > 0$
+  \begin{enumerate}
+  \item[I.] There exists an open set $\mathcal{O}$ with $E
+    \subset \mathcal{O}$ and $m(\mathcal{O} - E) \leq \epsilon$.
+  \item[II.] There exists a closed set $F$ with $F \subset E$ and $m(E-F)
+    \leq \epsilon$.
+  \item[III.] If $m(E) < \infty$, there exists a compact set $K$ with $K
+    \subset E$ and $m(E-K) \leq \epsilon$.
+  \item[IV.] If $m(E) < \infty$, there exists a finite union $F =
+    \bigcup_{j=1}^N Q_j$ of closed cubes such that $m(E\Delta F) \leq
+    \epsilon$. Where $\Delta$ is the summetric difference operator.
+  \end{enumerate}
+\end{thm}
+\begin{proof}
+  The proof of $I.$ is just the definition of measurability we chose (not
+  Carath\'{e}odory measurability). To show $II.$ we reduce to $I.$
+  because if $E$ is measurable then $E^c$ is measurable and so there is some
+  open set $\mathcal{O}$ that contains $E^c$ and has $m(\mathcal{O}-E^c)\leq
+  \epsilon$. We then note that $F = \mathcal{O}^c$ is closed and contained in
+  $E$. Moreover, $E-F = \mathcal{O} - E^c \leq \epsilon$. So $II.$ is proved.
+
+  For $III.$ we use the usual trick to go from closed sets to compact sets on
+  $\sigma$-finite measure spaces. We know by $II.$ that there is a closed set
+  $F \subset E$ such that $m(E-F) \leq \epsilon$. Define the decreasing
+  sequence of sets $K_n = E \cap B_n$ where $B_n$ is the ball of radius $n$
+  centered at the origin. Then we have that $E - K_n$ is a decreasing
+  sequence of measurable sets that decreases to $E - F$ and so we have that
+  for sufficiently large $n$ that $m(E - K_n) \leq \epsilon$. Note that it is
+  critical that $m(E)$ is finite.
+
+  For the proof of $IV.$ we choose a family of closed cubes $Q_j$ such that
+  \[
+  E \subset \bigcup_{j=1}^\infty Q_j \text{ and } \sum_{j=1}^\infty |Q_j| \leq
+  m(E) + \epsilon/2
+  \]
+  Because $m(E) < \infty$ we have that the series converges and so we can
+  find $N > 0$ such that $\sum_{j=N+1}^\infty |Q_j| < \epsilon/2$. If we set
+  $F = \bigcup_{j=1}^N Q_j$ then we see that
+  \begin{align*}
+    m(E\Delta F) &= m(E-F) + m(F-E) \\
+    &\leq m\left( \bigcup_{N+1}^\infty Q_j\right) + m\left(\bigcup_{j=1}^\infty
+      Q_j - E\right) \\
+    &\leq \sum_{j=N+1}^\infty |Q_j| + \sum_{j=1}^\infty |Q_j| - m(E) \\
+    &\leq \epsilon
+  \end{align*}
+  So we are done.
+\end{proof}
+
+\begin{thm}[Decomposition of Measurable Sets]
+  A subset $E$ in $\R^d$ is measurable
+  \begin{enumerate}
+  \item[I.] if and only if $E$ differs from a $G_\delta$ set by a set of
+    measure zero.
+  \item[II.] if and only if $E$ differs from an $F_\sigma$ set by a set of
+    measure zero.
+  \end{enumerate}
+\end{thm}
+\begin{proof}
+  The forward direction is trivial because we know that if $E = A \cup B$
+  where $A$ is either $F_\sigma$ or $G_\delta$ and $B$ has measure zero, then
+  $E$ is the union of measurable sets and hence, measurable.
+
+  In the reverse direction in $I.$ we are given that $E$ is measurable. For
+  each $n$ we know that there is an open set $\mathcal{O}_n$ that contains
+  $E$ and such that $m(\mathcal{O}_n - E) \leq 1/n$. Then we set $G =
+  \bigcap_{n=1}^\infty \mathcal{O}_n$ is a $G_\delta$ set and we have that
+  $(S - E) \subset (\mathcal{O}_n - E)$ for all $n$ so $S - E$ has measure
+  zero.
+
+  The reverse direction for $II.$ is very similar. We use the Regularity
+  Theorem to get a sequence of closed sets $\mathcal{C}_n$ such that each is
+  contained in $E$ and $m(E - \mathcal{C}_n) \leq 1/n$. We set $F =
+  \bigcup_{n=1}^\infty \mathcal{C}_n$. Then $F$ is clearly an $F_\sigma$ and
+  moreover $m(E-\mathcal{C}_n) \to 0$ as $n\to \infty$ and so $m(E - F) = 0$.
+\end{proof}
+
+\subsection{Measurable Functions}
+
+\begin{thm}[Properties of Measurable Functions]
+  We have the following:
+  \begin{enumerate}
+  \item[P1.] The finite- valued function $f$ is measurable iff for
+    every open set $\mathcal{O}$ and every closed set $F$ the sets $f^{-1}
+    \mathcal{O}$ and $f^{-1}(F)$ are measurable.
+  \item[P2.] If $f$ is continuous on $\R^d$, then $f$ is measurable.
+    If $f$ is measurable and finite valued and $\Phi$ is continuous then
+    $\Phi \circ f$ is measurable.
+  \item[P3.] If $\{f_n\}_{n=1}^\infty$ is a sequence of measurable
+    functions then
+    \[
+    \sup_n f_n(x), \inf_n f_n(x), \limsup_{n\to\infty}f_n(x), \text{ and }
+    \liminf_n f_n(x)
+    \]
+    are measurable.
+  \item[P4.] If $\{f_n\}_{n=1}^\infty$ is a sequence of measurable
+    functions and $f_n \to f$ pointwise a.e. then $f$ is measurable.
+  \item[P5.] If $f,g$ are measurable and finite valued then $f+g, fg,
+    \text{ and } f^k$ are measurable.
+  \item[P6.] If $f$ is measurable and $f = g$ a.e. then $g$ is
+    measurable.
+  \end{enumerate}
+\end{thm}
+\begin{proof}
+  The proof for $P1$ is clear. If $f$ is measurable then we know that the
+  sets $f^{-1}((-\infty, a))$ are measurable for any $a$. We can then
+  construct every interval $(a,b)$ by taking $(-\infty, b) \cap
+  \bigcup_{n=1}^\infty (a-1/n, \infty)$. This is a countable union of open
+  sets and hence open. Furthermore, its inverse image is measurable. We then
+  use the fact that the intervals are a basis for the topology on $\R$ to
+  complete the proof.
+
+  For $P2$ we use the fact that if $f$ is continuous then the inverse image
+  of an open set is open, hence measurable. To see that $\Phi$ is measurable
+  we note that it is continuous. Then we have that if $f$ is measurable that
+  $(\Phi \circ f)^{-1} = f^{-1} \circ \Phi^{-1}$ is clearly measurable because
+  the inverse image of the interval under $\Phi$ is open and $f$ is
+  measurable.
+
+  To prove $P3$ we first note that $\{\sup_n f_n(x) > a\} = \bigcup_n
+  \{f_n(x) > a\}$ is clearly measurable as the union of measurable sets.
+  Similarly, $\inf_n f_n(x) = -\sup_n -f_n(x)$ is measurable. To get
+  $\limsup$ and $\liminf$ we simply note that
+  \[
+  \limsup_{n\to \infty} f_n(x) = \inf_k\{\sup_{n \geq k} f_n(x)\} \text{ and }
+  \liminf_{n\to \infty} f_n(x) = \sup_k\{\inf_{n \geq k} f_n(x)\}
+  \]
+
+  $P4$ is simply a consequence of $P3$ because we have that
+  \[
+  f(x) = \limsup_{n\to\infty} f_n(x) = \liminf_{n\to\infty} f_n(x)
+  \]
+
+  For $P 5$ we can get that $f+g$ is measurable because we can write
+  \[
+  \{(f+g)(x) > a\} = \bigcup_{r \in \Q} \{f(x) > a - r\} \cap \{g(x) > r\}
+  \]
+  which is the union of measurable sets. We can then see that $f^k$ is
+  measurable because we have
+  \[
+  \{f^(x) > a\} =
+  \begin{cases}
+    \{f(x) > a^{1/k}\} & k \text{ is even} \\
+    \{f(x) > a^{1/k}\} \cup \{f(x) < -a^{1/k}\} & k \text{ is odd}
+  \end{cases}
+  \]
+
+  Finally, for $P6$ we simply note that $f(x) = g(x)$ a.e. implies that the
+  sets $\{f(x) < a\}$ and $\{g(x) < a\}$ differ by at most a set of measure
+  zero. This immediately gives the result.
+\end{proof}
+
+\begin{thm}[Egorov]
+  Suppose $\{f_k\}_{k=1}^\infty$ is a sequence of measurable functions defined
+  on a measurable set $E$ with $m(E) < \infty$, and assume that $f_k \to f$
+  a.e. on $E$. Given $\epsilon > 0$ there exists a closed set $A_\epsilon
+  \subset E$ such that $m(E - A_\epsilon) < \epsilon$ and $f_k \to f$
+  uniformly on $A_\epsilon$.
+\end{thm}
+\begin{proof}
+  We assume without loss of generality that $f_k \to f$ on all of $E$ because
+  we can just replace $E$ by the set $E - N$ if $N$ are the points where
+  $f_n$ doesn't converge.
+
+  For each pair of integers of non-negative integers define
+  \[
+  E_k^n = \{x \in E \suchthat |f_j(x) - f(x)| < 1/n, \text{ for all } j > k\}
+  \]
+  If we fix $n$ and note that $E_k^n \subset E_{k+1}^n$ and $E_n^n \nearrow
+  E$ as $k \to \infty$. We then note that there is some $k_n$ such that
+  $m(E - E_{k_n}) < 2^{-n}$. Then we have that
+  \[
+  |f_j(x) - f(x)| < 1/n \text{ whenever } j > k_n \text{ and } x \in E_{k_n}^n
+  \]
+  Now we choose $N$ large enough that $\sum_{n=N}^\infty 2^{-n} < \epsilon/2$,
+  and let
+  \[
+   \tilde{A_\epsilon} = \bigcap_{n\geq N} E_{k_n}^n
+  \]
+  Observe that
+  \[
+  m(E - \tilde{A_\epsilon}) \leq \sum_{n=N}^\infty m(E - E_{k_n}^n) < \epsilon/2
+  \]
+  then if we have a $\delta > 0$ then we choose $n \geq N$ such that $1/n <
+  \delta$ and note that $x\in \tilde{A_\epsilon}$ implies that $x \in E_{k_n}^n
+  $. Thus, $|f_j(x) - f(x)| < \delta$ whenever $j > k_n$. So $f_k \to f$
+  uniformly on $\tilde{A_\epsilon}$. We then find a closed subset $A_\epsilon
+  \subset \tilde{A_\epsilon}$ such that $m(\tilde{A_\epsilon} - A_\epsilon) <
+  \epsilon/2$. Consequently, we see that $m(E - A_\epsilon) < \epsilon$ and so
+  we are done.
+\end{proof}
+
+\begin{thm}[Lusin]
+  Suppose that $f$ is measurable and finite-valued on $E$ with $m(E) < \infty
+  $. Then for any $\epsilon > 0$ there exists a closed set $F_\epsilon$ such
+  that $F_\epsilon \subset E$ and $m(E - F_\epsilon) \leq \epsilon$ and such
+  that $f|_{F_\epsilon}$ is continuous.
+\end{thm}
+\begin{proof}
+  Find a sequence of step function $\{f_n\}$ such that $f_n \to f$ a.e.
+  Then we may find sets $E_n$ such that $m(E_n) < 2^{-n}$ and $f_n$ is
+  continuous outside of $E_n$. We then apply Egorov's theorem to get a
+  set $A_{\epsilon/3}$ such that $f_n \to f$ uniformly on $A_{\epsilon/3}$ and
+  $m(E - A_{\epsilon/3}) \leq \epsilon/3$. Then we consider the set
+  \[
+  \tilde{F} = A_{\epsilon/3} - \bigcup_{n\geq N}E_n
+  \]
+  for $N$ large enough that $\sum_{n\geq N} 2^{-n} < \epsilon/3$. Now we have
+  that for every $n \geq N$ the function $f_n$ is continuous on $\tilde{F}$.
+  Thus, $f$ is continuous on $\tilde{F}$ because $f_n \to f$ uniformly there.
+  To complete the proof we simply find a closed set $F_\epsilon \subset
+  \tilde{F}$ such that $m(\tilde{F} - F_\epsilon) < \epsilon/3$.
+\end{proof}
+
+\subsection{Abstract Measure Theory}
+\begin{thm}[Carath\'{e}odory]
+  Given an outer measure $\mu_*$ on a set $X$, the collextion $\mathfrak{M}$
+  of Carath\'{e}odory measurable sets forms a $\sigma$-algebra. Moreover,
+  $\mu_*$ restriced to $\mathfrak{M}$ is a measure.
+\end{thm}
+\begin{proof}
+  Clearly, $\emptyset$ and $X$ are in $\mathfrak{M}$ becuase the definition
+  of measurability is symmetric in complements.
+
+  Next we need to prove that we are closed under finite unions of disjoint
+  sets and that $\mu_*$ is finitely additive on $\mathfrak{M}$. If we have
+  $E_1, E_2 \in \mathfrak{M}$ and $A$ is any subset of $X$ then
+  \begin{align*}
+    \mu_*(A) &= \mu_2(E_2 \cap A) + \mu_*(E_2^c \cap A) \\
+    &= \mu_*(E_1 \cap E_2 \cap A) + \mu_*(E_1^c \cap E_2 \cap A) +
+    \mu_*(E_1 \cap E_2^c \cap A) + \mu_*(E_1^c \cap E_2^c \cap A) \\
+    &\geq \mu_*((E_1 \cup E_2) \cap A) + \mu_*((E_1 \cup E_2)^c \cap A)
+  \end{align*}
+  The first line follows from the measurability condition on $E_1$ and $E_2$
+  and the last inequality is the sub-additivity of $\mu_*$. Therefore we
+  have that $E_1 \cup E_2 \in \mathfrak{M}$. If they are disjoint then we
+  have that
+  \[
+  \mu_*(E_1 \cup E_2) = \mu_*(E_1 \cap (E_1 \cup E_2)) + \mu_*(E_1^c \cap
+  (E_1 \cup E_2)) = \mu_*(E_1) + \mu_*(E_2)
+  \]
+  Now we need to show that $\mathfrak{M}$ is closed under countable unions
+  of disjoint sets, i.e. $\mu_*$ is countably additive on $\mathfrak{M}$.
+  Let $E_1, E_2, \ldots$ be a countable collection of disjoint sets in
+  $\mathfrak{M}$. Define
+  \[
+  G_n = \bigcup_{j=1}^n E_j \text{ and } G = \bigcup_{j=1}^\infty E_j
+  \]
+  For each $n$ we have that $G_n$ is a finite union of sets in
+  $\mathfrak{M}$ and so $G_n \in \mathfrak{M}$. Furthermore, for any
+  $A \subset X$ we have that
+  \begin{align*}
+    \mu_*(G_n\cap A) &= \mu_*(E_n \cap (G_n \cap A)) +
+    \mu_*(E_n^c \cap (G_n \cap A)) \\
+    &= \mu_*(E_n \cap A) + \mu_*(G_{n-1} \cap A) \\
+    &= \sum_{j=1}^\infty \mu_*(E_j \cap A)
+  \end{align*}
+  The last inequality is gotten by induction. We know that $G_n \in
+  \mathfrak{M}$ and $G^c \subset G_n^c$ we see that
+  \[
+  \mu_*(A) = \mu_*(G_n \cap A) + \mu_*(G_n^c \cap A) \geq \sum_{j=1}^\infty
+  \mu_*(E_j \cap A) + \mu_*(G^c \cap A)
+  \]
+  We then let $n \to \infty$ to see that
+  \[
+  \mu_*(A) \geq  \sum_{j=1}^\infty \mu_*(E_j \cap A) + \mu_*(G^c \cap A) \geq
+  \mu_*(G \cap A) + \mu_*(G^c \cap A) \geq \mu_*(A)
+  \]
+  Therefore all of the inequalities above must in fact be equalities and so
+  we have that $G \in \mathfrak{M}$. Furthermore, if we take $A = G$ in the
+  above we get that $\mu_*$ is countably additive on $\mathfrak{M}$ and so
+  we are done.
+\end{proof}
+
+\begin{thm}[Carath\'{e}odory Extension Theorem]
+  Suppose that $\mathcal{A}$ is an algebra of sets in $X$, $\mu_0$ is a
+  premeasure on $\mathcal{A}$, $\mathfrak{M}$ is the $\sigma$-algebra
+  generated by $\mathcal{A}$. Then there exists a measure $\mu$ on $
+  \mathfrak{M}$ that extends $\mu_0$. If $\mu$ is $\sigma$-finite then this
+  extension is unique.
+\end{thm}
+\begin{proof}
+  The exterior $\mu_*$ induced by $\mu_0$ defines a measure on the $\sigma$-
+  algebra of Carath\'{e}odory measurable sets defined by
+  \[
+  \mu_*(E) = \inf \left\{ \sum_{j=1}^\infty \mu_0(E_j) \suchthat E \subset
+    \bigcup_{j=1}^\infty E_j, \text{ where } E_j \in \mathcal{A} \text{ for
+       all } j\right\}
+  \]
+  (The proof is clear. The $E_j$ play the role of cubes). Hence, $\mu$ is
+  also a measure on $\mathfrak{M}$ that extends $\mu_0$.
+
+  To show uniqueness whenever $\mu$ is $\sigma$-finite on the $\sigma$-
+  algebra of Carath\'{e}odory measurable sets we suppose that there is
+  another measure $\nu$ that agrees with $\mu_0$ on $\mathcal{A}$. Suppose
+  that $F \in \mathfrak{M}$ has finite measure. Then we see
+  \[
+  \nu(F) \leq \sum_{j=1}^\infty \nu(E_j) = \sum_{j=1}^\infty \mu_0(E_j)
+  \]
+  So we get for free that $\nu(F) \leq \mu(F)$. Now we need the reverse
+  inequality. Observe that if $E = \bigcup_j F_j$ then then fact that $\nu$
+  and $\mu$ agree on $\mathcal{A}$ gives that
+  \[
+  \nu(E) = \lim_{n\to\infty}\nu\left(\bigcup_{j=1}^n E_j\right) = \lim_{n\to
+    \infty} \mu\left(\bigcup_{j=1}^n E_j\right) = \mu(E)
+  \]
+  If we pick the $E_j$ such that $\mu(e) \leq \mu(F) + \epsilon$, then the
+  fact that $\mu(F) < \infty$ implies that $\mu(E-F) \leq \epsilon$. So
+  \[
+  \mu(F) \leq \mu(E) = \nu(E) = \nu(F) + \nu (e-F) \leq \nu(F) + \mu(E-F)
+  \leq \mu(F) + \epsilon
+  \]
+  Since $\epsilon$ is arbitrary we have the reverse inequality is proved.
+
+  Now we can use the $\sigma$-finiteness. We write $X = \bigcup_j E_j$ where
+  $E_1, E_2,\ldots$ is a countable collection of disjoint sets in $
+  \mathcal{A}$ with finite measure. Then for any $F \in \mathfrak{M}$ we have
+  that
+  \[
+  \mu(F) = \sum_{j=1}^\infty \mu(F\cap E_j) = \sum_{j=1}^\infty \nu(F\cap E_j) =
+  \nu(F)
+  \]
+\end{proof}
+
+\subsection{Integration}
+\begin{thm}[Monotone Convergence Theorem]
+  Let $\{f_n\}$ be a sequence of measurable functions on $X$ and suppose that
+  \begin{enumerate}
+  \item $f_n(x) \geq 0$ for every $x$ in $X$.
+  \item $f_n(x) \to f(x)$ for every $x \in X$.
+  \end{enumerate}
+  Then $f$ is measurable and
+  \[
+  \lim_{n\to \infty} \int_X f_n d\mu = \int_X f d\mu
+  \]
+\end{thm}
+\begin{proof}
+  Since we know that $\int f_n d\mu \leq \int f_{n+1} d\mu$ we have that
+  there exists an $\alpha \in [0, \infty]$ such that
+  \[
+  \lim_{n\to\infty}\int f_n d\mu \to \alpha
+  \]
+  Since $f_n \leq f$ for every $n$ we see $\int f_nd\mu \leq \int fd\mu$ for
+  every $n$. So the above implies that $\alpha \leq \int f d\mu$. Let $s$ be
+  sny simple measurable sunction such that $0 \leq s \leq f$ and let $c$ be
+  a constant such that $ 0 < c < 1$ and define
+  \[
+  E_n = \{x \suchthat f_n(x) \geq cs(x)\}
+  \]
+  Each $E_n$ is measurable, $E_1 \subset E_2 \subset \cdots$, and $X =
+  \bigcup_n E_n$. To see the equality consider a particular $x \in X$. If
+  $f(x) = 0$ then $x \in E_1$ and if $f(x) > 0$ then $cs(x) < f(x)$ because
+  $c < 1$. Hence, we have that $x \in E_n$ for some $n$. Also,
+  \[
+  \int_X f_n d\mu \geq \int_{E_n} f_n d\mu \geq c\int_{E_n} s d\mu
+  \]
+  for every $n$. We then let $n \to \infty$ and so $\alpha \geq c \int_X
+  sd\mu$. Since this holds for every $c < 1$ we have that
+  \[
+  \alpha \geq \int s d\mu
+  \]
+  For every simple function $s \leq f$. Hence, we have that
+  \[
+  \alpha \geq \int_X fd\mu
+  \]
+  This proves the reverse inequality and we are done.
+\end{proof}
+
+\begin{thm}[Fatou's Lemma]
+  If $\{f_n\}$ is a sequence of non-negative measurable functions on $X$ then
+  \[
+  \int \liminf_{n\to\infty} f_n d\mu \leq \liminf_{n\to\infty} \int f_n d\mu
+  \]
+\end{thm}
+\begin{proof}
+  Let $g_k(x) = \inf_{i \geq k} f_i(x)$. Then we have that $g_k \leq f_k$, so
+  we see that
+  \[
+  \int g_kd\mu \leq \int f_k d\mu
+  \]
+  Moreover we see that $0 \leq g_1 \leq g_2 \leq \cdots $, and each $g_k$ is
+  measurable with $g_k(x) \to \lim\inf f_n(x)$ as $k \to \infty$. The
+  Monotone Convergence Theorem implies that the left side tends to the right
+  side as $k \to \infty$ we are done.
+\end{proof}
+
+\begin{thm}[Dominated Convergence Theorem]
+  Suppose that $\{f_n\}$ is a sequence of complex measurable functions on $X$
+  such that
+  \[
+   \lim_{n\to\infty} f_n(x) = f(x)
+  \]
+  exists for every $x \in X$. If there is a function $g \in L^1(\mu)$ such
+  that $|f_n(x)| \leq g(x)$ for each $x \in X$ and all $n > 0$ then $f \in
+  L^1(\mu)$ and
+  \[
+  \lim_{n\to\infty} \int_X |f_n - f| d\mu = 0
+  \]
+  as well as
+  \[
+  \lim_{n\to\infty} \int_X f_n d\mu = \int_X (\lim_{n\to \infty} f_n) d\mu
+  \]
+\end{thm}
+\begin{proof}
+  It is clear that $f \in L^1(\mu)$ because $|f| \leq g$ and $f$ is
+  measurable. We also have that $|f_n - f| \leq 2g$ and so we can apply
+  Fatou's lemma to then function $2g - |f_n - f|$ to see that
+  \begin{align*}
+    \int_X 2g d\mu &\leq \liminf_{n\to\infty}\int_X (2g - |f_n - f|) d\mu \\
+    &= \int_X 2g d\mu + \liminf_{n\to\infty}\left(-\int_X|f_n - f| d\mu\right)
+    \\ &= \int_X 2g d\mu - \limsup_{n\to\infty}\int_X |f_n - f|d\mu
+  \end{align*}
+  Becuase $\int_X 2gd\mu$ is finite we can subtract it to see that
+  \[
+  \limsup_{n\to\infty} \int_X |f_n - f|d\mu \leq 0
+  \]
+  This immediately gives that
+  \[
+  \lim_{n\to\infty}\int_X |f_n -f| d\mu = 0
+  \]
+  We then recall that if $f \in L^1$ then $|\int_x f| \leq \int_X|f|$ so we
+  get
+  \[
+  \lim_{n\to\infty} \int_X f_n d\mu = \int_X fd\mu
+  \]
+\end{proof}
+
+\begin{thm}[Fubini's Theorem]
+  Suppose that $\mu_1,\mu_2$ are $\sigma$-finite complete measures on
+  $X_1$ and $X_2$, respectively and $f(x_1,x_2)$ is integrable on
+  $(X_1 \times X_2, \mu_1 \times \mu_2)$ and is such that for every
+  measurable set $E$ we have that the slice $E^{x_2}$ is
+  $\mu_1$-measurable and $\mu_1(E^{x_2})$ is defined for almost every
+  $x_2 \in X_2$. Then
+  \begin{enumerate}
+  \item For almost every $x_2 \in X_2$, the slice $f^{x_2}(x_1) =
+    f(x_1,x_2)$ is integrable on $(X_1, x_1)$.
+  \item $\int_{X_1}f(x_1,x_2)d\mu_1$ is an integrable function on
+    $X_2$.
+  \item \[\int_{X_2}\left(\int_{X_1}f(x_1,x_2)d\mu_1\right)d\mu_2 =
+    \int_{X_1\times X_2}f(x_1,x_2)d\mu_1\times \mu_2\]
+  \end{enumerate}
+\end{thm}
+\begin{proof}
+  This one is a marathon. We have to start by building up the product
+  measure . We begin with measurable rectangles $A \times B $ in $X_1
+  \times X_2$ as cartesian products of measurable sets and define the
+  function
+  \[
+  \mu_0(A\times B) = \mu_1(A)\mu_1(B)
+  \]
+  It is clear that this is a premeasure on the algebra $\mathcal{A}$
+  of sets generated by the measurable rectangles (use the Monotone
+  Convergence Theorem). We now show the following
+  \begin{lem}
+    If $E$ belongs to $\mathcal{A}_{\sigma\delta}$, then $E^{x_2}$ is
+    $\mu_1$- measurable for every $x_2$. Moreover, $\mu_1(E^{x_2})$ is
+    a $\mu_2$- measurable function and
+    \[
+    \int_{X_2}\mu_1(E^{x_2})d\mu_2 = (\mu_1\times \mu_2)(E)
+    \]
+  \end{lem}
+  \begin{proof}
+    First note that this is trivial when $E$ is a measurable
+    rectangle. Next, suppose that $E$ is a set in
+    $\mathcal{A_\sigma}$. Then we can decompose it into a countable
+    collection of disjoint rectangles $E_j$. Then for each $x_2$ we
+    have that $E^{x_2} = \bigcup_j E_j^{x_2}$, and then we observe
+    that each of the $E_j^{x_2}$ are disjoint as well. Thus, we have
+    that
+    \[
+    \int_{X_2}\mu_1(E_j^{x_2})d\mu_2 = (\mu_1\times \mu_2)(E_j)
+    \]
+    We then apply the Monotone Convergence Theorem to get the result
+    for each $E \in \mathcal{A}_\sigma$.
+
+    Next, we take $E \in \mathcal{A}_{\sigma\delta}$ such that
+    $(\mu_1\times \mu_2)(E)<\infty$. Then there exists a sequence of
+    sets $E_j$ in $\mathcal{A_\sigma}$ such that $E_k \subset E_{k+1}$
+    $E_k\in\mathcal{A_ \sigma}$ and $E = \bigcap_k E_k$. We then set
+    $f_j(x_2) = \mu_1(E_j^{x_2}$ and $f(x_2) = \mu_1(E^{x_2})$. To see
+    that $E^{x_2}$ is measurable and $f$ is well-defined observe that
+    $E^{x_2}$ is the decreasing limit of the sets $E_j^{x_2}$, which
+    are all measurable by the preceding argument.  Also, because $E_1
+    \in \mathcal{A_\sigma}$ and $(\mu_1\times\mu_2)(E) < \infty$ we
+    see that $f_j(x_2) \to f(x_2)$ as $j\to\infty$ for each $x_2$.
+    Thus, we see that $f(x_2)$ is measurable. However, we also see
+    that $\{f_j(x_2)\}$ is a decreasing sequence of non-negative
+    functions and hence we have that
+    \[
+    \int_{X_2}f(x_2)d\mu_2(x) = \lim_{j\to\infty}\int_{X_2}f_j(x_2)d\mu_2(x)
+    \]
+    And therefore we are done in the case that $(\mu_1\times\mu_2)(E)
+    < \infty$.
+
+    When $(\mu_1\times\mu_2)(E) = \infty$ we need to use the
+    $\sigma$-finiteness of $\mu_1$ and $\mu_2$ to get the result to
+    hold.  Because both are $\sigma$-finite we can find sequence
+    $\{F_j\}_1^\infty$ and $\{G_k\}_1^\infty$ such that $F_j \subset
+    F_{j+1}$ and $G_k \subset G_{k+1}$ such that $\mu_1(F_j),
+    \mu_2(G_k) < \infty$ for all $j,k$ and $X_1 = \bigcup_j F_j$ and
+    $X_2 = \bigcup_k G_k$. Then we simply replace $E$ by $E \cap (F_j
+    \times G_j)$ and let $j\to\infty$ to get the lemma.
+  \end{proof}
+
+  Now we extend the previous lemma to arbitrary measurable sets in
+  $X_1\times X_2$. If we let $\mathfrak{M}$ be the $\sigma$-algebra
+  generated by the measurable rectangles then we see the following
+
+  \begin{lem}
+    If $E$ is an arbitrary measurable set in $X$ then the conclusion
+    of the previous lemma is still valid with the relaxed hypothesis
+    that $E^{x_2}$ is $\mu_1$-measurable and $\mu_1(E^{x_2})$ is
+    defined for almost every $x_2 \in X_2$.
+  \end{lem}
+  \begin{proof}
+    Consider first the case of $m(E) = 0$. Then by the previous lemma
+    we have that there is some $F \in \mathcal{A}_{\sigma\delta}$ such
+    that $E \subset F$ and $(\mu_1 \times \mu_2)(F) = 0$. Since
+    $E^{x_2} \subset F^{x_2}$ for every $x_2$ and $F^{x_2}$ has
+    $\mu_1$-measure zero for almost every $x_2$ (apply integral in
+    previous lemma), the assumed completeness of the measure $\mu_2$
+    immediately gives that $E^{x_2}$ is measurable and has measure
+    zero for those $x_2$. Thus, we have the right conclusion when $E$
+    has measure zero.
+
+    For general $E$ we find an $F \in A_{\sigma\delta}$ such that $F
+    \supset E$ and $F- E = Z$ has measure zero (Give a proof that this
+    is possible. Not hard). Since $F^{x_2} - E^{x_2} = Z^{x_2}$ we
+    apply the case we just proved and observe that for almost all
+    $x_2$ the set $E^{x_2}$ is measurable and $\mu_1(E^{x_2}) =
+    \mu_1(F^{x_2}) - \mu_1(Z^{x_2})$. This proves the lemma.
+  \end{proof}
+
+  Now we have the machinery to get the theorem fairly easily. We note
+  that if the desired conclusions hold for finitely many functions,
+  then they must also hold for their linear combinations. So we assume
+  that $f$ is non-negative (otherwise decompose into positive and
+  negative parts). When $f = \capchi_E$, with $E$ a set of finite
+  measure, what we need to proved is contained in the previous
+  lemma. So the desired result holds for simple functions. Therefore,
+  by the Monotone Convergence theorem we have that it holds for all
+  non-negative functions.
+\end{proof}
+
+\begin{thm}[Polar Coordinates Formula]
+  Suppose that $f$ is an integrable function on $\R^d$. then for
+  almost every $\gamma$ in $S^{d-1}$ the slice defined by $f^\gamma(r)
+  = f(r\gamma)$ is an integrable function with respect to the measure
+  $r^{d-1}dr$. Moreover, $\int_0^\infty f^\gamma(r)r^{d-1}dr$ is
+  integrable on $S^{d-1}$ and the following holds
+  \[
+  \int_{\R^d}f(x) = \int_{S^{d-1}}\left(\int_0^\infty
+    f(r\gamma)r^{d-1}dr\right)d\sigma(\gamma)
+  \]
+\end{thm}
+\begin{proof}
+  We consider the product measure $\mu = \mu_1 \times \mu_2$ on $X_1
+  \times X_2$ given by Fubini's theorem \textit{3.} Since the space
+  \[
+  X_1 \times X_2 = \{(r,\gamma) \suchthat 0<r<\infty \text{ and
+  }\gamma\in S^{d-1}\}
+  \]
+  can be identified with $\R^d - \{0\}$, we can think of $\mu$ as a
+  measure on the latter space and our main goal is to identify it with
+  the (restriction of) the Lebesgue measure on that space. We first
+  have the following
+  \begin{claim}
+    If $E = E_1 \times E_2$ is a measurable set then we have
+    that $m(E) = \mu(E)$ and $\mu(E) = \mu_1(E_1)\mu_1(E_2)$.
+  \end{claim}
+  \begin{proof}
+    This is clear when $E$ is a measurable rectangle $E = E_1 \times
+    E_2$ and in this case we see that $\mu(E) =
+    \mu_1(E_1)\mu_1(E_2)$. We then extend it to the case that $E_2$ is
+    an arbitrary measurable subset of $S^{d-1}$ and $E_1 = (0,1)$ by
+    noting that $E$ is the sector of $\tilde{E_2}$, while $\mu_1(E_1) = 1/d$.
+
+    Because of the relative dilation invariance of the Lebesgue
+    measure we have the claim for sets $E = (0,b) \times E_2$ and $b >
+    0$. We then use a limiting argument to get half-open intervals of
+    the form $E_1 = (0, a]$. We can then easily get the open intervals
+    $E_1 = (a,b)$ by set subtraction and thus we get all open sets. So
+    at this point we have $m(E_1 \times E_2)$ for all open sets $E_1$,
+    and hence for all closed sets as well and consequently for all
+    Lebesgue measurable sets. So we have established the claim for all
+    measurable rectangles and as a result all finite unions of
+    measurable rectangles.
+  \end{proof}
+  This is an algebra of sets and so we apply the Carath\'{e}odory
+  Extension theorem to extend this to the $\sigma$-algebra genrated by
+  the measurable rectangles. Hence, we have that whenever $E \in
+  \mathfrak{M}$, the result of the theorem holds for $\capchi_E$.
+
+  To make the final extension, we note that any open set in $\R^d -
+  \{0\}$ can be written as a countable union of rectangles $ \bigcup_j
+  A_j \times B_j$, where $A_j$ and $B_j$ are open in $(0,\infty)$ and
+  $S^{d-1}$ respectively (The proof of this fact is
+  clear. Exercise). It follows that any open set is in $\mathfrak{M}$,
+  and therefore so is any Borel set. So we have that the theorem is
+  true for $\capchi_E$ whenever $E$ is a Borel set in $\R^d -
+  \{0\}$. Then we clearly get the result for all characteristic
+  functions of Lebesgue measurable sets because they can be decomposed
+  into a Borel set and a set of measure zero. We then complete the
+  proof by the familiar construction of going from characteristic
+  functions, to simple functions, and then using the Monotone
+  convergence theorem to get the general result.
+\end{proof}
+
+\begin{thm}[Lebesgue-Stieltjes Integral]
+  Let $F$ be an increasing function on $\R$ that is normalized. Then
+  there exists a unique measure $\mu$ (also known as $dF$) on the
+  Borel sets $\mathcal{B}$ on $\R$ such that $\mu((a,b]) = F(b) -
+  F(a)$ if $a<b$. Conversely, if $\mu$ is a meaure on $\mathcal{B}$
+  that is finite on bounded intervals then $F$ defined by $F(x) =
+  \mu((-\infty, x), x > 0, F(0) = 0$ and $F(x) = - \mu(-x, 0]), x < 0$
+  is increasing and normalized.
+\end{thm}
+\begin{proof}
+  We begin by defining a function $\mu_*$ on the subsets of $\R$ via
+  \[
+  \mu_*(E) = \inf \sum_{j=1}^\infty (F(b_j) - F(a_j))
+  \]
+  where the infimum is taken over all coverings of $E$ of the form
+  $\bigcup_{j=1}^\infty (a_j, b_j]$.
+
+  It is straightforward to verify that $\mu_*$ is an outer measure on
+  $\R$. We then observe that $\mu_*((a,b]) = F(b) - F(a)$ is
+  $a<b$. Clearly, we see that $\mu_*((a,b]) \leq F(b) - F(a)$ because
+  $(a, b]$ covers itself. Now suppose that $\bigcup_{j=1}^\infty
+  (a_j,b_j]$ covers $(a,b]$. Then it must also cover $[a',b]$ for any
+  $a < a' < b$. Because $F$ is continuous we see that for any
+  $\epsilon >0$ we ccan always choose $b_j' > b_j$ such that $F(b_j')
+  < F(b_j) + \epsilon/2^j$. The union of such intervals covers
+  $[a',b]$. By the compactness of this interval we can see that only
+  finitely many of these are needed. So $\bigcup_{j=1}^N(a_j,b_j')$
+  covers $[a',b]$ for some $N$. Because $F$ is increasing we have that
+  \[
+  F(b) - F(a') \leq \sum_{j=1}^N F(b_j') - F(a_j) \leq \sum_{j=1}^N
+  F(b_j) - F(a_j) + \epsilon/2^j) \leq \mu_*((a,b]) + \epsilon
+  \]
+  We then let $a' \to a$ and use the fact that $F$ is continuous to
+  get that $F(b) - F(a) \leq \mu_*((a,b]) + \epsilon$. Because
+  $\epsilon$ was arbitrary we have
+  \[
+  F(b) - F(a) = \mu_*((a,b])
+  \]
+
+  Now we show that $\mu_*$ is a metric exterior measure. Since $\mu_*$
+  is an outer measure we have that $\mu_*(E_1,\cup E_2) \leq
+  \mu_*(E_1) + \mu_*(E_2)$ so it suffices to see that the reverse
+  inequality is true whenever $d(E_1,E_2) \geq \delta$ for some
+  $\delta > 0$.
+
+  Fix an $\epsilon >0$ and suppose that $\bigcup_j (a_j,b_j]$ is a
+  covering of $E_1 \cup X_2$.
+\end{proof}
+
+\section{Differentiation Theory}
+
+\section{Hilbert Spaces}
+
+\section{Banach Spaces}
+
+\section{Applications of Banach Space Theory}
+
+\end{document}
