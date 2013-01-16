@@ -1,0 +1,284 @@
+\documentclass{article}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,relsize,fancyhdr,parskip,graphicx}
+
+\pagestyle{fancy}
+\lhead{Ben Carriel}
+\chead{Math 6110 Midterm Exam}
+\rhead{\today}
+
+\parskip 7.2pt
+\parindent 8pt
+
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\capchi}{\raisebox{2pt}{$\mathlarger{\mathlarger{\chi}}$}}
+
+\DeclareMathOperator{\divides}{\mathrel{|}}
+\DeclareMathOperator{\suchthat}{\mathrel{|}}
+
+\DeclareMathOperator{\lra}{\longrightarrow}
+\DeclareMathOperator{\into}{\hookrightarrow}
+\DeclareMathOperator{\onto}{\twoheadrightarrow}
+\DeclareMathOperator{\bijection}{\leftrightarrow}
+
+\newcommand{\problem}[1]{\noindent{\textbf{Problem #1}}\\}
+\newcommand{\problempart}[1]{\noindent{\textbf{(#1)}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\norm}[1]{\|#1\|}
+
+\newtheorem*{thm}{\\ Theorem}
+\newtheorem*{lem}{\\ Lemma}
+\newtheorem*{claim}{\\ Claim}
+\newtheorem*{defn}{\\ Definition}
+\newtheorem*{prop}{\\ Proposition}
+
+\begin{document}
+\problem{1.6.30} 
+Fix an $\epsilon \in (0,1)$. We apply the result of Exercise 28 to guarantee the existence of two intervals $I_1,I_2$ such that $m(-E\cap I_1) > (1-\epsilon)m(I_1)$ and  $m(F \cap I_2) > (1-\epsilon)m(I_2)$. Without loss of generality suppose that $m(I_1) \leq m(I_2)$. This means that we can translate $I_1$ by some amount $h$ so that it lies inside of $I_2$. Let $\delta = m(I_1)$, so that for $0 < |\alpha | < \epsilon\delta$ we see that the interval
+\[
+I_{1,|\alpha |} = (I_1 + h + \alpha) \cap I_2 
+\]
+must have $m(I_{1,|\alpha |}) = \delta - \alpha > (1-\epsilon)\delta$. As a result of this, we must have that $I_{1,|\alpha|} \cap I_2 \neq \emptyset$. Pick some $x \in (I_{1,|\alpha|} \cap I_2)$ and observe that this means that there is some $u \in E$ and $v \in F$ such that 
+\[
+x = v = -u + h + \alpha 
+\]
+So this means that $u + v = (h+\alpha)$. So $E+F$ must contain the interval $(h - \epsilon\delta, h+ \epsilon\delta)$ and we are done. 
+\pagebreak
+
+\problem{2.5.20}
+We want to show that if $E\subset \R^2$ is a Borel set, then for any $y$ the slice $E^y$ is (a parallel translate of) a Borel set in $\R$. We begin by considering the following
+\[
+\mathcal{C} = \{E \subset \R^2 \suchthat \forall y, E^y \text{ is Borel}\}
+\] 
+We first prove the following
+\begin{claim}
+$\mathcal{C}$ is a $\sigma$-algebra.
+\end{claim}
+\begin{proof}
+It is clear that $\mathcal{C}$ is non-empty; the open unit disk is in $\mathcal{C}$, for instance. Next we will see that $\mathcal{C}$ is closed under taking complements. Let $E \in \mathcal{C}$, then we know that for any $y$ the set $E^y$ is Borel and that $(E^c)^y = (E^y)^c$ must also be Borel because the Borel sets are a $\sigma$-algebra. So $E^c \in \mathcal{C}$. Next, suppose that $\{E_k\}_{k=1}^\infty$ is a countable collection of sets in $\mathcal{C}$. We see that
+\[
+\left(\bigcup_{k=1}^\infty E_k \right)^y = \bigcup_{k=1}^\infty E_k^y
+\]
+Then we use the fact that each of the $E_k^y$ is Borel, and so their union must be as well because the Borel sets are closed under countable union. Thus, $\mathcal{C}$ is a $\sigma$-algebra.
+\end{proof}
+Now to complete the proof we need to prove the following
+\begin{prop}
+If $E\subset \R^2$ is open then $E \in \mathcal{C}$.
+\end{prop}
+\begin{proof}
+We begin with the proof in the case of $E$ being an open cube. We note here that we must have $E = (a,b) \times (a+h,b+h)$ for some $h > 0$. We then take the slice $E^y$ which is the same as $(a,b) + y$, where $y \in \R$. Geometrically, we simply have the line segment $(a,b)$ translated in the $y$-direction a distance $y$. Clearly, this is and open interval and hence, Borel. We then prove the claim for the family of closed cubes. The proof is the same, we note that the slices $E^y$ of a closed cube is now the closed interval, which can be written as the countable intersection of intervals of the form $\bigcap_{n} (a- 1/n, b+ 1/n)$, and therefore is Borel. We then use the fact that every open set in $\R^2$ can be written as the countable union of almost disjoint closed cubes to see that we can write $E = \bigcup_{j=1}^\infty Q_k$, where each of the $Q_k$ is a closed cube. We then use the fact that each of the $Q_k \in \mathcal{C}$ and that $\mathcal{C}$ is closed under countable unions to see that $E\in \mathcal{C}$. 
+\end{proof}
+Finally, we recall that the Borel sets is the smallest $\sigma$-algebra containing the open sets. We have shown that $\mathcal{C}$ contains the open sets. And therefore, it contains the Borel sets. This completes the proof. 
+\pagebreak
+
+\problem{3.5.6}
+For functions $f: \R \to \R$ we define
+\[
+f^*_+(x) = \sup_{h > 0} \frac{1}{h}\int_x^{x+h}|f(y)|dy
+\]
+We want to show that the set
+\[
+E_\alpha^+ = \{x \in \R \suchthat f_+^*(x) > \alpha\}
+\]
+is measurable with measure
+\[
+m(E_\alpha^+) = \frac{1}{\alpha}\int_{E_\alpha^+}|f(y)|dy
+\]
+Following the hint, we wish to apply Lemma 3.5 (Rising Sun Lemma) to the function 
+\[
+F(x) = \int_0^x|f(y)|dy - \alpha x
+\]
+We first observe that if $x \in E_\alpha^+$ then there is some $h > 0$ such that 
+\begin{align*}
+\frac{1}{h}\int+x^{x+h} |f(y)|dy &> \alpha \\ 
+\int+x^{x+h} |f(y)|dy &> h\alpha
+\end{align*}
+So on the right side we consider 
+\[
+h\alpha = h\alpha + x\alpha - x\alpha = (x+h)\alpha  - x\alpha
+\]
+and note that because $\int|f(y)|$ is increasing have $\int_x^{x+h} |f(y)|dy = \int_0^{x+h} |f(y)|dy - \int_0^x |f(y)|dy$. So the inequality becomes
+\begin{align*}
+\int_0^{x+h} |f(y)|dy - \int_0^x |f(y)|dy &> (x+h)\alpha - x\alpha \\
+\int_0^{x+h} |f(y)|dy -  (x+h)\alpha &> \int_0^x |f(y)|dy - x\alpha 
+\end{align*}
+Consequently, we must have 
+\[
+E_\alpha^+ = \{x \in \R \suchthat \exists h > 0, F(x+h) > F(x)\}
+\]
+If $f$ is integrable then $F$ is absolutely continuous by the absolute continuity of the integral. We then apply Lemma 3.5 to write $E_\alpha^+$ as the disjoint union of intervals so
+\[
+E_\alpha^+ = \bigcup_{k=1}^\infty (a_k, b_k)
+\]
+such that $F(a_k) = F(b_k)$. As a result, we see that
+\begin{align*}
+\int_0^{a_k} |f(y)|dy - \alpha a_k &= \int_{0}^{b_k}|f(y)|dy - \alpha b_k \\
+ \alpha b_k - \alpha a_k &= \int_{0}^{b_k}|f(y)|dy - \int_0^{a_k} |f(y)|dy \\
+ \alpha(b_k - a_k) &= \int_{a_k}^{b_k} |f(y)|dy
+\end{align*}
+Moreover, because all of the intervals are disjoint we have that
+\[
+m(E_\alpha^+) = \sum_{k=1}^\infty (b_k - a_k)
+\]
+We then observe that
+\[
+\int_{E_\alpha^+} |f(y)|dy = \sum_{k=1}^\infty \int_{a_k}^{b_k} |f(y)|dy = \alpha\sum_{k=1}^\infty (b_k - a_k) = \alpha m(E_\alpha^+)
+\]
+So that
+\[
+m(E_\alpha^+) = \frac{1}{\alpha}\int_{E_\alpha^+}|f(y)|dy 
+\]
+And we are done.
+\pagebreak
+
+\problem{3.5.10}
+Let $\{r_n\}_{n = 0}^\infty$ be an enumeration of the rationals. Consider the function
+\[
+f(x) = \sum_{r_n < x} 2^{-n}
+\]
+I claim that this function is increasing on $\R$,continuous on $\R - \Q$ and discontinuous elsewhere (i.e. only on $\Q$). First we verify that $f$ is increasing. Pick $x,y \in \R$ such that $x\neq y$ and assume without loss of generality that $x < y$. Because $\Q$ is dense in $\R$ we can find some rational $r_m$ such that $x < r_m < y$. So we can see that
+\[
+f(y) = \sum_{r_n < y} 2^{-n} > 2^{-m} + \sum_{r_n < x}2^{-n} = 2^{-m} + f(x) > f(x) 
+\]
+Now we will show that $f$ is discontinuous on $\Q$. To do this we examine the left and right hand limits of $f$ at a point $x$. So consider
+\[
+f^+(x) = \inf_{t > x} f(t) \text{ and } f^{-}(x) = \sup_{t < x} f(t)
+\]
+Then $f$ is continuous at $x$ iff $f^{+}(x) - f^-(x) = 0$. For any rational $r_m$ we have
+\begin{align*}
+f^{+}(r_m) - f^-(r_m) &= \inf_{r_p > r_m}\sum_{r_n < r_p} 2^{-n} - \sup_{r_q < r_m}\sum_{r_n < r_m} 2^{-n} \\
+&= \inf_{r_p > r_m} \sum_{r_m < r_k \leq r_p} 2^{-n}  + f(r_m) - \sup_{r_q < r_m}\sum_{r_n < r_m} 2^{-n} \\ 
+&= \inf_{r_p > r_m} \sum_{r_m < r_k \leq r_p} 2^{-n} \\
+&= 2^{-m}
+\end{align*}
+So $f$ is discontinuous on $\Q$. We will now show that $f$ is continuous on $\R - \Q$. We note that for $x \not\in \Q$ we have that $x \neq r_n$ for all $n$. So the same computation shows that $f^{+}(x) - f^-(x) = 0$ because the last line of the computation will never have any terms in the sum because $r_p \neq x$ for all $p$. 
+  
+\pagebreak
+
+\problem{3.5.32}
+We need to verify that the following 
+\begin{lem}
+A function $f: \R \to \R$ is Lipschitz with constant $M$ if and only if $f$ has the following two properties:
+\begin{enumerate}
+\item[(i)] $f$ is absolutely continuous.
+\item[(ii)] $|f'(x)| \leq M$ for almost every $x$.
+\end{enumerate} 
+\end{lem}
+\begin{proof}
+In the forward diretion we suppose that $f$ is Lipschitz. This means that
+\[
+|f(x) - f(y)| \leq M|x - y|
+\]
+for some $M$ and all $x,y \in \R$. Pick an $\epsilon > 0$ and observe that $\delta = \epsilon/M$ immediately gives that
+\[
+\sum_{j = 0}^N|b_j - a_j| < \delta \text{ implies } \sum_{j=1}^N |f(b_j) - f(a_j)| < \epsilon
+\]
+so $f$ is absolutely continuous. We then use this fact to apply Theorem 3.11 and get that $f$ must be differentiable almost everywhere. If $x$ is a point for which $f'$ exists we observe that for any $h > 0$ we must have that
+\[
+|\frac{f(x+h) - f(x)}{h}| \leq M
+\]
+We then take the limit as $h \to 0$ to see that $|f'(x)| \leq M$ whenever $f'$ exists (i.e. almost everywhere). 
+
+In the reverse direction, we have that $f$ is absolutely continuous and $|f'(x)| \leq M$ almost everywhere. We apply Theorem 3.11 again to see that for any $x,y \in \R$ with $x \leq y$ we have
+\[
+f(x) - f(y) = \int_x^y f'(t)dt
+\]
+Taking the absolute value gives
+\[
+|f(x) - f(y)| = \left|\int_x^y f'(t)dt\right| \leq \int_x^y |f'(t)|dt \leq \int_x^y Mdt = M|x - y|
+\]
+So $f$ satisfies a Lipschitz condition and we are done. 
+\end{proof}
+
+\pagebreak
+
+\problem{4.6.4} We are considering the space 
+\[
+\ell^2(\Z) = \left\{(\ldots , a_{-2}, a_{-1}, a_0, a_1, a_2, \ldots ) \suchthat a_i\in \C, \sum_{k=-\infty}^\infty |a_k|^2 < \infty\right\}
+\]
+when endowed with the inner product and norm
+\[
+(a,b) = \sum_{k=-\infty}^\infty a_k\overline{b_k} \text{ and } \norm{a} = \left(\sum_{k=-\infty}^\infty|a_k|^2\right)^{1/2}
+\]
+We will verify that $\ell^2$ is a Hilbert space. It is clear that $\ell^2$ is a vector space with pointwise addition and multiplication by scalars because if $a,b \in \ell^2$ then 
+\[
+\sum_{k=-\infty}^\infty |a_k + b_k|^2 \leq 4\sum_{k=-\infty}^\infty|a_k|^2 + 4\sum_{k=-\infty}^\infty |b_k|^2 < \infty
+\]
+Note that we have used the inequality $|a_k + b_k| \leq 2\max\{|a_k|,|b_k|\}$. Furthermore, for any $\lambda \in \C$
+\[
+\sum_{k=-\infty}^\infty |\lambda a_k|^2 = \sum_{k=-\infty}^\infty |\lambda|^2|a_k|^2 = |\lambda |^2\sum_{k=-\infty}^\infty |a_k|^2 <\infty
+\]
+So $\ell^2$ is indeed a vector space. 
+
+We then check the properties of the inner product that we gave $\ell^2$. It is clear that for fixed $b$ the map $a \mapsto (a,b)$ is linear, it follows from the linearity of the sum because for $x,y \in \ell^2$ we have
+\[
+\sum_{k=-\infty}^\infty (x_k + y_k)\overline{b_k} = \sum_{k=-\infty}^\infty x_k\overline{b_k} + \sum_{k=-\infty}^\infty y_k\overline{b_k} = (x,b) + (y,b)
+\]
+The fact that $(a,b) = \overline{(b,a)}$ follows from the symmetry in the inner product. To see that $(a,a) \geq 0$ for every $a \in \ell^2$, observe that 
+\[
+(a,a) = \sum_{k=-\infty}^\infty a_k\overline{a_k} = \sum_{k=-\infty}^\infty |a_k| ^2 \geq 0
+\]
+Because the last term is a sum of non-negative values. Now we check that $\norm{a} = (a,a)^{1/2}$, which is straightforward because
+\[
+(a,a)^{1/2} = \left(\sum_{k=-\infty}^\infty a_k\overline{a_k}\right)^{1/2} = \left(\sum_{k=-\infty}^\infty |a_k|^2\right)^{1/2} = \norm{a}
+\]
+
+The next thing we have to verify is that $\norm{a} = 0$ if and only if $a = 0$. This is clear because $\left(\sum_{k=-\infty}^\infty |a_k|^2\right)^{1/2} = 0$ implies that $\sum_{k=-\infty}^\infty |a_k|^2 = 0$, which is only possible if each of the terms $|a_k|^2 = 0$. This immediately gives that $|a_k| = 0$, so that means $a_k = 0$ for every $k$. So $a = 0$. 
+
+Now we will prove the Cauchy-Schwartz inequality in $\ell^2$. Choose $a,b \in \ell^2$. In the case that $a$ and $b$ are linearly dependent we have equality. So if $a$ and $b$ are linearly independent we define
+\[
+c = a - \frac{(a,b)}{(b,b)}b
+\]
+We then observe that
+\[
+(c,b) = \left( a - \frac{(a,b)}{(b,b)}b, b\right) = (a,b) - \frac{(a,b)}{(b,b)}(b,b) = 0
+\]
+So this means that $c$ is orthogonal to $b$. We then apply the Pythagorean theorem to $a = \frac{(a,b)}{(b,b)}b + c$ to see
+\[
+\norm{a}^2 = \left| \frac{(a,b)}{(b,b)}\right|^2\norm{b}^2 + \norm{c}^2 = \frac{(a,b)^2}{\norm{b}^2} + \norm{c} \geq \frac{(a,b)^2}{\norm{b}^2} 
+\]
+So we multiply by $\norm{b}$ and take square roots to see that $|(a,b)| \leq \norm{a}\norm{b}$. The triangle inequality follows immediately, the proof is exactly the same as the one given on the bottom of page 158 in Stein and Shakarchi modulo a change of variable, so we forgo it here. 
+
+We will now show that $\ell^2$ is complete in the metric induced by the norm. Let $\{a_i\}_{i\in \Z}$ be a Cauchy sequence in $\ell^2$. We can imagine that the elements of each sequence $a_i$ are the rows of an infinite matrix with entries $a_{i,j}$. We know that the rows of this matrix all converge to unique limits in $\C$. We also can get the convergence of the columns by noting that for fixed $k$
+\[
+|a_{i,k} - a_{j,k}|^2 \leq \norm{a_i - a_j}^2 \to 0
+\]
+when we send $\min\{i,j\} \to \infty$ because $\{a_i\}$ is Cauchy. This means that each column $\{a_{i,j}\}_{i \in \Z}$ converges to some unique limit $b_j \in \C$. We then set $b = \{b_j\}_{j\in \Z}$. It is clear from above that $d(a_i, b) \to 0$ as $i \to \infty$. We now need to show that $b \in \ell^2$. To show this, we need the following 
+\begin{lem}
+Every Cauchy sequence in $\ell^2$ is bounded in the norm.
+\end{lem} 
+\begin{proof}
+Let $\{x_n\}_{n\in \Z}$ be a Cauchy sequence in $\ell^2$. Then for any $\epsilon > 0$ we can find $N > 0$ such that $|n| > N$ implies $\norm{x_{|n|} - x_N} < \epsilon$. We then see that 
+\[
+\norm{x_{|n|}} \leq \norm{x_{|n|} - x_N} + \norm{x_N} < \norm{x_N} + \epsilon
+\]
+We then note that if $|n| < N$ that if 
+\[
+M = \max\{\norm{x_{-N + 1}}, \ldots, \norm{x_0}, \norm{x_1}, \ldots, \norm{x_{N - 1}}\}
+\]
+As a result we have that $\norm{x_n} \leq \max\{M, \norm{x_N} + \epsilon\} < \infty$, so $\{x_n\}$ is bounded in the norm. 
+\end{proof}
+
+With the lemma in hand we can proceed to see that for any fixed $j$ we have an $M$ such that
+\[
+\sum_{k = -\infty}^\infty |a_{k,j}|^2 \leq M^2
+\]
+So we can see that for any finite $N$ we have that
+\[
+\sum_{|n| < N} |b_{n}|^2 = \lim_{m \to \infty} \sum_{|n| < N} |a_{m,n}|^2 < M^2
+\]
+Taking $N \to \infty$ gives the result. 
+
+Now we show that $\ell^2$ is separable. We construct the natural basis for $\ell^2$ consisting of the vectors $e_k = (\ldots, 0, 1, 0, \ldots)$, which have a $1$ in the $k^{th}$ position. We need to show that finite linear combinations of the $e_k$ are dense in $\ell^2$. For each element $x \in \ell^2$ we consider the combination
+\[
+S_N(x) = \sum_{|k| \leq N} x_ke_k
+\]
+It is clear that $S_N(x)$ and $x$ agree for all indices $|k| \leq N$. We then see that
+\[
+\norm{S_N(x) - x} = \sum_{|k| > N} |x_k|
+\]
+Because $x \in \ell^2$ we have that $\sum_k |x_k|^2$ converges and so $\sum_k |x_k|$ must converge as well. We apply the definition of convergence to see that $\sum_{|k| > N} |x_k| \to 0$ as $N \to \infty$. Thus, finite linear combinations of the $e_k$ are dense in $\ell^2$.
+\end{document}

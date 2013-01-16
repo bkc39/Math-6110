@@ -1,0 +1,69 @@
+\message{ !name(Notes.tex)}\documentclass{article}
+\usepackage[tmargin=1in,bmargin=1in,lmargin=1.5in,rmargin=1.5in]{geometry}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,relsize,fancyhdr,parskip,graphicx}
+
+\pagestyle{fancy}
+\lhead{Ben Carriel}
+\chead{Math 6110 Notes}
+\rhead{\today}
+
+\parskip 7.2pt
+\parindent 8pt
+
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\capchi}{\raisebox{2pt}{$\mathlarger{\mathlarger{\chi}}$}}
+
+\DeclareMathOperator{\divides}{\mathrel{|}}
+\DeclareMathOperator{\suchthat}{\mathrel{:}}
+
+\DeclareMathOperator{\lra}{\longrightarrow}
+\DeclareMathOperator{\into}{\hookrightarrow}
+\DeclareMathOperator{\onto}{\twoheadrightarrow}
+\DeclareMathOperator{\bijection}{\leftrightarrow}
+
+\newcommand{\problem}[1]{\noindent{\textbf{Problem #1}}\\}
+\newcommand{\problempart}[1]{\noindent{\textbf{(#1)}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\diam}[1]{\text{diam}(#1)}
+
+\DeclareMathOperator{\im}{\text{im}}
+
+\newtheorem*{thm}{\\ Theorem}
+\newtheorem*{lem}{\\ Lemma}
+\newtheorem*{claim}{\\ Claim}
+\newtheorem*{defn}{\\ Definition}
+\newtheorem*{prop}{\\ Proposition}
+
+\begin{document}
+
+\message{ !name(Notes.tex) !offset(625) }
+  This is an algebra of sets and so we apply the Carath\'{e}odory
+  Extension theorem to extend this to the $\sigma$-algebra genrated by
+  the measurable rectangles. Hence, we have that whenever $E \in
+  \mathfrak{M}$, the result of the theorem holds for $\capchi_E$.
+
+  To make the final extension, we note that any open set in $\R^d -
+  \{0\}$ can be written as a countable union of rectangles $ \bigcup_j
+  A_j \times B_j$, where $A_j$ and $B_j$ are open in $(0,\infty)$ and
+  $S^{d-1}$ respectively (The proof of this fact is
+  clear. Exercise). It follows that any open set is in $\mathfrak{M}$,
+  and therefore so is any Borel set. So we have that the theorem is
+  true for $\capchi_E$ whenever $E$ is a Borel set in $\R^d -
+  \{0\}$. Then we clearly get the result for all characteristic
+  functions of Lebesgue measurable sets because they can be decomposed
+  into a Borel set and a set of measure zero. We then complete the
+  proof by the familiar construction of going from characteristic
+  functions, to simple functions, and then using the Monotone
+  convergence theorem to get the general result.
+\end{proof}
+
+
+\message{ !name(Notes.tex) !offset(631) }
+
+\end{document}

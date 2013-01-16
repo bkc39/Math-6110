@@ -1,0 +1,367 @@
+\documentclass{article}
+\usepackage[tmargin=1in,bmargin=1in,lmargin=1.5in,rmargin=1.5in]{geometry}
+\usepackage{amsfonts,amsmath,amssymb,amsthm}
+\usepackage{relsize,fancyhdr,parskip}
+\usepackage{graphicx}
+\usepackage[all,knot]{xy}
+
+\pagestyle{fancy}
+\lhead{Ben Carriel}
+\chead{Math 6110 Final Exam}
+\rhead{\today}
+
+\parskip 7.2pt
+\parindent 8pt
+
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\capchi}{\raisebox{2pt}{$\mathlarger{\mathlarger{\chi}}$}}
+
+\DeclareMathOperator{\divides}{\mathrel{|}}
+\DeclareMathOperator{\suchthat}{\mathrel{|}}
+
+\DeclareMathOperator{\lra}{\longrightarrow}
+\DeclareMathOperator{\into}{\hookrightarrow}
+\DeclareMathOperator{\onto}{\twoheadrightarrow}
+\DeclareMathOperator{\bijection}{\leftrightarrow}
+
+\newcommand{\problem}[1]{\noindent{\textbf{Problem #1}}\\}
+\newcommand{\problempart}[1]{\noindent{\textbf{(#1)}}}
+\newcommand{\exercise}[1]{\noindent{\textbf{Exercise #1:}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\diam}[1]{\text{diam}(#1)}
+\newcommand{\seq}[2]{\{#1_{#2}\}_{#2 = 1}^\infty}
+
+\DeclareMathOperator{\im}{\text{im}}
+
+\newtheorem*{thm}{\\ Theorem}
+\newtheorem*{lem}{\\ Lemma}
+\newtheorem*{claim}{\\ Claim}
+\newtheorem*{defn}{\\ Definition}
+\newtheorem*{prop}{\\ Proposition}
+
+\xyoption{arc}
+
+\begin{document}
+\exercise{4.7.28}
+\begin{enumerate}
+\item [\textbf{(a)}] We can use the fact that $L^2$ is self-dual so
+  that H\"{o}lder's inequality becomes
+  \[
+  \left|\int_B K(x,y)f(y)dy\right| \leq \left(\int_B
+      |K(x,y)|^2dy\right)^{1/2}\left(\int_B |f(y)|^2dy\right)^{1/2}
+  \]
+  Applying the estimate $|K(x,y)| \leq A|x-y|^{\alpha - d}$ we see that
+  \begin{align*}
+    \left|\int_B K(x,y)f(y)dy\right| &\leq \left(\int_B
+      A^2|x-y|^{2(\alpha - d)}dy\right)^{1/2}\left(\int_B
+      |f(y)|^2dy\right)^{1/2} \\
+    &\leq \left(A^22^{2(\alpha - d)}\int_B
+      1 dy\right)^{1/2}\left(\int_B |f(y)|^2dy\right)^{1/2} \\
+    &= A2^{\alpha - d}m(B)^{1/2}\left(\int_B |f(y)|^2dy\right)^{1/2}
+  \end{align*}
+  where $m(B)$ is the measure of the unit ball in $\R^d$. Because $f
+  \in L^2(B)$ we have that the right hand side above is bounded and
+  hence, if we square the above inequality and integrate (with respect
+  to $x$) we get
+  \[
+  \norm{Tf}_{L^2(B)}^2 \leq (A2^{\alpha - d}m(B)^{1/2})^2\norm{f}_{L^2(B)}^2
+  \]
+  Equivalently,
+  \[
+  \norm{Tf}_{L^2(B)} \leq A2^{\alpha - d}m(B)^{1/2}\norm{f}_{L^2(B)}
+  \]
+  So we have that
+  \[
+  \norm{T} = \inf \{M \suchthat \norm{Tf}_{L^1} \leq M\norm{f}_{L^2}\}
+  \leq A2^{\alpha - d}m(B)^{1/2}
+  \]
+  Which means that $T$ is a bounded operator on $L^2(B)$.
+\item [\textbf{(b)}] Following the hint, define
+\[
+K_n(x,y) =
+\begin{cases}
+  K(x,y) & |x-y| \geq 1/n \\
+  0      & \text{ otherwise}
+\end{cases}
+\]
+and
+\[
+T_n(f)(x) = \int_B K_n(x,y)f(y)dy
+\]
+We begin by verifying the following
+\begin{claim}
+  Each of the operators $T_n$ is a compact operator.
+\end{claim}
+\begin{proof}
+  This is clear if we note that we just apply Exercise 4.7.26 to each
+  of the $T_n$. this exercise was proved on the homework and gives
+  that each operator is compact.
+\end{proof}
+We now want to show that $T_n \to T$ in the operator norm. Indeed,
+\[
+\int_B|K_n(x,y) - K(x,y)|dy \leq \int_{|x-y| \leq 1/n} A|x-y|^{\alpha - d}dy
+\]
+Then if we set
+\[
+M_n = \int_{|z| \leq 1/n} \frac{1}{|z|^{d-\alpha}}dz
+\]
+Then $1/|z|^{d - \alpha} \in L^1(\R^d)$ because the exponent is less
+that $d$. Consequently, the absolute continuity of the integral
+implies that $M_n \to 0$ as $n\to \infty$. Substituting this in the
+above gives that
+\[
+\int_B|K_n(x,y) - K(x,y)|dy \leq AM_n
+\]
+Which also goes to $0$ as $n\to \infty$ and so $\norm{T_n - T} \to
+0$. Because each $T_n$ is compact and $T_n \to T$ we can apply
+Proposition 6.1 to get that $T$ is compact as well.
+\end{enumerate}
+
+\exercise{6.7.8}
+\begin{enumerate}
+\item [\textbf{(a)}] We note that we can decompose $Q_1$ into a
+  disjoint union of exactly $n^d$ cubes of side length $1/n$. Each of
+  these cubes is a translate of the cube $Q_{1/n}$. So because the
+  union is disjoint we see that
+  \[
+  \mu(Q_1) = \sum_{k=1}^{n^d}\mu(Q_{1/n}) = n^d\mu(Q_{1/n})
+  \]
+  Dividing out $n^d$ gives that
+  \[
+  m(Q_{1/n}) = n^{-d}\mu(Q_1)
+  \]
+  And if we let $\mu(Q_1) = c$ then we have that $\mu(Q_{1/n}) = cn^{-d}$.
+\item [\textbf{(b)}] We want to see that $\mu \ll m$. So we need to
+  see that for every Lebesgue measurable set $E$ with measure 0, then
+  $\mu(E) = 0$. Indeed, choose a $\mu$-measurable set $E$ with $m(E) =
+  0$.  Then for any $\epsilon >0$ we can find an open set
+  $\mathcal{O}$ such that $m(\mathcal{O}-E) < \epsilon$. Consequently,
+  we see that $m(\mathcal{O} < \epsilon$. Then we can decompose
+  $\mathcal{O}$ into a countable union of almost disjoint cubes $Q_j$
+  with side length $1/n$ for some integer $n$ (Theorem 1.1.4). Then by
+  the previous part $\mu(Q_j) = cm(Q_j)$ and so
+  \[
+  \mu(\mathcal{O}) = \sum_{j=1}^\infty \mu(Q_j) = \sum_{j=1}^\infty
+  cm(Q_j) = cm(\mathcal{O} < c\epsilon
+  \]
+  Letting $\epsilon \to 0$ shows that $\mu(E) = 0$. Thus, $\mu \ll m$
+  and we can apply Theorem 6.4.3 to get that
+  \[
+  \mu(E) = \int_E fdm
+  \]
+  We then immediately get that $f$ is locally integrable because it
+  must be integrable on every $\mu$-measurable set (Borel sets) and in
+  particular, every ball.
+\item [\textbf{(c)}] Let $x$ be a point in the Lebesgue set of $f$ and
+  let $Q_n$ be a collection of half-open dyadic rational cubes that
+  contain $x$. Then the family $Q_n$ shrinks regularly to $x$ because
+  the ratio of a cube $Q$ of size length $n$ to its circumscribing ball is
+  given by
+  \[
+  \frac{m(Q)}{m(B_Q)} = \frac{n^d}{r^dv_dm(B_1(0))} =
+  \frac{n^d}{2^{-1/2}n^dv_dm(B_1(0))} = \frac{\sqrt{2}}{v_dm(B_1(0))}
+  \]
+  where $B_1(0)$ is the unit ball about the origin and $v_d$ is a
+  constant depending only on $d$, and hence the ratio is constant. For
+  each cube we have that
+  \[
+  \frac{1}{m(Q_n)}\int_{Q_n}fdm = \frac{1}{m(Q_n)}\cdot\mu(Q_n) =
+  \frac{cm(Q_n)}{m(Q_n)} = c
+  \]
+  So $f(x) = c$ at every Lebesgue point of $f$. We then note that
+  because $f$ is locally integrable almost every point of $\R^d$ is in
+  the Lebesgue set of $f$ and so $f(x) = c$ almost everywhere.
+\end{enumerate}
+
+\exercise{1.8.10}
+\begin{enumerate}
+\item [\textbf{(a)}] To see that $\R^d$ with Lebesgue measure is
+  separable we set the collection of sets $\seq{E}{k}$ to be all
+  finite unions of cubes with side length $1/n$ with rational
+  endpoints for some integer $n$. Then for each measurable set $E$ in
+  $\R^d$ and $\epsilon > 0$ we can choose a family of cubes such that
+  \[
+  E \subset \bigcup_{j=1}^\infty Q_j \text{ and } \sum_{j=1}^\infty
+  m(Q_j) \leq m(E) + \epsilon/2
+  \]
+  This choice can always be made because if $E$ is measurable then we
+  can find an open set $\mathcal{O} \supset E$ such that
+  $m(\mathcal{O}-E) < \epsilon$ and we can choose a set of cubes $Q_j$
+  such that $\sum_{j=1}^\infty m(Q_j) = m(\mathcal{O})$.
+
+  Since $m(E) < \infty$, the series converges and so we can find an
+  $N$ large enough that $\sum_{j > N}m(Q_j) < \epsilon/2$. Then if $F
+  = \bigcup_{j=1}^N Q_j$ we see
+  \begin{align*}
+    m(E\triangle F) &= m(E - F) + m(F - E) \\
+    &\leq m\left(\bigcup_{j > N} Q_j\right) + m\left(\bigcup_{j \leq
+        N} Q_j - E\right) \\
+    &\leq \sum_{j > N} m(Q_j) + \sum_{j=1}^\infty m(Q_j) - m(E) \\
+    &\leq \epsilon
+  \end{align*}
+  Letting $\epsilon \to 0$ gives the result.
+\item [\textbf{(b)}] We need to find the countable dense subset in
+  $L^p(X)$. Consider all functions of the form $r\capchi_{E_k}(x)$
+  where $r$ is a complex number with rational real and imaginary parts
+  and $E_k$ is the family of measurable sets in $X$ such that $\mu(E)
+  < \infty$ implies that $\mu(E\triangle E_{n_k}) \to 0$ as $k \to
+  \infty$. I claim that the set of finite linear combinations of these
+  functions is dense in $L^p(X)$.
+
+  Suppose that we have an $f \in L^p(X)$ and for each $n \geq 1$ the
+  function
+  \[
+  g_n(x) =
+  \begin{cases}
+    f(x) & \text{if } x \in E_n \text{ and } |f(x)| \leq n \\
+    0    & \text{otherwise}
+  \end{cases}
+  \]
+  Then we have that $|f - g_n|^p \leq 2^p|f|^p$ so $f-g_n$ is in
+  $L^p(X)$. Furthermore, $f \in L^p(X)$ implies that $f(x) \leq
+  \infty$ almost everywhere and so $g_n(x) \to f(x)$ almost
+  everywhere. We then apply the dominated convergence theorem to get
+  that $\norm{f-g_n}_{L^p(X)}\to 0$ as $n \to \infty$. Thus, for
+  sufficiently large $N$ we have $\norm{f-g_N}_{L^p(X)} <
+  \epsilon/2$. Let $g = g_N$ and observe that $g$ is a bounded
+  function supported on a set of finite measure, so $g \in L^1(X)$. In
+  particular, $g$ is measurable and can therefore be approximated by a
+  sequence of increasing, simple functions $\varphi_k \nearrow g$ such
+  that each for large enough $M$ we have $\varphi_M \leq N$ and
+  \[
+  \int_X |\varphi_M - g|d\mu \leq \frac{\epsilon^p}{4(2N)^{p-1}}
+  \]
+  We then note that because $\varphi_M = \sum_{j=1}^D
+  \alpha_j\capchi_{A_j}$ where the $\alpha_j \in \mathcal \C$ and
+  $A_j$ is measurable. So we can find a simple function $\psi =
+  \sum_{j=1}^D r_j \capchi_{E_j}$ such that
+  \begin{align*}
+    \int_X |\varphi(x) - \psi(x)|d\mu &\leq \sum_{j=1}^D\int_X
+    \alpha_j\capchi_{A_j}(x) - r_j\capchi_{E_j}(x) d\mu \\
+    &\leq \sum_{j=1}^D\int_X \alpha_j\capchi_{E_j}(x) -
+    r_j\capchi_{E_j}(x) + \alpha_j\capchi_{A_j - E_j} d\mu \\
+    &\leq \sum_{j=1}^D\int_X (\alpha_j - r_j)\capchi_{E_j}(x) +
+    \alpha_j\capchi_{A_j - E_j} d\mu
+  \end{align*}
+  We then choose $r_j$ such that
+  \[
+  |\alpha_j - r_j| \leq \frac{\epsilon^p}{2^{p+1}(2N)^{p-1}\sum_{j =
+      1}^d \mu(E_j)}
+  \]
+  and choose the $E_j$ such that if $\alpha = \max_{j\leq D}\alpha_j$ then
+  \[
+  \mu(A_j - E_j) \leq \frac{\epsilon^p}{2^{p+1}(2N)^{p-1}D\alpha}
+  \]
+  So that the above becomes
+  \begin{align*}
+    \sum_{j=1}^D\int_X (\alpha_j - r_j)\capchi_{E_j}(x) +
+    \alpha_j\capchi_{A_j - E_j} d\mu &\leq \sum_{j=1}^D|\alpha_j -
+    r_j|\int_X\capchi_{E_j}d\mu + \sum_{j=1}^D\alpha\int_X\capchi_{A_j
+      - E_j}d\mu \\
+    &\leq \frac{\epsilon^p}{2^{p+1}(2N)^{p-1}\sum_{j = 1}^D
+      \mu(E_j)}\sum_{j=1}^D\mu(E_j) + \alpha\sum_{j=1}^d\mu(A_j-E_j) \\
+    &\leq \frac{\epsilon^p}{2^{p+1}(2N)^{p-1}} + D\alpha\cdot
+    \frac{\epsilon^p}{2^{p+1}(2N)^{p-1}D\alpha} \\
+    &= 2\cdot \frac{\epsilon^p}{2^{p+1}(2N)^{p-1}} \\
+    &= \frac{\epsilon^p}{2^{p+1}(2N)^{p-1}}
+  \end{align*}
+  Hence, we can approximate $f$ as follows
+  \[
+  \norm{f - \psi}_{L^p(X)} \leq \norm{f - g}_{L^p(X)} + \norm{g - \psi}_{L^p(X)}
+  \]
+  We have already shown that with our choice of $g$ the first term is
+  bounded by $\epsilon/2$. For the second term we compute
+  \begin{align*}
+    \norm{g - \psi}_{L^p(X)}^p &= \int_X |g - \psi|^pd\mu \\
+    &= \int_X |g - \psi|^{p-1}|g-\psi|d\mu \\
+    &\leq 2^{p-1}(|g|^{p-1} - |\psi|^{p-1})|g - \psi|d\mu \\
+    &\leq 2(2N)^{p-1}\int_X|g-\psi|d\mu \\
+    &\leq 2(2N)^{p-1}\left(\int_X |g - \varphi|d\mu + \int_X |\varphi -
+      \psi|d\mu\right) \\
+    &\leq 2(2N)^{p-1}\left(\frac{\epsilon^p}{2^{p+1}(2N)^{p-1}} +
+      \frac{\epsilon^p}{2^{p+1}(2N)^{p-1}}\right) \\
+    &= \frac{\epsilon^p}{2^p}
+  \end{align*}
+  Taking $p^{\text{th}}$ roots gives $\norm{g - \psi}_{L^p(X)} <
+  \epsilon/2$. Plugging this back into the triangle inequality gives that
+  \[
+  \norm{f - \psi}_{L^p(X)} \leq \epsilon
+  \]
+  So $L^p(X)$ is separable.
+\end{enumerate}
+
+\exercise{1.8.16} We are given a finite set of functions $f_j \in
+L^{p_j}(X)$, where $\sum_{j=1}^N 1/p_j = 1$ whenever $p_j \geq 1$ for
+each $j$. We need to verify that
+\[
+\norm{\prod_{j=1}^N f_j}_{L^1(X)} \leq \prod_{j=1}^N \norm{f_j}_{L^{p_j}(X)}
+\]
+It will actually we be easier to prove the more general case when
+$\sum_{j=1}^N 1/p_j = r$ for some $r$ and so
+\[
+\norm{\prod_{j=1}^N f_j}_{L^r(X)} \leq \prod_{j=1}^N \norm{f_j}_{L^{p_j}(X)}
+\]
+This is a slight abuse of notation because it may be the case that $r$
+is not actually a norm. In this case we still are referring to the
+quantity
+\[
+\norm{f}_{L^r(X)} = \left(\int_X|f|^rd\mu\right)^{1/r}
+\]
+We will proceed by induction on $N$. The case $N = 1$ is the familiar
+fact that
+\[
+\left|\int_X fd\mu\right|^r \leq \int_X|f|^rd\mu
+\]
+For the case $N=2$ we apply the usual H\"{o}lder inequality to
+$|f_1|^r$, $g = |f_2|^r$ and $p_1/r, p_2/r$ as the exponents. This
+gives that
+\begin{align*}
+  \norm{f_1f_2}_{L^r(X)}^r &= \int_X |f_1(x)f_2(x)|^rd\mu \\
+  &\leq \norm{|f_1|^r}_{L^{p_1/r}(X)}\cdot\norm{|f_2|^r}_{L^{p_2/r}(X)} \\
+  &= \left(\int_X |f_1|^{r(p_1/r)}d\mu\right)^{r/p_1}\left(\int_X
+    |f_2|^{r(p_2/r)}d\mu\right)^{r/p_2} \\
+  &= \norm{f_1}_{L^{p_1}(X)}^r\cdot\norm{f_2}_{L^{p_2}(X)}^r
+\end{align*}
+So the result is established in the $N=2$ case. We then proceed to the
+inductive step and suppose that
+\[
+\norm{\prod_{j=1}^{n-1} f_j}_{L^r(X)} \leq \prod_{j=1}^{n-1}
+\norm{f_j}_{L^{p_j}(X)}
+\]
+To show that the inequality is valid for $n$ we simply compute
+\[
+\norm{\prod_{j=1}^{n} f_j}_{L^1(X)} = \norm{(\prod_{j=1}^{n-1} f_j)\cdot|f_n|}
+\]
+We then apply the usual H\"{o}lder's inequality with
+$\prod_{j=1}^{n-1} f_j$ and $f_n$ noting that $1/p_n +
+\sum_{j=1}^{n-1} 1/p_j = 1$ so if we let $r = \left(\sum_{j=1}^{n-1}
+  1/p_j\right)^{-1}$ then this becomes
+\[
+\norm{\prod_{j=1}^{n} f_j}_{L^1(X)} \leq \norm{\prod_{j=1}^{n-1}
+  f_j}_{L^r(X)}\cdot\norm{f}_{L^{p_n}(X)}
+\]
+We then apply the $n-1$ inequality to get the desired result.
+
+\exercise{4.6.11}
+
+Let $\mathcal{M}_{[a,b]}$ denote the set of continuous functions that
+are not monotonic in $[a,b]$ with $a,b \in \Q$. We need to show that
+each of these sets must be open in $\mathcal{C}([0,1])$. If we choose
+an $f \in \mathcal{M}_{[a,b]}$ then it measn that $f$ is not monotonic
+in $[a,b]$ and therefore we can find points $x_0 < x_1 < x_2$ such
+that $f(x_0) < f(x_1) < f(x_2)$. If we compute the distance between
+$f$ and some other function $g$ we see that $g$ is closer to $f$ than
+the smaller of the numbers $f(y) - f(z)$ and $f(y) - f(z)$. As a
+result we also see that $g(x) < g(y)$ and $g(z) < g(y)$ so that $g$ is
+not monotonic on $\mathcal{M}_{[a,b]}$ either and so $M_{[a,b]}$ is open.
+
+We have seen that $\mathcal{M}_{[a,b]}$ is open and so it is
+everywhere dense. 
+
+\end{document}

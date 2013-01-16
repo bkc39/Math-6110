@@ -1,0 +1,254 @@
+\documentclass{article}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,fancyhdr,parskip,graphicx}
+
+\pagestyle{fancy}
+\lhead{Ben Carriel}
+\chead{Math 6110 Problem Set 3}
+\rhead{\today}
+
+\parskip 7.2pt
+\parindent 8pt
+
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+
+\DeclareMathOperator{\divides}{\mathrel{|}}
+\DeclareMathOperator{\suchthat}{\mathrel{|}}
+
+\DeclareMathOperator{\lra}{\longrightarrow}
+\DeclareMathOperator{\into}{\hookrightarrow}
+\DeclareMathOperator{\onto}{\twoheadrightarrow}
+\DeclareMathOperator{\bijection}{\leftrightarrow}
+
+
+\newcommand{\problem}[1]{\noindent{\textbf{Problem #1}}\\}
+\newcommand{\problempart}[1]{\noindent{\textbf{(#1)}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+
+\newtheorem*{thm}{Theorem}
+\newtheorem*{lem}{Lemma}
+\newtheorem*{claim}{Claim}
+\newtheorem*{defn}{Definition}
+\newtheorem*{prop}{Proposition}
+
+\begin{document}
+
+\problem{2.5.6}
+\problempart{a} Consider the function $f$ such that for each $n \geq 1$
+\[
+f(x) = 
+	\begin{cases}
+		n & x \in [n, n + 1/n^3) \\
+		0 & \text{otherwise}
+	\end{cases}
+\]
+Pictorially, $f$ consists of rectangles with width $1/n^3$ and height $n$ on each interval $[n, n+1)$. We can see that $f$ is integrable because if we consider the interval $I_n = [n, n + 1]$, then 
+\[
+\int_{I_n} f = n/n^3 = 1/n^2
+\]
+Then note that 
+\[
+\int_{\R} f = \sum_{n = 1}^\infty \inf_{I_n} f = \sum_{n=1}^\infty 1/n^2 = \frac{\pi^2}{6}
+\]
+However, we can see that 
+\[
+\limsup_{x\to \infty} f(x) = \lim_{x\to\infty}(\sup_{y \geq x} f(y)) = \infty
+\] 
+because the ``rectangles'' get arbitrarily high and so for every $x$ we can find $y > x$ such that $f(y) > M$ for any $M$. 
+ 
+\problempart{b} We will prove the contrapositive. Namely, if $f$ is uniformly continuous and $f \not\to 0$ as $|x| \to \infty$ then $f$ is not Lebesgue integrable. Let $\epsilon > 0$ be given and find $\delta_0 > 0$ such that $|x - y| < \delta_0$ implies $|f(x) - f(y)| < \epsilon/2$, then set $\delta = \min \{\delta_0, 1/2\}$. Because $f \not\to 0$ we can find some $x_0$ such that $f(x_0) > \epsilon$. But then in some $\delta$-neighborhood of $x_0$, $|f| > \epsilon/2$. We iterate this process, because we know we can always find an $x_{n+1} > x_n + 1$ such that $f(x_{n+1}) > \epsilon$ and so in some $\delta$-neighborhood of $x_{n+1}$ we have that $|f| > \epsilon/2$. Furthermore, each of these neighborhoods, $\{N_n\}$ are disjoint because $|x_{n+1} - x_n| > 1$ and $\delta > 1/2$. This means that
+\[
+\int_{\R} |f| \geq \int_{\cup N_n} |f| \geq \sum_{n=1}^\infty \frac{\epsilon}{2}(2\delta) = \sum_{n=1}^\infty \epsilon\delta
+\] 
+
+The sum on the right diverges and so $f$ is not integrable. This verifies the contrapositive, and completes the proof. 
+
+\problem{2.5.8} Suppose that $f$ is integrable and let $\epsilon > 0$ be given. By Proposition 1.12 (ii) there is some $\delta > 0$ such that
+\[
+\int_{E} |f| < \epsilon \text{ whenever } m(E) < \delta
+\]
+
+Now choose $h < \delta$ so that $|(x+h) - x| = h < \delta$ and let $E = [x,x+h]$ so that $m(E) = m([x,x+h]) = h < \delta$
+\[
+\left|\int_{-\infty}^{x+h}f - \int_{-\infty}^x f\right|  = \left|\int_E f\right| < \epsilon
+\] 
+Hence, $F(x) = \int_{-\infty}^x f(t)dt$ is uniformly continuous.
+ 
+\problem{2.5.9} To see this inequality observe that if fix $\alpha > 0$ and define 
+\[
+E_\alpha = \{x \suchthat f(x) > \alpha\}
+\]
+
+Then we have that
+\[
+\int_{E_\alpha} f \geq \int_{\R^n} f\chi(E_\alpha) \geq \alpha m(E_\alpha) 
+\]
+Re-ordering the terms gives
+\[
+m(E_\alpha) \leq \frac{1}{\alpha}\int f
+\]
+
+\problem{2.5.10} Let $f$ be a non-negative function and define 
+\[
+E_{2^k} = \{x \suchthat f(x) > 2^k\} \text{ and } F_k = \{x \suchthat 2^k < f \leq 2^{k+1}\}
+\]
+
+If if is finite a.e. then 
+\[
+\bigcup_{-\infty}^\infty F_k = \{f > 0\}
+\]
+Moreover, each of the $F_k$ are disjoint. Then \\
+\begin{prop}
+The following are equivalent
+\begin{enumerate}
+\item f is integrable
+\item $\sum_{k= -\infty}^\infty 2^km(F_k) < \infty$
+\item $\sum_{k= -\infty}^\infty 2^km(E_{2^k}) < \infty$
+\end{enumerate}
+\end{prop}
+\begin{proof}
+To see that $1. \Rightarrow 2.$ observe that if $f$ is integrable then $\int f < \infty$. Next we note that because $f \geq 0$ we must have that 
+\[
+\int_{\R} f = \int_{\cup_k F_k} f
+\]
+Then because each of the $F_k$ are disjoint we get that 
+\[
+\int_{\cup_k F_k} f = \sum_{k = -\infty}^\infty \int_{F_k} f = \sum_{k = -\infty}^\infty \int f\chi_{F_k} \geq \sum_{k = -\infty}^\infty 2^km(F_k)
+\]
+So because $\int f < \infty$ we have that $\sum_{k=-\infty}^\infty 2^km(F_k) < \infty$, and we are done. Now we will show that $2. \Rightarrow 3.$ Note that because $\sum_{k=-\infty}^\infty 2^km(F_k) < \infty$ we have that for any $\epsilon > 0$ we can find an $N$ such that 
+\[
+\sum_{|k| > N} 2^km(F_k) < \epsilon
+\]
+
+Furthermore, we have that $E_k = \bigcup_{|\ell| > |k|} F_k$, and that the union is disjoint. Then we see that
+\[
+\sum_{|k| > N} 2^km(E_2^k) = \sum_{|k| > N} 2^{k}\sum_{|\ell| > |k|} m(F_k) = \sum_{|k| > N}\sum_{\ell > k} 2^km(F_k)
+\]
+
+We then take $\sum_{|\ell| > |k|} 2^km(F_k) < \epsilon/2^k$ So that we have that
+\[
+\sum_{|k| > N} 2^km(E_{2^k}) \leq \sum_{|k| > N} \epsilon/2^k \leq \epsilon 
+\]
+
+We now proceed to $3. \Rightarrow 1.$ To see this note that 
+\[
+f \leq \sum_{k = -\infty}^\infty 2^k\chi_{E_{2^k}} \leq 2f
+\]
+
+This is because $\R^+ \subset \bigcup_k E_k$ and $f(x) < 2^{k}$ for $x \in E_{2^\ell}$ with $\ell < k$. Then 
+\[
+\int f < \int \sum_{k = -\infty}^\infty2^k\chi_{E_2^k}  = \sum_{k=-\infty}^\infty 2^km(E_k) < \infty
+\]
+Which means that $f$ is integrable by the dominated convergence theorem. This gives $1. \Rightarrow 2. \Rightarrow 3. \Rightarrow 1.$ and so we are done. 
+\end{proof}
+
+Next we consider the function 
+\[
+f(x) = 
+\begin{cases}
+|x|^{-\alpha} & \text{ if }|x| \leq 1 \\
+0 & \text{ otherwise}
+\end{cases} 
+\]
+
+For $f$ we get that the sets $E_{2^k}(f) = \{f(x) > 2^k\}$ depend on $|k|$ because if $k \leq 0$ we have that $2^{|k|} > |x|^\alpha$ so $|x| \leq 1$. And if $k \geq 1$ then we see that $|x| \leq 2^{k/\alpha}$. We then compute 
+\[
+m(E_{2^k}(f)) = 
+\begin{cases}
+2^d & k \leq 0 \\
+2^{d - kd/\alpha} & k \geq 1
+\end{cases}
+\]
+By the Proposition we have that $f$ is integrable iff the sum $\sum_{k = -\infty}^\infty 2^km(E_{2^k}(f))$ converges. For this to happen we must have that
+\begin{align*}
+\sum_{k=\infty}^\infty 2^km(E_{2^k}(f)) &= \sum_{k = -\infty}^0 2^k(2^d) + \sum_{k=1}^\infty 2^k2^(d - kd/\alpha)\\
+&= 2^{d+1} + 2^d\sum_{k=-\infty}^\infty 2^{(1-d/\alpha)k}
+\end{align*}
+
+Which will converge given that $1-d/\alpha$, which is precisely when $a < d$. \
+For the function
+\[
+g(x) = 
+\begin{cases}
+|x|^{-\beta} & \text{ if } |x|  > 1 \\
+0 & \text{ otherwise}
+\end{cases}
+\] 
+
+In this case we compute the sets $E_{2^k}(g)$. Note that if $k \geq 1$ then $2^k > 1$ and $|x|^{-\beta} < 1$ so $E_{2^k}(g)$ is empty. If $k \leq 0$ then we have that $g(x) > 2^k$ iff $|x| < 2^{k/\beta}$. In this case we have that measure of $E_{2^k}(g)$ is $2^d2^{-kd/\beta}$. And so we proceed as with $f$ by applying the proposition to get that $g$ is integrable iff
+\[
+\sum_{k = -\infty}^\infty 2^km(E_{2^k}(g)) = \sum_{k = -\infty}^0 2^k2^d2^{-kd/\beta} = 2^d\sum_{k=-\infty}^02^{1 - d/\beta}
+\]
+converges. This means that $1 - d/\beta > 0$ or that $\beta > d$, and we are done. 
+
+\problem{2.5.11} Let $f: \R^d \to \R$ be integrable and suppose that $\int_E f(x)dx \geq 0$ for every measurable $E$. We want to show that $f \geq 0$ a.e. Suppose not, then the set $F = \{x \suchthat f(x) < 0\}$ has positive measure. Next, define the collection of sets $\{F_n\} = \{x \suchthat f(x) < -1/n\}$ and observe that 
+\[
+F = \bigcup_{n=1}^\infty F_n
+\]
+
+By subadditivity we have that 
+\[
+0 < m(F) < \sum_{n=1}^\infty m(F_n)
+\]
+
+Hence, there must be at least one $n$ such that $m(F_n) > 0$ and so
+\[
+\int_{F_n} f(x)dx \leq \int_{F_n} \frac{-1}{n} dx \leq \frac{-1}{n}m(F_n) < 0
+\]
+But $F_n$ is a measurable set by definition, so we have a contradiction. Hence, $f \geq 0$ a.e. \\
+\indent As a result of this fact, if $\int_E f(x)dx = 0$ for every measurable $E$, then $\int_E f(x) \geq 0$ and $\int_E -f(x)dx \geq 0$ for every measurable $E$. By above we see that $f \geq 0$ a.e. and $-f \geq 0$ a.e. which means that $f = 0$ a.e. 
+
+\problem{2.5.15} We begin by computing the integral of $f$ on $\R$. We first note that $f$ is only non-zero on $(0,1)$ so $\int_{\R} f(x)dx = \int_{(0,1)} f(x)dx$ and note that we can write $(0,1) = \bigcup_{n=1}^\infty (\frac{1}{n+1}, \frac{1}{n})$, and the union is disjoint. This gives that
+\[
+\int_{(0,1)} f = \int_{\cup_n (\frac{1}{n+1}, \frac{1}{n})} f = \sum_{n=1}^\infty \int_{(\frac{1}{n+1}, \frac{1}{n})} f 
+\]
+
+We can take the sum on the right as a limit of its partial sums to see that
+\[
+\sum_{n=1}^\infty \int_{(\frac{1}{n+1}, \frac{1}{n})} f  = \lim_{m\to\infty}\sum_{n=1}^m \int_{(\frac{1}{n+1}, \frac{1}{n})} f = \lim_{m\to\infty}\int_{m+1}^1 f = \lim_{t \to 0}\int_t^1 f 
+\]
+
+We then integrate in the usual (Riemann) way because the integrals must be equal to get
+\[
+\lim_{t\to 0}\int_t^1\frac{1}{\sqrt{x}}dx = \lim_{t\to 0} 2\sqrt{x}\big{|}_t^1 = \lim_{t\to 0}2(1 - \sqrt{t}) = 2
+\]
+
+Next we use translation invariance of the integral to see that for each $r_n$
+\[
+\int_{\R} f(x-r_n)dx = 2
+\]
+
+Because $f \geq 0$ on $\R$ we have that the partial sums of $F$ are monotone increasing and converge to $F$. We can then use the Monotone Convergence Theorem to see that 
+\[
+\int Fdx = \int \sum_{n=1}^\infty 2^{-n}f(x - r_n) dx = \sum_{n=1}^\infty \int 2^{-n}f(x - r_n)dx = \sum_{n=1}^\infty 2^{-n}\int f(x - r_n)dx
+\]
+
+But we saw that $\int f(x - r_n)dx = 2$ so this becomes
+\[
+\int Fdx = \sum_{n=1}^\infty 2^{1-n} = 2 < \infty
+\]
+
+And so $F$ is integrable. Furthermore, because $F$ is integrable it must be bounded a.e. on $\R$. We now need to verify the following \\
+\begin{claim}
+The following hold about the function $F$ as defined above,
+\begin{enumerate}
+\item $F$ is unbounded on every interval.
+\item Any function $\tilde{F}$ such that $\tilde{F} = F$ a.e. is unbounded on every interval.
+\end{enumerate}
+\end{claim}
+\begin{proof}
+First we will prove 1. Let $I$ be any interval and choose $r_k \in I$. Then for any $M > 0$ we can see that $f(x - r_k) > M$ whenever
+\[
+x \in (r_k - 1/M^2, r_k + 1/M^2)
+\]
+because if $f(x - r_k) = \frac{1}{\sqrt{x - r_k}} > M$ then 
+\[
+r_k - \frac{1}{m^2} < x < r_k + \frac{1}{M^2}
+\] 
+So $x$ is in the interval $I_{r_k} = (r_k - 1/M^2, r_k + 1/M^2)$. Furthermore, we can see that $I \cap I_{r_k} \neq 0$ and in fact has positive measure (it is an interval). So $F$ is unbounded on each interval because we can make each term of the sum, $\sum_{n=1}^\infty 2^nf(x-r_n)$ arbitrarily large on $I$. \\
+\indent Next, take any function $\tilde{F}$ which equals $F$ almost everywhere. We then focus our attention to the values of $\tilde{F}$ on $I_{r_k}$. Because $\tilde{F} = F$ almost everywhere we have that $\tilde{F} > M$ at almost every $x \in I_{r_k}$, which means that $\tilde{F}$ is unbounded on every interval.     
+\end{proof}
+
+\end{document}

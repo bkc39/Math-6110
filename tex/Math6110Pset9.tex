@@ -1,0 +1,257 @@
+\documentclass{article}
+\usepackage[tmargin=1in,bmargin=1in,lmargin=1.5in,rmargin=1.5in]{geometry}
+\usepackage{amsfonts,amsmath,amssymb,amsthm,relsize,fancyhdr,parskip,graphicx}
+
+\pagestyle{fancy}
+\lhead{Ben Carriel}
+\chead{Math 6110 Problem Set 9}
+\rhead{\today}
+
+\parskip 7.2pt
+\parindent 8pt
+
+\DeclareMathOperator{\N}{\mathbb{N}}
+\DeclareMathOperator{\Z}{\mathbb{Z}}
+\DeclareMathOperator{\Q}{\mathbb{Q}}
+\DeclareMathOperator{\R}{\mathbb{R}}
+\DeclareMathOperator{\C}{\mathbb{C}}
+\DeclareMathOperator{\capchi}{\raisebox{2pt}{$\mathlarger{\mathlarger{\chi}}$}}
+
+\DeclareMathOperator{\divides}{\mathrel{|}}
+\DeclareMathOperator{\suchthat}{\mathrel{|}}
+
+\DeclareMathOperator{\lra}{\longrightarrow}
+\DeclareMathOperator{\into}{\hookrightarrow}
+\DeclareMathOperator{\onto}{\twoheadrightarrow}
+\DeclareMathOperator{\bijection}{\leftrightarrow}
+
+\newcommand{\problem}[1]{\noindent{\textbf{Problem #1}}\\}
+\newcommand{\problempart}[1]{\noindent{\textbf{(#1)}}}
+
+\newcommand{\der}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\norm}[1]{\|#1\|}
+\newcommand{\diam}[1]{\text{diam}(#1)}
+
+\DeclareMathOperator{\im}{\text{im}}
+
+\newtheorem*{thm}{\\ Theorem}
+\newtheorem*{lem}{\\ Lemma}
+\newtheorem*{claim}{\\ Claim}
+\newtheorem*{defn}{\\ Definition}
+\newtheorem*{prop}{\\ Proposition}
+
+\begin{document}
+\problem{6.7.2}
+\problempart{a} We will first verify that $\overline{\mathcal{M}}$ is indeed a $\sigma$-algebra. It is clear that $\emptyset, X \in \overline{\mathcal{M}}$ because $\mathcal{M} \subset \overline{\mathcal{M}}$. Now we will see that $\overline{\mathcal{M}}$ is closed under countable unions. Let $\{E_n \cup Z_n\}_{n=1}^\infty$ be a collection of sets in $\overline{\mathcal{M}}$ where each of the $E_n \in \mathcal{M}$ and each $Z_n$ is contained in some set $F_n \in \mathcal{M}$ such that $\mu(F_n) = 0$ for all $n$. So,
+\[
+\bigcup_{n=1}^\infty (E_n \cup Z_n) = \left(\bigcup_{n=1}^\infty E_n\right) \cup \left(\bigcup_{n=1}^\infty Z_n\right) 
+\] 
+Clearly, the first term on the right is in $\mathcal{M}$, because $\mathcal{M}$ is closed under countable unions. We then observe that because each of the $Z_n \subset F_n$ that we have $\bigcup_n Z_n \subset \bigcup_n F_n$ and that
+\[
+\mu\left(\bigcup_n F_n\right) \leq \sum_{n=1}^\infty \mu(F_n) = 0
+\] 
+So that 
+\[
+\bigcup_{n=1}^\infty (E_n \cup Z_n) \in \overline{\mathcal{M}}
+\]
+We now need to check closure under complements. Pick some set $E \cup Z \in \overline{\mathcal{M}}$, such that $Z \subset F$ and $F \in \mathcal{M}$. So
+\begin{align*}
+(E \cup Z)^c &= E^c \cap Z^c \\
+&= E^c \cap (F^c \cup (F - Z)) \\
+&= (E^c \cap F^c) \cup (E^c \cap (F-Z))
+\end{align*}
+Clearly, $(E^c \cap F^c) \in \mathcal{M}$. So we are left to verify that $E^c \cap (F - Z) \subset G$ where $G \in \mathcal{M}$ has measure zero. Note that $(E^c \cap F^c) \in \mathcal{M}$ and that $E^c \cap (F-Z) \subset F$ because $(F-Z) \subset F$ and the intersection preserves the superset, $F$. Hence, we take $G = F$ and we are done. 
+
+%TODO finish proof that this is the smallest one.
+  
+\problempart{b} Now we need to verify that $\bar{\mu}$ is a measure. It is clear that $\bar{\mu}(\emptyset) = \mu(\emptyset) = 0$. Now we observe that
+\begin{align*}
+\bar{\mu}\left(\bigcup_{n=1}^\infty (E_n \cup Z_n)\right) &= \bar{\mu} \left((\cup_n E_n) \cup (\cup_n Z_n)\right) \\ 
+&\leq \bar{\mu} \left((\cup_n E_n) \cup (\cup_n F_n)\right) \\
+&= \mu\left((\cup_n E_n) \cup (\cup_n F_n)\right) \\
+&= \mu(\cup_n E_n) \\
+&= \sum_{n=1}^\infty \mu(E_n) \\
+&= \sum_{n=1}^\infty \bar{\mu}(E_n \cup Z_n)
+\end{align*}
+So $\bar{\mu}$ is a measure. We will now show that $\bar{\mu}$ is complete. Indeed, take $E \cup Z \in \overline{\mathcal{M}}$ such that $\bar{\mu}(E \cup Z) = 0$. For $Z \subset F$ with $\mu(F) = 0$ we have that $E \cup Z \subset E \cup F$. Because we have
+\[
+\bar{\mu}(E \cup Z) = 0 = \mu(E)
+\]
+we have that $E$ is a measure zero set in $\mathcal{M}$. So for $E' \in \mathcal{M}$ with $E' \subset E \cup Z$ we have  $E' \subset E\cup F$ and
+\[
+\bar{\mu}(E') \bar{\mu}(\emptyset \cup E') = \mu(\emptyset) = 0
+\]
+So $\bar{\mu}$ is complete. 
+
+\problem{6.7.3} Suppose that $E$ is Carath\'{e}odory measurable and $m(E) < \infty$. Fix an $\epsilon > 0$ and find a $G \in G_\delta$ such that $m_*(E) = m_*(G)$. Because $E$ is measurable we can see
+\[
+m_*(G - E) = m_*(G) - m_*(G \cap E)= m_*(G) - m_*(E) < \epsilon
+\]
+To establish the infinite case we use the standard process of intersecting $E$ with the balls of radius $n$ about the origin, and measuring those. More precisely, define $E_n = B_n(0) \cap E$, where $B_n(0)$ is the ball of radius $n$ centered at the origin. Because each of the $E_n$ is measurable ( intersection of measurable sets) we can find a set $G_n \in G_\delta$ such that $m_*(G_n - E_n) < 2^{-n}\epsilon$. So if we set $G = \bigcup_{n=1}^\infty G_n$ then we have that $G \supset E$ and
+\[
+m_*(G - E) = m_*\left(\left(\bigcup_n G_n\right) - E\right) \leq \sum_{n=1}^\infty m_*(G_n - E) \leq \sum_{n=1}^\infty m_*(G_n - E_n) \leq \epsilon
+\] 
+Which shows that $E$ is Lebesgue measurable (in the sense of Chapter 1).
+
+Now we suppose that $E$ is Lebesgue measure (in the sense of Chapter 1) and deduce that it is Carath\'{e}odory measurable. Indeed, fix an $A \subset \R^n$ and choose an open set $G$ such that $m_*(G - E) < \epsilon$. So 
+\[
+A \cap E^c = (A \cap G^c) \cup (A \cap (G - E))
+\]
+And because $G$ is open and therefore measurable we have
+\begin{align*}
+m_*(A \cap E) + m_*(A \cap E^c) &\leq m_*(A \cap E) + m_*(A \cap G^c) + m_*(A \cap (G - E)) \\
+&\leq m_*(A \cap G) + m_*(A \cap G^c) + m_*(G - E) \\
+&\leq m_*(A) + \epsilon
+\end{align*}
+Because $\epsilon$ was arbitrary, we can let it tend to zero yielding
+\[
+m_*(A) \geq m_*(A \cap E) + m_*(A \cap E^c)
+\]
+And so $E$ is Carath\'{e}odory measurable.
+
+\problem{6.7.4} Take some subset $E \subset S^{d - 1}$. By definition we have that $\sigma(E) = d \cdot m(\tilde{E})$ where 
+\[
+\tilde{E} = \{x \in \R^d \suchthat x/\|x\| \in E, 0 < \|x\| < 1\}
+\]
+Then if $r$ is a rotation of $\R^d$ then $\sigma(rE) = d\cdot m(r\tilde{E})$. So we must have that $x \in r\tilde{E}$ means that $x = \gamma\psi$ for some $\gamma \leq 1$ and $\psi \in rE$. Equivalently we must have that $x = \gamma r(\alpha)$ for that same $\gamma$ and $\alpha \in E$. Because rotations are linear we see $x = r(\gamma\alpha)$, so $x \in r(\tilde{E})$. As a result we have
+\[
+m(rE) = d\cdot m(r\tilde{E}) = m(E)
+\]
+Meaning that $r$ preserves measure on the sphere. 
+
+\problem{6.7.10}
+\problempart{a} We have that $\nu_1 \perp \mu$ and $\nu_2 \perp \mu$. This means we can find two pairs of disjoint sets $A_1, B_1$ and $A_2, B_2$ such that $\nu_1(E) = \nu_1(A_1 \cap E)$ and $\mu(E) = \mu(A_1 \cap E)$, and likewise for $A_2$ and $B_2$. We then take $A = A_1\cup A_2$ and $B = B_1 \cap B_2$ and propose that $(\nu_1 + \nu_2)(E) = (\nu_1 + \nu_2)(A \cap E)$ and $\mu(E) = \mu(B \cap E)$. Note that this will imply that $(\nu_1 + \nu_2) \perp \mu$ if $A$ and $B$ are disjoint. We begin by verifying that $A \cap B = \emptyset$. This is clear because $A_1 \cap B \subset A_1 \cap B_1 = \emptyset$ and $A_2 \cap B \subset A_2 \cap B_2 = \emptyset$. So for measurable $E$ we have
+\[
+\mu(E) = \mu(E \cap B_1) = \mu(E\cap B) + \mu(E \cap (B_1 - B_2)) 
+\]
+And also
+\[
+\mu(B_1 - B_2) = \mu((B_1 - B_2) \cap B_2) = 0
+\]
+Which gives that $\mu(E) = \mu(E \cap B)$. We then compute
+\[
+\nu_1(E) = \nu_1(E \cap A_1) = \nu_1(E \cap A) - \nu_1(E \cap (A - A_1)) 
+\]
+We use the same trick as able to see that
+\[
+\nu_1(A - A_1) = \nu_1((A - A_1) \cap A_1) = 0
+\] 
+So that $\nu_1(E) = \nu_1(E \cap A)$. In the same vein, we see that $\nu_2(E) = \nu_2(E \cap A)$. This means that $(\nu_1 + \nu_2)(E) = (\nu_1 + \nu_2)(E\cap A)$. Hence, $\nu_1 + \nu_2 \perp \mu$
+
+\problempart{b} This one is straightforward. We are given that $\nu_1 << \mu$ and $\nu_2 << \mu$. Hence, if $\mu(E) = 0$ then we must have that $\nu_1(E) = \nu_2(E) = 0$. So clearly $(\nu_1 + \nu_2)(E) = 0$.
+
+\problempart{c} Because $\nu_1 \perp \nu_2$ we can find disjoint $A,B$ such that $\nu_1(E) = \nu_1(E \cap A)$ and $\nu_2(E) = \nu_2(E \cap B)$. Then we see that
+\[
+|\nu_1|(E) = \sup \sum_{j} |\nu_1(E_j)| = \sup \sum_j |\nu_1(E_j \cap A)| = |\nu_1|(E\cap A)
+\]
+The same argument holds to get $|\nu_2|(E) = |\nu_2|(E\cap B)$. So $|\nu_1|$ and $|\nu_2|$ are supported on disjoint sets and $|\nu_1|\perp|\nu_2|$
+
+\problempart{d} Suppose that $|\nu|(E) = 0$. Then we must have that $\sup \sum_j |\nu(E_j)| = 0$ and so $\nu(E_j) = 0$ for every $j$. And so $\nu(E) = 0$. 
+
+\problempart{e} We have that $\nu \perp \mu$ and $\nu << \mu$. By the first condition we can find disjoint $A,B$ such that $\nu(E) = \nu(E\cap A)$ and $\mu(E) = \mu(E\cap B)$. So for measurable $E$ we have that $\mu(E\cap A) = \mu((E\cap A) \cap B) = 0$ because $A \cap B = \emptyset$. So $\nu(E) - \nu(E\cap A) = 0$ because $\mu(E\cap A) = 0$ and $\nu << \mu$ yielding that $\nu = 0$.  
+
+\problem{6.7.16}
+\problempart{a} The first thing that we verify is that $\mu$ is translation invariant because
+\begin{align*}
+\mu(R + x) &= \mu((R_1 + x) \times \cdots \times (R_d + x_d)) \\
+&= \mu(R+x_1)\cdots\mu(R_d + x_d) \\
+&= \mu(R_1)\cdots\mu(R_d) \\
+&= \mu(R)
+\end{align*}
+Whenever $R$ is a measurable rectangle in the above. So the outer measure $\mu_*$ generated by coverings by rectangles is translation invariant. Hence, $\mu_*$ restricted to $\mathcal{M}$ is translation invariant. So $\mu$ is a multiple of the Lebesgue measure . So $\mu(\mathbb{T}^d) = m(Q)$ modulo the correspondence between these two spaces. 
+
+\problempart{b} This part is straightforward. Suppose that $f$ is measurable. Then $f^{-1}(U)$ is measurable whenever $U$ is measurable. This means that $\tilde{f}(U) \R^d$ is measurable and so $\tilde{f}$ is measurable. Note that $\tilde{f}^{-1}(U) = f^{-1}(U) + \Z^d$ is measurable if and only if $f^{-1}(U)$ is because of translation invariance. The proof above is the same for continuous functions except you replace the word ``measurable'' by ``continuous''.  
+
+\problempart{c} Observe that
+\begin{align*}
+\int_{\mathbb{T}^d} |(f * g)(x)| &= \int_{\mathbb{T}^d}\left|\int_{\mathbb{T}^d} f(x-y)g(y)dy\right|dx \\
+&\leq \int_{\mathbb{T}^d}\int_{\mathbb{T}^d}|f(x-y)||g(y)|dydx \\ 
+&= \int_{\mathbb{T}^d}|f(x-y)|dx\int_{\mathbb{T}^d}|g(y)|dy \\
+\end{align*}
+Because both functions are integrable we see that $\int_{\mathbb{T}^d} |(f * g)(x)| < \infty$, so that $f * g < \infty$ almost everywhere. We then set $u = x-y$ to get
+\[
+(f*g)(x) = \int_{\mathbb{T}^d} f(x-y)g(y)dy = \int_{\mathbb{T}^d} f(u)g(x-u)du = (g*f)(x)
+\]
+and we are done. 
+
+\problempart{d} We saw above that $(f*g)$ is integrable and we know that $|e^{-2\pi inx}| = 1$ and so the function $(f*g)(x)e^{-2\pi inx}$ is also integrable. We  compute
+\begin{align*}
+\int_{\mathbb{T}^d} (f*g)(x)e^{-2\pi inx}dx &= \int_{\mathbb{T}^d} e^{-2\pi inx}\left(\int_{\mathbb{T}^d} f(x-y)g(y)dy\right)dx \\
+&= \int_{\mathbb{T}^d} g(y) \left(\int_{\mathbb{T}^d} f(x-y)e^{-2\pi inx}dx\right)dy \\
+&= \int_{\mathbb{T}^d} g(y) (e^{-2\pi iny})(e^{-2\pi iny})\left(\int_{\mathbb{T}^d} f(x-y)e^{-2\pi inx}dx\right)dy \\
+&= \int_{\mathbb{T}^d} g(y)e^{-2\pi iny}\left(\int_{\mathbb{T}^d} f(x-y)e^{-2\pi in(x-y)}dx\right)dy \\
+&= \int_{\mathbb{T}^d} a_ng(y)e^{-2\pi iny} \\
+&= a_nb_n
+\end{align*}
+Which is precisely the same as
+\[
+f*g \sim \sum a_nb_n e^{-2\pi inx}
+\]
+
+\problempart{e} Normality is obvious. We need to show that each of these functions are orthogonal. To see this note that
+\[
+\int_{\mathbb{T}^d} e^{-2\pi inx}e^{-2\pi imx}dx = \int_{\mathbb{T}^d} e^{2\pi i(m-n)x}dx = \prod_{j=1}^d \int_\mathbb{T} e^{2\pi i(m_j - n_j)x_j}dx_j
+\]
+We then note that 
+\[
+\int_\mathbb{T} e^{2\pi i(m_j - n_j)x_jdx_j} = \delta_{m_j}^{n_j}
+\]
+Where $\delta$ is the Kronecker delta function. This gives that 
+\[
+\int_{\mathbb{T}^d} e^{-2\pi inx}e^{-2\pi imx}dx =  \prod_{j=1}^d \delta_{m_j}^{n_j} = \prod_{j=1}^d \delta_{m}^{n}
+\]
+We now need to show that the space is complete. We reduce to the case where $d = 1$ by Fubini's theorem because $f$ is integrable and $|e^{-2\pi in_kx_k}| = 1$. So we see that if $(f, e^{2\pi inx}) = 0$ then
+\begin{align*}
+(f, e^{2\pi inx}) &= \int_{\mathbb{T}^d} f(x)e^{-2\pi in x}dx \\
+&= \int_\mathbb{T} e^{-2\pi in_1x_1}\int_\mathbb{T} e^{-2\pi in_2x_2}\cdots\int_\mathbb{T} e^{-2\pi in_dx_d}f(x)dx_ddx_{d-1}\cdots dx_1\\
+&= 0
+\end{align*}
+Then define 
+\[
+F_1(x_1) = \int_\mathbb{T} e^{-2\pi in_2x_2}\cdots\int_\mathbb{T} e^{-2\pi in_dx_d}f(x)dx_ddx_{d-1}\cdots dx_3
+\]
+then 
+\[
+\int_\mathbb{T} F_1(x_1)e^{-2\pi in_1x_1}dx_1 = 0
+\]
+for every $x_1$ and so $F_1(x_1) = 0$ almost everywhere because $\{e^{2\pi inx}\}$ is complete in the single dimensional case. Now we inductively define
+\[
+F_2(x_1,x_2) = \int_\mathbb{T} e^{-2\pi in_3x_3}\cdots\int_\mathbb{T} e^{-2\pi in_dx_d}f(x)dx_ddx_{d-1}\cdots dx_3
+\] 
+Then at any $x_1$ we have that $F_2(x_1,x_2)$ is a function of $x_2$ with the property
+\[
+\int_\mathbb{T} F_1(x_1,x_2)e^{-2\pi in_2x_2}dx_2 = F_1(x_1) = 0
+\]
+Where the equalities hold almost everywhere. We continue this process $d$ times to see that $f(x_1,x_2,\ldots,x_d) = 0$ almost everywhere. We then apply the fact that $(f, e_n) = 0$ for all $n$ implies that $f = 0$ iff $\{e_n\}$ is an orthonormal basis to see that the set $\{e^{-2\pi inx}\}$ is an orthonormal basis for $L^2(\mathbb{T}^d)$.
+
+\problempart{f} We begin by defining 
+\[
+g(x) = \begin{cases}
+g_\epsilon(x) = \epsilon^{-d} & 0 < x_j \leq \epsilon, j = 1,\ldots, n \\
+0                                            & \text{elsewhere in } Q
+\end{cases}
+\]
+Then we clearly have $\int g(x)dx = \int g_\epsilon(x)dx = 1$. Hence
+\begin{align*}
+|f(x) - (f*g_\epsilon)(x)| &= \left| f(x)\int g_\epsilon(y)dy - \int f(x-y)g_\epsilon(y)\right|dy \\
+&\leq \int |f(x) - f(x-y)||g_\epsilon(y)|dy
+\end{align*}
+Because $f$ is continuous on a compact set, it is uniformly continuous. So this means that given $\tilde{\epsilon} > 0$ there is a $\delta > 0$ such that $|x - y| < \delta$ implies $|f(x) - f(y)| < \epsilon$. So for $\epsilon < \delta$ we have
+\[
+|f(x) - (f * g_\epsilon(x))| \leq \int \tilde{\epsilon}|g_\epsilon|dy = \tilde{\epsilon}
+\]
+Which gives that $(f * g_\epsilon)(x) \to f(x)$ uniformly as $\epsilon \to 0$. Now suppose that $f \sim \sum a_ne^{2\pi inx}$ and $g_\epsilon \sim \sum b_n^\epsilon e^{2\pi inx}$. Then we must have that $\sum |a_n|^2 < \infty$ and $\sum |b_n^\epsilon|^2 < \infty$ because $f,g_\epsilon \in L^2$. We then use Cauchy-Schwartz to get $\sum |a_nb_n| < \infty$. This gives that $f * g_\epsilon \in L^1$ because $\hat{f * g_\epsilon} \in L^1$ and we can use Fourier inversion. So we see that 
+\[
+(f * g_\epsilon)(x) = \sum_{n \in \Z^d} a_nb_ne^{2\pi inx}
+\]
+where the equality is almost everywhere. Now we can choose an $\epsilon$ such that $|f - (f * g_\epsilon)| < \tilde{\epsilon}/2$. For this choice of $\epsilon$ we have that $\sum_{|n| > N} a_nb_n^\epsilon \to 0$ for sufficiently large $N$. For this $N$ we look at the truncated series $\sum_{|n| \leq N} |a_nb_n|$ so that $\sum_{|n| > N} |a_nb_n^\epsilon| < \tilde{\epsilon}/2$. So that 
+\begin{align*}
+\left| f(x) - \sum_{|n| \leq N} a_nb_ne^{2\pi inx} \right| &\leq |f(x) - (f*g_\epsilon)(x)| + \left|(f * g_\epsilon)(x) - \sum_{|n| \leq N} e^{2\pi inx}\right| \\
+&= |f(x) - (f*g_\epsilon)(x)| + \left|\sum_{|n| \leq N} a_nb_n^\epsilon e^{2\pi inx}\right| \\ 
+&\leq |f(x) - (f*g_\epsilon)(x)| + \sum_{|n| > N} |a_nb_n^\epsilon| \\
+&\leq \tilde{\epsilon}/2 + \tilde{\epsilon}/2 \\
+&= \tilde{\epsilon}
+\end{align*}
+Which shows that $f$ can be uniformly approximated by finite linear combinations of the exponential functions in the basis. 
+
+\end{document}
